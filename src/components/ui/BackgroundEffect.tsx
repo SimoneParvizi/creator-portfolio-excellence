@@ -54,7 +54,7 @@ const BackgroundEffect: React.FC = () => {
           speed: Math.random() * 0.4 + 0.2,
           distance: Math.random() * 50 + 50,
           size: Math.random() * 120 + 120, // Even larger sizes
-          color: getRandomColor(0.15 + Math.random() * 0.15) // More opacity for visibility
+          color: getRandomColor(0.25 + Math.random() * 0.2) // More opacity for vibrancy
         });
       }
       
@@ -62,23 +62,23 @@ const BackgroundEffect: React.FC = () => {
     };
 
     const getRandomColor = (opacity: number) => {
-      // Using more masculine colors with greater variety and vibrance
+      // Using more vibrant masculine colors
       const colors = [
-        `rgba(32, 85, 138, ${opacity})`,    // Steel Blue
-        `rgba(45, 68, 105, ${opacity})`,    // Navy Blue
-        `rgba(73, 73, 95, ${opacity})`,     // Slate Gray
-        `rgba(41, 50, 65, ${opacity})`,     // Dark Blue Gray
-        `rgba(89, 65, 65, ${opacity})`,     // Rustic Brown
-        `rgba(30, 95, 116, ${opacity})`,    // Teal
-        `rgba(76, 44, 87, ${opacity})`,     // Deep Purple
-        `rgba(107, 45, 45, ${opacity})`,    // Burgundy Red
-        `rgba(34, 87, 68, ${opacity})`,     // Forest Green
-        `rgba(92, 58, 36, ${opacity})`,     // Deep Brown
-        `rgba(74, 35, 90, ${opacity})`,     // Rich Purple
-        `rgba(37, 93, 102, ${opacity})`,    // Deep Teal
-        `rgba(125, 65, 42, ${opacity})`,    // Rust
-        `rgba(53, 92, 80, ${opacity})`,     // Pine Green
-        `rgba(86, 47, 65, ${opacity})`,     // Merlot
+        `rgba(32, 105, 214, ${opacity})`,    // Vivid Blue
+        `rgba(75, 107, 175, ${opacity})`,    // Bold Royal Blue
+        `rgba(113, 59, 165, ${opacity})`,    // Rich Purple
+        `rgba(173, 48, 48, ${opacity})`,     // Strong Red
+        `rgba(40, 116, 166, ${opacity})`,    // Ocean Blue
+        `rgba(30, 130, 150, ${opacity})`,    // Vibrant Teal
+        `rgba(142, 68, 173, ${opacity})`,    // Bright Purple
+        `rgba(175, 65, 65, ${opacity})`,     // Intense Burgundy
+        `rgba(39, 174, 96, ${opacity})`,     // Emerald Green
+        `rgba(156, 93, 37, ${opacity})`,     // Amber
+        `rgba(125, 60, 152, ${opacity})`,    // Majestic Purple
+        `rgba(37, 116, 169, ${opacity})`,    // Sapphire Blue
+        `rgba(192, 95, 32, ${opacity})`,     // Rust Orange
+        `rgba(21, 122, 118, ${opacity})`,    // Deep Turquoise
+        `rgba(149, 76, 109, ${opacity})`,    // Berry
       ];
       return colors[Math.floor(Math.random() * colors.length)];
     };
@@ -155,10 +155,13 @@ const BackgroundEffect: React.FC = () => {
         ctx.fillStyle = point.color;
         ctx.fill();
 
-        // Add a subtle stroke for better definition
-        ctx.strokeStyle = `rgba(255, 255, 255, 0.5)`;
-        ctx.lineWidth = 1.5;
+        // Add a subtle glow effect for more vibrancy
+        ctx.shadowColor = point.color.replace(/[\d.]+\)$/g, '0.7)');
+        ctx.shadowBlur = 15;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.lineWidth = 2;
         ctx.stroke();
+        ctx.shadowBlur = 0;
       });
       
       // Then draw connections between points with higher visibility
@@ -173,9 +176,9 @@ const BackgroundEffect: React.FC = () => {
               ctx.beginPath();
               ctx.moveTo(point.x, point.y);
               ctx.lineTo(otherPoint.x, otherPoint.y);
-              const opacity = (500 - distance) / 3000;
-              ctx.strokeStyle = `rgba(70, 72, 82, ${opacity * 2})`; // More visible lines with masculine color
-              ctx.lineWidth = 2; // Thicker lines
+              const opacity = (500 - distance) / 2500;
+              ctx.strokeStyle = `rgba(70, 95, 130, ${opacity * 2.5})`; // More visible lines with vibrant color
+              ctx.lineWidth = 2.5; // Thicker lines
               ctx.stroke();
             }
           }
