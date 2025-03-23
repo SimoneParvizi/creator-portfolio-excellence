@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
@@ -89,7 +88,6 @@ const Booking = () => {
   };
 
   const onSubmit = (data: z.infer<typeof bookingSchema>) => {
-    // In a real app, you would send this data to your backend
     console.log("Booking submitted:", {
       date,
       timeSlot: selectedTimeSlot,
@@ -117,6 +115,9 @@ const Booking = () => {
           <p className="section-subtitle slide-up">
             Schedule a consultation or coaching session to discuss your MLOps challenges,
             get personalized advice, or learn more about implementing DevOps practices.
+          </p>
+          <p className="text-lg text-primary font-medium mt-4 slide-up">
+            Your first 30-minute consultation is completely free of charge!
           </p>
         </div>
 

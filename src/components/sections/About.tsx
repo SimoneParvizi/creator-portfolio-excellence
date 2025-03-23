@@ -68,6 +68,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, 
 const About: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const visionBoardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -88,9 +89,16 @@ const About: React.FC = () => {
       observer.observe(titleRef.current);
     }
 
+    if (visionBoardRef.current) {
+      observer.observe(visionBoardRef.current);
+    }
+
     return () => {
       if (titleRef.current) {
         observer.unobserve(titleRef.current);
+      }
+      if (visionBoardRef.current) {
+        observer.unobserve(visionBoardRef.current);
       }
     };
   }, []);
@@ -116,6 +124,29 @@ const About: React.FC = () => {
     },
   ];
 
+  const visionBoardImages = [
+    {
+      src: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=2128&auto=format&fit=crop",
+      alt: "ML Infrastructure",
+      caption: "Building scalable ML infrastructure"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=2069&auto=format&fit=crop",
+      alt: "Team Collaboration",
+      caption: "Fostering collaboration between teams"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1528901166007-3784c7dd3653?q=80&w=2070&auto=format&fit=crop",
+      alt: "Cloud Solutions",
+      caption: "Designing cloud-native solutions"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
+      alt: "Knowledge Sharing",
+      caption: "Sharing knowledge and mentoring"
+    }
+  ];
+
   return (
     <section id="about" ref={sectionRef} className="py-24 bg-gradient-to-b from-background via-secondary/5 to-background">
       <div className="section-container">
@@ -125,6 +156,35 @@ const About: React.FC = () => {
             I'm an MLOps and DevOps specialist with extensive experience designing, implementing, and optimizing 
             machine learning pipelines and infrastructure. I help organizations build reliable, scalable systems for ML.
           </p>
+        </div>
+
+        {/* Vision Board */}
+        <div 
+          ref={visionBoardRef} 
+          className="mb-20 slide-up"
+          style={{ transitionDelay: '150ms' }}
+        >
+          <h3 className="text-2xl font-display font-bold mb-8 text-center">My Vision Board</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {visionBoardImages.map((image, index) => (
+              <div 
+                key={index} 
+                className="overflow-hidden rounded-xl border border-border/40 aspect-square group hover:border-border/60 transition-all duration-300"
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                <div className="relative h-full w-full">
+                  <img 
+                    src={image.src} 
+                    alt={image.alt}
+                    className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <p className="text-white text-sm font-medium">{image.caption}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

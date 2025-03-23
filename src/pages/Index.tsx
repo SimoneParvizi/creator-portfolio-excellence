@@ -45,10 +45,10 @@ const Index = () => {
       <Navbar />
       <main>
         <Hero />
-        <About />
-        <Projects />
         <Books />
+        <Projects />
         <Booking />
+        <About />
         <Contact />
       </main>
       <footer className="py-8 text-center text-muted-foreground text-sm relative z-10">
