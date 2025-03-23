@@ -62,18 +62,23 @@ const BackgroundEffect: React.FC = () => {
     };
 
     const getRandomColor = (opacity: number) => {
-      // Using more masculine colors with more variety
+      // Using more masculine colors with greater variety and vibrance
       const colors = [
-        `rgba(8, 47, 73, ${opacity})`,      // Dark Blue
-        `rgba(43, 45, 66, ${opacity})`,     // Navy Blue
-        `rgba(64, 62, 67, ${opacity})`,     // Charcoal Gray
-        `rgba(34, 31, 38, ${opacity})`,     // Dark Charcoal
-        `rgba(74, 78, 90, ${opacity})`,     // Slate Gray
-        `rgba(20, 84, 112, ${opacity})`,    // Deep Teal
-        `rgba(56, 24, 70, ${opacity})`,     // Deep Purple
-        `rgba(84, 25, 25, ${opacity})`,     // Burgundy
-        `rgba(11, 70, 53, ${opacity})`,     // Forest Green
-        `rgba(67, 40, 24, ${opacity})`,     // Rich Brown
+        `rgba(32, 85, 138, ${opacity})`,    // Steel Blue
+        `rgba(45, 68, 105, ${opacity})`,    // Navy Blue
+        `rgba(73, 73, 95, ${opacity})`,     // Slate Gray
+        `rgba(41, 50, 65, ${opacity})`,     // Dark Blue Gray
+        `rgba(89, 65, 65, ${opacity})`,     // Rustic Brown
+        `rgba(30, 95, 116, ${opacity})`,    // Teal
+        `rgba(76, 44, 87, ${opacity})`,     // Deep Purple
+        `rgba(107, 45, 45, ${opacity})`,    // Burgundy Red
+        `rgba(34, 87, 68, ${opacity})`,     // Forest Green
+        `rgba(92, 58, 36, ${opacity})`,     // Deep Brown
+        `rgba(74, 35, 90, ${opacity})`,     // Rich Purple
+        `rgba(37, 93, 102, ${opacity})`,    // Deep Teal
+        `rgba(125, 65, 42, ${opacity})`,    // Rust
+        `rgba(53, 92, 80, ${opacity})`,     // Pine Green
+        `rgba(86, 47, 65, ${opacity})`,     // Merlot
       ];
       return colors[Math.floor(Math.random() * colors.length)];
     };

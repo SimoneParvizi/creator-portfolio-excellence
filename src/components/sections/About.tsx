@@ -81,6 +81,35 @@ const About: React.FC = () => {
       caption: "Exploring AI capabilities",
       size: "large",
       position: "center-left"
+    },
+    // Adding more images
+    {
+      src: "https://images.unsplash.com/photo-1594904351111-a072f80b1a71?q=80&w=2070&auto=format&fit=crop",
+      alt: "Data Pipeline Architecture",
+      caption: "Building robust data pipelines",
+      size: "medium",
+      position: "center-top"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2070&auto=format&fit=crop",
+      alt: "Containerization",
+      caption: "Containerizing ML applications",
+      size: "medium",
+      position: "center-bottom"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?q=80&w=1974&auto=format&fit=crop",
+      alt: "DevOps Culture",
+      caption: "Promoting DevOps culture",
+      size: "small",
+      position: "top-center"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
+      alt: "Data Science",
+      caption: "Data science excellence",
+      size: "small",
+      position: "bottom-center"
     }
   ];
 
@@ -116,12 +145,12 @@ const About: React.FC = () => {
           </p>
         </div>
 
-        {/* Vision Board - Mosaic Layout */}
+        {/* Vision Board - Enhanced Mosaic Layout */}
         <div 
           ref={visionBoardRef} 
           className="slide-up"
         >
-          <div className="grid grid-cols-4 md:grid-cols-6 grid-rows-4 gap-4 h-[600px]">
+          <div className="grid grid-cols-6 grid-rows-6 gap-4 h-[800px]">
             {visionBoardImages.map((image, index) => (
               <div 
                 key={index} 
@@ -131,7 +160,7 @@ const About: React.FC = () => {
                   animation: `fade-in 0.8s ease-out ${index * 0.15}s both`
                 }}
               >
-                <div className="relative h-full w-full">
+                <div className="relative h-full w-full group">
                   <img 
                     src={image.src} 
                     alt={image.alt}
