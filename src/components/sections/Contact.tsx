@@ -61,7 +61,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-24 bg-gradient-to-br from-secondary/5 to-background">
+    <section id="contact" className="py-24 bg-gradient-to-b from-background via-secondary/5 to-background">
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">Get In Touch</h2>

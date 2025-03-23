@@ -34,7 +34,7 @@ const Books = () => {
   }, []);
 
   return (
-    <section id="books" ref={sectionRef} className="py-24 relative z-10">
+    <section id="books" ref={sectionRef} className="py-24 bg-gradient-to-b from-background via-secondary/5 to-background relative z-10">
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">My Book</h2>

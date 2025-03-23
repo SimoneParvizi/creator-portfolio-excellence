@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import { Code, Globe, Server, Database, Cloud, BookOpen } from 'lucide-react';
 
@@ -116,7 +117,7 @@ const About: React.FC = () => {
   ];
 
   return (
-    <section id="about" ref={sectionRef} className="bg-gradient-to-br from-background to-secondary/5 py-24">
+    <section id="about" ref={sectionRef} className="py-24 bg-gradient-to-b from-background via-secondary/5 to-background">
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">About Me</h2>
