@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react';
 
 interface Point {
@@ -61,13 +62,13 @@ const BackgroundEffect: React.FC = () => {
     };
 
     const getRandomColor = (opacity: number) => {
-      // Using a more vivid color palette while keeping professional appearance
+      // Using more masculine colors
       const colors = [
-        `rgba(139, 92, 246, ${opacity})`, // Vivid purple
-        `rgba(217, 70, 239, ${opacity})`, // Magenta pink
-        `rgba(14, 165, 233, ${opacity})`, // Ocean blue
-        `rgba(249, 115, 22, ${opacity})`, // Bright orange
-        `rgba(79, 70, 229, ${opacity})`, // Indigo
+        `rgba(8, 47, 73, ${opacity})`,     // Dark Blue
+        `rgba(43, 45, 66, ${opacity})`,    // Navy Blue
+        `rgba(64, 62, 67, ${opacity})`,    // Charcoal Gray
+        `rgba(34, 31, 38, ${opacity})`,    // Dark Charcoal
+        `rgba(74, 78, 90, ${opacity})`,    // Slate Gray
       ];
       return colors[Math.floor(Math.random() * colors.length)];
     };
@@ -163,7 +164,7 @@ const BackgroundEffect: React.FC = () => {
               ctx.moveTo(point.x, point.y);
               ctx.lineTo(otherPoint.x, otherPoint.y);
               const opacity = (500 - distance) / 3000;
-              ctx.strokeStyle = `rgba(110, 110, 160, ${opacity * 2})`; // More visible lines
+              ctx.strokeStyle = `rgba(70, 72, 82, ${opacity * 2})`; // More visible lines with masculine color
               ctx.lineWidth = 2; // Thicker lines
               ctx.stroke();
             }
