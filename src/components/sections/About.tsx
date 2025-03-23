@@ -1,69 +1,5 @@
 
 import React, { useRef, useEffect } from 'react';
-import { Code, Globe, Server, Database, Cloud, BookOpen } from 'lucide-react';
-
-interface SkillCardProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  items: string[];
-  index: number;
-}
-
-const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, index }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              entry.target.classList.add('in-view');
-            }, index * 150);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        root: null,
-        rootMargin: '0px 0px -100px 0px',
-        threshold: 0.1,
-      }
-    );
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => {
-      if (cardRef.current) {
-        observer.unobserve(cardRef.current);
-      }
-    };
-  }, [index]);
-
-  return (
-    <div
-      ref={cardRef}
-      className="slide-up p-6 rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm hover:border-border/60 transition-all duration-300"
-    >
-      <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-primary/10 mb-5 text-foreground">
-        {icon}
-      </div>
-      <h3 className="text-lg font-semibold mb-2">{title}</h3>
-      <p className="text-muted-foreground text-sm mb-4">{description}</p>
-      <ul className="space-y-2">
-        {items.map((item, i) => (
-          <li key={i} className="text-sm flex items-start">
-            <span className="mr-2 text-foreground/60">•</span>
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
 
 const About: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -103,49 +39,72 @@ const About: React.FC = () => {
     };
   }, []);
 
-  const skills = [
-    {
-      icon: <Cloud size={24} />,
-      title: "MLOps & DevOps",
-      description: "Building robust, scalable infrastructure and CI/CD pipelines for ML systems.",
-      items: ["CI/CD Pipelines", "Kubernetes", "Docker", "Infrastructure as Code", "Cloud Architecture", "ML Model Deployment"],
-    },
-    {
-      icon: <Database size={24} />,
-      title: "Machine Learning",
-      description: "Developing and deploying machine learning models at scale.",
-      items: ["Model Training", "Model Serving", "Feature Engineering", "Data Processing", "ML Monitoring", "Experiment Tracking"],
-    },
-    {
-      icon: <Code size={24} />,
-      title: "Software Development",
-      description: "Creating responsive applications with modern technologies.",
-      items: ["Python", "TypeScript", "React", "Cloud Services", "API Development", "Microservices"],
-    },
-  ];
-
   const visionBoardImages = [
     {
       src: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=2128&auto=format&fit=crop",
       alt: "ML Infrastructure",
-      caption: "Building scalable ML infrastructure"
+      caption: "Building scalable ML infrastructure",
+      size: "medium",
+      position: "top-left"
     },
     {
       src: "https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=2069&auto=format&fit=crop",
       alt: "Team Collaboration",
-      caption: "Fostering collaboration between teams"
+      caption: "Fostering collaboration between teams",
+      size: "large",
+      position: "top-right"
     },
     {
       src: "https://images.unsplash.com/photo-1528901166007-3784c7dd3653?q=80&w=2070&auto=format&fit=crop",
       alt: "Cloud Solutions",
-      caption: "Designing cloud-native solutions"
+      caption: "Designing cloud-native solutions",
+      size: "medium",
+      position: "bottom-left"
     },
     {
       src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
       alt: "Knowledge Sharing",
-      caption: "Sharing knowledge and mentoring"
+      caption: "Sharing knowledge and mentoring",
+      size: "small",
+      position: "center-right"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?q=80&w=2070&auto=format&fit=crop",
+      alt: "Technical Writing",
+      caption: "Documenting best practices",
+      size: "small",
+      position: "bottom-right"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1581093199926-4ef5e4832bd1?q=80&w=2070&auto=format&fit=crop",
+      alt: "AI Solutions",
+      caption: "Exploring AI capabilities",
+      size: "large",
+      position: "center-left"
     }
   ];
+
+  // Function to determine the classes based on image size and position
+  const getImageClasses = (size: string, position: string) => {
+    let sizeClass = "";
+    
+    // Size classes
+    switch(size) {
+      case "small":
+        sizeClass = "col-span-1 row-span-1";
+        break;
+      case "medium":
+        sizeClass = "col-span-1 row-span-2";
+        break;
+      case "large":
+        sizeClass = "col-span-2 row-span-2";
+        break;
+      default:
+        sizeClass = "col-span-1 row-span-1";
+    }
+    
+    return `${sizeClass} overflow-hidden rounded-xl border border-border/40 hover:border-border/60 transition-all duration-300`;
+  };
 
   return (
     <section id="about" ref={sectionRef} className="py-24 bg-gradient-to-b from-background via-secondary/5 to-background">
@@ -153,24 +112,24 @@ const About: React.FC = () => {
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">About Me</h2>
           <p className="section-subtitle slide-up">
-            I'm an MLOps and DevOps specialist with extensive experience designing, implementing, and optimizing 
-            machine learning pipelines and infrastructure. I help organizations build reliable, scalable systems for ML.
+            A glimpse into my professional journey and personal vision
           </p>
         </div>
 
-        {/* Vision Board */}
+        {/* Vision Board - Mosaic Layout */}
         <div 
           ref={visionBoardRef} 
-          className="mb-20 slide-up"
-          style={{ transitionDelay: '150ms' }}
+          className="slide-up"
         >
-          <h3 className="text-2xl font-display font-bold mb-8 text-center">My Vision Board</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-4 md:grid-cols-6 grid-rows-4 gap-4 h-[600px]">
             {visionBoardImages.map((image, index) => (
               <div 
                 key={index} 
-                className="overflow-hidden rounded-xl border border-border/40 aspect-square group hover:border-border/60 transition-all duration-300"
-                style={{ transitionDelay: `${index * 100}ms` }}
+                className={getImageClasses(image.size, image.position)}
+                style={{ 
+                  transitionDelay: `${index * 100}ms`,
+                  animation: `fade-in 0.8s ease-out ${index * 0.15}s both`
+                }}
               >
                 <div className="relative h-full w-full">
                   <img 
@@ -184,44 +143,6 @@ const About: React.FC = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {skills.map((skill, index) => (
-            <SkillCard
-              key={index}
-              icon={skill.icon}
-              title={skill.title}
-              description={skill.description}
-              items={skill.items}
-              index={index}
-            />
-          ))}
-        </div>
-
-        <div className="mt-16 max-w-3xl mx-auto slide-up">
-          <div className="p-6 rounded-2xl bg-foreground/[0.02] border border-foreground/10">
-            <div className="flex flex-col md:flex-row gap-6 items-center">
-              <div className="w-24 h-24 rounded-full overflow-hidden bg-secondary flex-shrink-0">
-                <img
-                  src="https://placehold.co/400x400/222/444?text=JD"
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground italic mb-2">
-                  "I believe in creating infrastructure and systems that not only scale reliably
-                  but also accelerate the ML development lifecycle. My approach combines 
-                  technical expertise with practical strategies to help teams deliver ML solutions faster."
-                </p>
-                <div className="font-medium">John Doe</div>
-                <div className="text-sm text-muted-foreground">
-                  MLOps & DevOps Specialist | Author
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
