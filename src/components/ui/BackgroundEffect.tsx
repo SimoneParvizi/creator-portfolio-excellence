@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 
 interface Point {
@@ -44,7 +43,7 @@ const BackgroundEffect: React.FC = () => {
     
     const initPoints = () => {
       const points: Point[] = [];
-      const count = 10; // Fewer points for larger shapes
+      const count = 8; // Fewer points for larger shapes
       
       for (let i = 0; i < count; i++) {
         points.push({
@@ -53,12 +52,24 @@ const BackgroundEffect: React.FC = () => {
           angle: Math.random() * Math.PI * 2,
           speed: Math.random() * 0.4 + 0.2,
           distance: Math.random() * 50 + 50,
-          size: Math.random() * 80 + 100, // Much larger sizes
-          color: `rgba(${190 + Math.random() * 20}, ${190 + Math.random() * 20}, ${200 + Math.random() * 20}, ${0.03 + Math.random() * 0.05})`
+          size: Math.random() * 120 + 120, // Even larger sizes
+          color: getRandomColor(0.15 + Math.random() * 0.15) // More opacity for visibility
         });
       }
       
       pointsRef.current = points;
+    };
+
+    const getRandomColor = (opacity: number) => {
+      // Using a more vivid color palette while keeping professional appearance
+      const colors = [
+        `rgba(139, 92, 246, ${opacity})`, // Vivid purple
+        `rgba(217, 70, 239, ${opacity})`, // Magenta pink
+        `rgba(14, 165, 233, ${opacity})`, // Ocean blue
+        `rgba(249, 115, 22, ${opacity})`, // Bright orange
+        `rgba(79, 70, 229, ${opacity})`, // Indigo
+      ];
+      return colors[Math.floor(Math.random() * colors.length)];
     };
     
     const drawPoints = () => {
@@ -78,18 +89,18 @@ const BackgroundEffect: React.FC = () => {
         const dy = point.y - (mousePositionRef.current.y);
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        // Move points away from mouse position
-        if (distance < 300) {
+        // Move points away from mouse position with stronger effect
+        if (distance < 400) {
           const angle = Math.atan2(dy, dx);
-          const force = (300 - distance) / 10;
-          point.x += Math.cos(angle) * force * 0.2;
-          point.y += Math.sin(angle) * force * 0.2;
+          const force = (400 - distance) / 8; // Increased force
+          point.x += Math.cos(angle) * force * 0.3;
+          point.y += Math.sin(angle) * force * 0.3;
         }
         
         // Animate points in a circular motion
         point.angle += point.speed * 0.01;
-        point.x += Math.cos(point.angle) * 0.5;
-        point.y += Math.sin(point.angle) * 0.5;
+        point.x += Math.cos(point.angle) * 0.8; // Increased movement
+        point.y += Math.sin(point.angle) * 0.8;
         
         // Wrap around edges
         if (point.x < -point.size) point.x = canvas.width + point.size;
@@ -98,7 +109,7 @@ const BackgroundEffect: React.FC = () => {
         if (point.y > canvas.height + point.size + scrollYRef.current) point.y = -point.size + scrollYRef.current;
       });
       
-      // Draw abstract shapes
+      // Draw abstract shapes with enhanced visibility
       drawAbstractShapes(ctx);
       
       rafRef.current = requestAnimationFrame(drawPoints);
@@ -108,20 +119,17 @@ const BackgroundEffect: React.FC = () => {
       ctx.save();
       ctx.translate(0, -scrollYRef.current);
       
-      // Draw connections between points
-      ctx.lineWidth = 1;
-      
-      // First draw filled shapes
+      // First draw filled shapes with more pronounced appearance
       pointsRef.current.forEach((point, i) => {
         ctx.beginPath();
-        const time = Date.now() * 0.001;
-        const sizePulse = Math.sin(time + i) * 20 + 10;
+        const time = Date.now() * 0.0005; // Slowed down for smoother morphing
+        const sizePulse = Math.sin(time + i) * 30 + 20; // More pronounced pulse
         
-        // Create flowing blob/abstract shape
+        // Create flowing blob/abstract shape with more complex morphing
         ctx.beginPath();
         for (let angle = 0; angle < Math.PI * 2; angle += 0.01) {
-          const xOffset = Math.cos(angle * 3 + time + i) * 30;
-          const yOffset = Math.sin(angle * 2 + time + i * 0.5) * 30;
+          const xOffset = Math.cos(angle * 3 + time + i) * 40; // Larger offsets
+          const yOffset = Math.sin(angle * 2 + time + i * 0.5) * 40;
           const radius = point.size + xOffset + yOffset + sizePulse;
           const x = point.x + Math.cos(angle) * radius;
           const y = point.y + Math.sin(angle) * radius;
@@ -135,9 +143,14 @@ const BackgroundEffect: React.FC = () => {
         ctx.closePath();
         ctx.fillStyle = point.color;
         ctx.fill();
+
+        // Add a subtle stroke for better definition
+        ctx.strokeStyle = `rgba(255, 255, 255, 0.5)`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
       });
       
-      // Then draw connections between points
+      // Then draw connections between points with higher visibility
       pointsRef.current.forEach((point, i) => {
         pointsRef.current.forEach((otherPoint, j) => {
           if (i !== j) {
@@ -145,12 +158,13 @@ const BackgroundEffect: React.FC = () => {
             const dy = point.y - otherPoint.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
             
-            if (distance < 400) {
+            if (distance < 500) { // Increased connection distance
               ctx.beginPath();
               ctx.moveTo(point.x, point.y);
               ctx.lineTo(otherPoint.x, otherPoint.y);
-              const opacity = (400 - distance) / 4000;
-              ctx.strokeStyle = `rgba(180, 180, 190, ${opacity})`;
+              const opacity = (500 - distance) / 3000;
+              ctx.strokeStyle = `rgba(110, 110, 160, ${opacity * 2})`; // More visible lines
+              ctx.lineWidth = 2; // Thicker lines
               ctx.stroke();
             }
           }
@@ -178,7 +192,7 @@ const BackgroundEffect: React.FC = () => {
   return (
     <canvas 
       ref={canvasRef} 
-      className="fixed top-0 left-0 w-full h-full -z-10 opacity-80"
+      className="fixed top-0 left-0 w-full h-full -z-10 opacity-90"
       style={{ pointerEvents: 'none' }}
     />
   );
