@@ -41,9 +41,11 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex space-x-6">
             <a href="#about" className="nav-link">About</a>
             <a href="#projects" className="nav-link">Projects</a>
+            <a href="#books" className="nav-link">Book</a>
+            <a href="#booking" className="nav-link">Book My Time</a>
             <a href="#contact" className="nav-link">Contact</a>
           </nav>
 
@@ -81,6 +83,20 @@ const Navbar = () => {
             onClick={() => setMobileMenuOpen(false)}
           >
             Projects
+          </a>
+          <a 
+            href="#books" 
+            className="block text-lg font-medium py-2" 
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Book
+          </a>
+          <a 
+            href="#booking" 
+            className="block text-lg font-medium py-2" 
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Book My Time
           </a>
           <a 
             href="#contact" 

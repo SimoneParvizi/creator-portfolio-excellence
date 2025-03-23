@@ -1,6 +1,5 @@
-
 import React, { useRef, useEffect } from 'react';
-import { Code, Globe, Server } from 'lucide-react';
+import { Code, Globe, Server, Database, Cloud, BookOpen } from 'lucide-react';
 
 interface SkillCardProps {
   icon: React.ReactNode;
@@ -97,22 +96,22 @@ const About: React.FC = () => {
 
   const skills = [
     {
+      icon: <Cloud size={24} />,
+      title: "MLOps & DevOps",
+      description: "Building robust, scalable infrastructure and CI/CD pipelines for ML systems.",
+      items: ["CI/CD Pipelines", "Kubernetes", "Docker", "Infrastructure as Code", "Cloud Architecture", "ML Model Deployment"],
+    },
+    {
+      icon: <Database size={24} />,
+      title: "Machine Learning",
+      description: "Developing and deploying machine learning models at scale.",
+      items: ["Model Training", "Model Serving", "Feature Engineering", "Data Processing", "ML Monitoring", "Experiment Tracking"],
+    },
+    {
       icon: <Code size={24} />,
-      title: "Frontend Development",
-      description: "Creating responsive, intuitive user interfaces with modern frameworks.",
-      items: ["React", "TypeScript", "Next.js", "Tailwind CSS", "Framer Motion"],
-    },
-    {
-      icon: <Server size={24} />,
-      title: "Backend Development",
-      description: "Building robust server-side applications and APIs.",
-      items: ["Node.js", "Express", "Python", "Django", "PostgreSQL", "MongoDB"],
-    },
-    {
-      icon: <Globe size={24} />,
-      title: "Tools & Practices",
-      description: "Employing best practices and tools for efficient development.",
-      items: ["Git", "CI/CD", "Docker", "Test-Driven Development", "Agile Methodologies"],
+      title: "Software Development",
+      description: "Creating responsive applications with modern technologies.",
+      items: ["Python", "TypeScript", "React", "Cloud Services", "API Development", "Microservices"],
     },
   ];
 
@@ -122,8 +121,8 @@ const About: React.FC = () => {
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">About Me</h2>
           <p className="section-subtitle slide-up">
-            With over 5 years of experience, I design and develop applications 
-            that prioritize user experience, performance, and maintainability.
+            I'm an MLOps and DevOps specialist with extensive experience designing, implementing, and optimizing 
+            machine learning pipelines and infrastructure. I help organizations build reliable, scalable systems for ML.
           </p>
         </div>
 
@@ -152,14 +151,13 @@ const About: React.FC = () => {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground italic mb-2">
-                  "I believe in creating software that not only solves problems
-                  but does so with elegance and efficiency. My approach combines
-                  technical expertise with an eye for design to deliver seamless
-                  digital experiences."
+                  "I believe in creating infrastructure and systems that not only scale reliably
+                  but also accelerate the ML development lifecycle. My approach combines 
+                  technical expertise with practical strategies to help teams deliver ML solutions faster."
                 </p>
                 <div className="font-medium">John Doe</div>
                 <div className="text-sm text-muted-foreground">
-                  Software Developer
+                  MLOps & DevOps Specialist | Author
                 </div>
               </div>
             </div>

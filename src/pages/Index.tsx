@@ -4,6 +4,8 @@ import Navbar from '../components/layout/Navbar';
 import Hero from '../components/sections/Hero';
 import About from '../components/sections/About';
 import Projects from '../components/sections/Projects';
+import Books from '../components/sections/Books';
+import Booking from '../components/sections/Booking';
 import Contact from '../components/sections/Contact';
 import BackgroundEffect from '../components/ui/BackgroundEffect';
 
@@ -45,6 +47,8 @@ const Index = () => {
         <Hero />
         <About />
         <Projects />
+        <Books />
+        <Booking />
         <Contact />
       </main>
       <footer className="py-8 text-center text-muted-foreground text-sm relative z-10">
