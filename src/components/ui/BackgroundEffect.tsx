@@ -62,13 +62,18 @@ const BackgroundEffect: React.FC = () => {
     };
 
     const getRandomColor = (opacity: number) => {
-      // Using more masculine colors
+      // Using more masculine colors with more variety
       const colors = [
-        `rgba(8, 47, 73, ${opacity})`,     // Dark Blue
-        `rgba(43, 45, 66, ${opacity})`,    // Navy Blue
-        `rgba(64, 62, 67, ${opacity})`,    // Charcoal Gray
-        `rgba(34, 31, 38, ${opacity})`,    // Dark Charcoal
-        `rgba(74, 78, 90, ${opacity})`,    // Slate Gray
+        `rgba(8, 47, 73, ${opacity})`,      // Dark Blue
+        `rgba(43, 45, 66, ${opacity})`,     // Navy Blue
+        `rgba(64, 62, 67, ${opacity})`,     // Charcoal Gray
+        `rgba(34, 31, 38, ${opacity})`,     // Dark Charcoal
+        `rgba(74, 78, 90, ${opacity})`,     // Slate Gray
+        `rgba(20, 84, 112, ${opacity})`,    // Deep Teal
+        `rgba(56, 24, 70, ${opacity})`,     // Deep Purple
+        `rgba(84, 25, 25, ${opacity})`,     // Burgundy
+        `rgba(11, 70, 53, ${opacity})`,     // Forest Green
+        `rgba(67, 40, 24, ${opacity})`,     // Rich Brown
       ];
       return colors[Math.floor(Math.random() * colors.length)];
     };

@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
@@ -116,14 +117,14 @@ const Booking = () => {
             Schedule a consultation or coaching session to discuss your MLOps challenges,
             get personalized advice, or learn more about implementing DevOps practices.
           </p>
-          <p className="text-lg text-primary font-medium mt-4 slide-up">
+          <p className="text-lg text-primary-foreground font-medium mt-4 slide-up bg-primary/80 py-2 px-4 rounded-md inline-block shadow-sm">
             Your first 30-minute consultation is completely free of charge!
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12">
-          <div className="slide-up">
-            <Card>
+          <div className="space-y-8 flex flex-col slide-up">
+            <Card className="flex-1">
               <CardHeader>
                 <CardTitle>Select a Date</CardTitle>
                 <CardDescription>Choose an available date for your session</CardDescription>
@@ -144,8 +145,8 @@ const Booking = () => {
             </Card>
           </div>
 
-          <div className="space-y-8 slide-up">
-            <Card>
+          <div className="space-y-8 flex flex-col slide-up">
+            <Card className="flex-1">
               <CardHeader>
                 <CardTitle>Select a Time</CardTitle>
                 <CardDescription>Available time slots for {date ? format(date, "EEEE, MMMM d, yyyy") : "your selected date"}</CardDescription>
@@ -168,7 +169,7 @@ const Booking = () => {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="flex-1">
               <CardHeader>
                 <CardTitle>Consultation Type</CardTitle>
                 <CardDescription>Choose the type of session you need</CardDescription>
