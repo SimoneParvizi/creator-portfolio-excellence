@@ -41,7 +41,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen relative overflow-x-hidden">
+    <div className="min-h-screen relative overflow-x-hidden bg-background">
       <BackgroundEffect />
       <Navbar />
       <main>
@@ -53,7 +53,7 @@ const Index = () => {
         <About />
         <Contact />
       </main>
-      <footer className="py-8 text-center text-muted-foreground text-sm relative z-10 bg-white shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+      <footer className="py-8 text-center text-muted-foreground text-sm relative z-10 bg-transparent shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
         <div className="container mx-auto">
           <p>&copy; {new Date().getFullYear()} John Doe. All rights reserved.</p>
         </div>

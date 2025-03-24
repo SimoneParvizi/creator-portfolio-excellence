@@ -11,8 +11,8 @@ const Hero: React.FC = () => {
   }, []);
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center">
-      <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent pointer-events-none"></div>
+    <section id="hero" className="relative min-h-screen flex items-center bg-transparent">
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent to-transparent pointer-events-none"></div>
       
       <div className="section-container">
         <div className="max-w-4xl mx-auto">

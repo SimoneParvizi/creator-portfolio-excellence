@@ -54,7 +54,7 @@ const BackgroundEffect: React.FC = () => {
           speed: Math.random() * 0.4 + 0.2,
           distance: Math.random() * 50 + 50,
           size: Math.random() * 120 + 120, // Even larger sizes
-          color: getRandomColor(0.25 + Math.random() * 0.2) // More opacity for vibrancy
+          color: getRandomColor(0.30 + Math.random() * 0.25) // More opacity for vibrancy
         });
       }
       
@@ -86,11 +86,8 @@ const BackgroundEffect: React.FC = () => {
     const drawPoints = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Create subtle gradient background
-      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-      gradient.addColorStop(0, '#f8f8f9');
-      gradient.addColorStop(1, '#f1f1f3');
-      ctx.fillStyle = gradient;
+      // Create subtle transparent background
+      ctx.fillStyle = 'rgba(248, 248, 249, 0.01)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
       // Update points positions
@@ -156,9 +153,9 @@ const BackgroundEffect: React.FC = () => {
         ctx.fill();
 
         // Add a subtle glow effect for more vibrancy
-        ctx.shadowColor = point.color.replace(/[\d.]+\)$/g, '0.7)');
-        ctx.shadowBlur = 15;
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.shadowColor = point.color.replace(/[\d.]+\)$/g, '0.9)');
+        ctx.shadowBlur = 20;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
         ctx.lineWidth = 2;
         ctx.stroke();
         ctx.shadowBlur = 0;
@@ -176,9 +173,9 @@ const BackgroundEffect: React.FC = () => {
               ctx.beginPath();
               ctx.moveTo(point.x, point.y);
               ctx.lineTo(otherPoint.x, otherPoint.y);
-              const opacity = (500 - distance) / 2500;
-              ctx.strokeStyle = `rgba(70, 95, 130, ${opacity * 2.5})`; // More visible lines with vibrant color
-              ctx.lineWidth = 2.5; // Thicker lines
+              const opacity = (500 - distance) / 2000;
+              ctx.strokeStyle = `rgba(70, 95, 130, ${opacity * 3.5})`; // More visible lines with vibrant color
+              ctx.lineWidth = 3; // Thicker lines
               ctx.stroke();
             }
           }
@@ -206,7 +203,7 @@ const BackgroundEffect: React.FC = () => {
   return (
     <canvas 
       ref={canvasRef} 
-      className="fixed top-0 left-0 w-full h-full -z-10 opacity-90"
+      className="fixed top-0 left-0 w-full h-full -z-10 opacity-100"
       style={{ pointerEvents: 'none' }}
     />
   );

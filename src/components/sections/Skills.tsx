@@ -117,7 +117,7 @@ const Skills: React.FC = () => {
   ];
 
   return (
-    <section id="skills" ref={sectionRef} className="py-24 bg-gradient-to-b from-background via-secondary/5 to-background">
+    <section id="skills" ref={sectionRef} className="py-24 bg-transparent">
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">My Expertise</h2>
