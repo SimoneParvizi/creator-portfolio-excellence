@@ -28,7 +28,7 @@ const BackgroundEffect: React.FC = () => {
     };
     
     // Initialize particles
-    const particleCount = 5000; // Increased for more density
+    const particleCount = 7000; // Increased for higher density
     const particles: Particle[] = [];
     
     interface Particle {
@@ -38,7 +38,7 @@ const BackgroundEffect: React.FC = () => {
       color: string;
       speed: number;
       opacity: number;
-      parallaxFactor: number; // For parallax scrolling effect
+      parallaxFactor: number;
       directionX: number;
       directionY: number;
       originalX: number;
@@ -55,7 +55,7 @@ const BackgroundEffect: React.FC = () => {
       // Create a circular/curved gradient field of particles
       const centerX = canvas.width * 0.5;
       const centerY = canvas.height * 0.4;
-      const maxRadius = Math.max(canvas.width, canvas.height) * 0.7;
+      const maxRadius = Math.max(canvas.width, canvas.height) * 0.8; // Increased radius
       
       for (let i = 0; i < particleCount; i++) {
         // Use a mix of spiral and circular pattern for distribution
@@ -64,14 +64,14 @@ const BackgroundEffect: React.FC = () => {
         const distanceFactor = Math.pow(Math.random(), 0.7); // Power determines concentration
         const distance = maxRadius * distanceFactor;
         
-        // Slightly vary the opacity and size for depth perception
-        const opacity = 0.3 + Math.random() * 0.5; // Higher opacity for better visibility
+        // Increased opacity for better visibility
+        const opacity = 0.5 + Math.random() * 0.5; // Higher baseline opacity
         const parallaxFactor = 0.2 + Math.random() * 0.4; // How much the particle responds to scroll
         
         // Create drift parameters
         const driftRadius = 1 + Math.random() * 3; // How far the particle can drift
         const driftAngle = Math.random() * Math.PI * 2; // Starting angle for drift
-        const driftSpeed = 0.0005 + Math.random() * 0.001; // Speed of drift
+        const driftSpeed = 0.0008 + Math.random() * 0.001; // Speed of drift
         
         const originalX = centerX + Math.cos(angle) * distance;
         const originalY = centerY + Math.sin(angle) * distance;
@@ -81,8 +81,9 @@ const BackgroundEffect: React.FC = () => {
           y: originalY,
           originalX,
           originalY,
-          size: 0.5 + Math.random() * 1.5, // Varied sizes
-          color: `rgba(230, 230, 240, ${opacity})`,
+          size: 1 + Math.random() * 2, // Increased size for better visibility
+          // Using more contrasting colors with higher opacity
+          color: `rgba(220, 220, 230, ${opacity})`,
           speed: 0.2 + Math.random() * 0.3,
           opacity,
           parallaxFactor,
@@ -97,7 +98,9 @@ const BackgroundEffect: React.FC = () => {
     
     // Animate particles
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Use a semi-transparent clear to create subtle trails
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
       
       // Get the current time for animation
       const time = Date.now() * 0.0002;
@@ -126,21 +129,21 @@ const BackgroundEffect: React.FC = () => {
           
           ctx.beginPath();
           ctx.arc(x, y, particle.size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(230, 230, 240, ${dynamicOpacity})`;
+          ctx.fillStyle = `rgba(250, 250, 250, ${dynamicOpacity})`;
           ctx.fill();
         }
       });
       
-      // Optional: Add a subtle glow to create depth
+      // Add a subtle glow effect to enhance visibility
       const gradient = ctx.createRadialGradient(
         canvas.width * 0.5, canvas.height * 0.4, 0,
-        canvas.width * 0.5, canvas.height * 0.4, Math.max(canvas.width, canvas.height) * 0.7
+        canvas.width * 0.5, canvas.height * 0.4, Math.max(canvas.width, canvas.height) * 0.8
       );
-      gradient.addColorStop(0, 'rgba(255, 255, 255, 0.03)');
-      gradient.addColorStop(0.7, 'rgba(255, 255, 255, 0.01)');
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 0.05)');
+      gradient.addColorStop(0.7, 'rgba(255, 255, 255, 0.03)');
       gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
       
-      ctx.globalCompositeOperation = 'lighter';
+      ctx.globalCompositeOperation = 'screen'; // Changed to screen for better blending
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.globalCompositeOperation = 'source-over';
@@ -183,8 +186,9 @@ const BackgroundEffect: React.FC = () => {
         left: 0,
         width: '100%',
         height: '100%',
-        zIndex: -10,
+        zIndex: -1, // Changed from -10 to -1 to ensure visibility
         pointerEvents: 'none',
+        background: 'rgba(0, 0, 0, 0.97)', // Adding a dark background for contrast
       }}
     />
   );

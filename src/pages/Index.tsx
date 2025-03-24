@@ -41,10 +41,10 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen relative overflow-x-hidden bg-background">
+    <div className="min-h-screen relative overflow-x-hidden">
       <BackgroundEffect />
       <Navbar />
-      <main>
+      <main className="relative z-10">
         <Hero />
         <Skills />
         <Books />
