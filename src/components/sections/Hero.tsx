@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import AnimatedText from '../ui/AnimatedText';
 import ScrollIndicator from '../ui/ScrollIndicator';
+import { Button } from '@/components/ui/button';
 
 const Hero: React.FC = () => {
   const [loaded, setLoaded] = useState(false);
@@ -52,12 +53,13 @@ const Hero: React.FC = () => {
             </p>
 
             <div className="flex flex-wrap gap-4">
-              <a 
-                href="#projects" 
-                className="inline-flex h-11 items-center justify-center rounded-md bg-foreground px-8 text-sm font-medium text-background shadow transition-colors hover:bg-foreground/80"
+              <Button 
+                asChild
+                variant="outline" 
+                className="h-11 px-8 bg-white/50 backdrop-blur-sm hover:bg-white/70"
               >
-                View My Work
-              </a>
+                <a href="#projects">View My Work</a>
+              </Button>
               <a 
                 href="#contact" 
                 className="inline-flex h-11 items-center justify-center rounded-md border border-input bg-background/70 backdrop-blur-sm px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent"
