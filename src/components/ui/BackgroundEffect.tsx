@@ -36,7 +36,7 @@ const BackgroundEffect: React.FC = () => {
     
     // Particles array
     const particles: Particle[] = [];
-    const PARTICLE_COUNT = 80; // Increased for better visibility
+    const PARTICLE_COUNT = 100; // Increased for better visibility
     
     // Particle class
     class Particle {
@@ -53,9 +53,9 @@ const BackgroundEffect: React.FC = () => {
         this.y = y;
         this.baseX = x;
         this.baseY = y;
-        this.size = Math.random() * 3 + 2; // Larger dots for visibility
+        this.size = Math.random() * 4 + 3; // Even larger dots for visibility
         this.density = (Math.random() * 10) + 1;
-        this.color = `rgba(60, 60, 70, 0.8)`; // Darker color with higher opacity
+        this.color = `rgba(50, 50, 60, 0.9)`; // Darker color with higher opacity
       }
       
       draw() {
@@ -71,15 +71,15 @@ const BackgroundEffect: React.FC = () => {
         const dx = mousePositionRef.current.x - this.x;
         const dy = mousePositionRef.current.y - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        const maxDistance = 150; // Increased interaction radius
+        const maxDistance = 200; // Increased interaction radius
         
         // Move particles away from mouse within a certain radius with more force
         if (distance < maxDistance) {
           const forceDirectionX = dx / distance;
           const forceDirectionY = dy / distance;
           const force = (maxDistance - distance) / maxDistance;
-          const directionX = forceDirectionX * force * this.density * -1.5; // Increased repulsion force
-          const directionY = forceDirectionY * force * this.density * -1.5;
+          const directionX = forceDirectionX * force * this.density * -2; // Stronger repulsion force
+          const directionY = forceDirectionY * force * this.density * -2;
           
           this.x += directionX;
           this.y += directionY;
@@ -87,11 +87,11 @@ const BackgroundEffect: React.FC = () => {
           // Slowly return to original position
           if (this.x !== this.baseX) {
             const dx = this.baseX - this.x;
-            this.x += dx / 15; // Faster return for better responsiveness
+            this.x += dx / 10; // Faster return for better responsiveness
           }
           if (this.y !== this.baseY) {
             const dy = this.baseY - this.y;
-            this.y += dy / 15;
+            this.y += dy / 10;
           }
         }
         
@@ -145,15 +145,16 @@ const BackgroundEffect: React.FC = () => {
   return (
     <canvas 
       ref={canvasRef} 
-      className="fixed top-0 left-0 w-full h-full"
+      className="fixed top-0 left-0 w-full h-full pointer-events-none"
       style={{ 
         position: 'fixed',
         top: 0,
         left: 0,
         width: '100%',
         height: '100%',
-        zIndex: -10,
-        pointerEvents: 'none' // Allow interaction with elements below the canvas
+        zIndex: -1, // Increased z-index to ensure visibility
+        pointerEvents: 'none',
+        backgroundColor: 'transparent' // Ensure background is transparent
       }}
     />
   );
