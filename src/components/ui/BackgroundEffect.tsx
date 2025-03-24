@@ -34,129 +34,127 @@ const BackgroundEffect: React.FC = () => {
       canvas.width = window.innerWidth;
       canvas.height = document.documentElement.scrollHeight; // Use full document height
       console.log(`Canvas resized: ${canvas.width}x${canvas.height}`);
-      drawSemicircle(); // Redraw on resize
+      drawEffect(); // Redraw on resize
     };
     
-    // Draw the semicircular effect
-    const drawSemicircle = () => {
+    // Draw the background effect with a dot-based semicircle pattern
+    const drawEffect = () => {
       if (!canvas || !ctx) return;
       
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Create subtle background
+      // Set background
       ctx.fillStyle = 'rgba(248, 248, 249, 0.01)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // Configuration for the semicircle
-      const time = Date.now() * 0.0002; // Time factor for animation
-      const totalCircles = 3; // Number of semicircles
+      // Calculate the center and radius of the semicircle
+      const time = Date.now() * 0.0001; // Time factor for subtle movement
+      const mouseFactor = 0.01; // How much the mouse influences the position
+      const mouseOffsetX = (mousePositionRef.current.x - canvas.width / 2) * mouseFactor;
+      const mouseOffsetY = (mousePositionRef.current.y - canvas.height / 2) * mouseFactor;
       
-      // Draw multiple semicircles with different sizes and subtle movements
-      for (let i = 0; i < totalCircles; i++) {
-        const radiusBase = Math.min(canvas.width, canvas.height) * (0.7 + i * 0.2);
-        
-        // Apply subtle movement based on time and mouse position
-        const mouseFactor = 0.05; // How much the mouse influences the position
-        const mouseOffsetX = (mousePositionRef.current.x - canvas.width / 2) * mouseFactor;
-        const mouseOffsetY = (mousePositionRef.current.y - canvas.height / 2) * mouseFactor;
-        
-        // Calculate center of the semicircle with subtle movement
-        const centerX = canvas.width * 0.5 + Math.sin(time + i) * 20 + mouseOffsetX;
-        const centerY = canvas.height * 0.3 + Math.cos(time * 0.8 + i) * 15 + mouseOffsetY - scrollYRef.current * 0.5;
-        
-        // Calculate radius with subtle pulsing
-        const radius = radiusBase + Math.sin(time * 1.5) * (radiusBase * 0.03);
-        
-        // Create gradient
-        const gradient = ctx.createRadialGradient(
-          centerX, centerY, 0,
-          centerX, centerY, radius
-        );
-        
-        // Set gradient colors with higher opacity to make it more visible
-        const baseOpacity = 0.15 - (i * 0.02); // Significantly increased opacity
-        gradient.addColorStop(0, `rgba(255, 255, 255, ${baseOpacity * 2})`);
-        gradient.addColorStop(0.7, `rgba(240, 240, 245, ${baseOpacity})`);
-        gradient.addColorStop(1, 'rgba(240, 240, 245, 0)');
-        
-        // Draw the semicircle
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, radius, 0, Math.PI, true);
-        
-        // Add subtle distortion to the edge
-        const distortionPoints = 10;
-        const distortionAmount = 5 + Math.sin(time * 2) * 3;
-        
-        for (let j = 0; j <= distortionPoints; j++) {
-          const angle = Math.PI + (j / distortionPoints) * Math.PI;
-          const distX = Math.cos(angle) * radius;
-          const distY = Math.sin(angle) * radius;
-          
-          // Add subtle noise to the edge
-          const noise = Math.sin(angle * 5 + time * 3) * distortionAmount;
-          
-          const x = centerX + distX + noise;
-          const y = centerY + distY + noise;
-          
-          if (j === 0) {
-            ctx.moveTo(x, y);
-          } else {
-            ctx.lineTo(x, y);
-          }
-        }
-        
-        ctx.closePath();
-        ctx.fill();
-        
-        // Add more noticeable glow
-        ctx.shadowColor = 'rgba(255, 255, 255, 0.4)'; // Increased glow opacity
-        ctx.shadowBlur = 60; // Increased blur radius
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
-        
-        // Add a more visible stroke
-        ctx.strokeStyle = 'rgba(230, 230, 235, 0.2)'; // Increased stroke opacity
-        ctx.lineWidth = 1.2; // Increased line width
-        ctx.stroke();
-        
-        // Reset shadow
-        ctx.shadowBlur = 0;
-      }
+      // Calculate center with subtle movement
+      const centerX = canvas.width * 0.75 + Math.sin(time) * 10 + mouseOffsetX;
+      const centerY = canvas.height * 0.3 + Math.cos(time) * 5 + mouseOffsetY - scrollYRef.current * 0.2;
       
-      // Add more visible noise pattern
-      addNoisePattern(ctx, canvas.width, canvas.height);
+      // Calculate radius with very subtle pulsing
+      const baseRadius = Math.max(canvas.width, canvas.height) * 0.7;
+      const radius = baseRadius + Math.sin(time * 1.5) * (baseRadius * 0.01);
+      
+      // Draw the dots in a semicircle pattern
+      drawDotSemicircle(ctx, centerX, centerY, radius, time);
       
       // Continue animation
-      rafRef.current = requestAnimationFrame(drawSemicircle);
+      rafRef.current = requestAnimationFrame(drawEffect);
     };
     
-    // Add subtle noise pattern
-    const addNoisePattern = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
-      // Only render noise in the visible area
-      const visibleHeight = window.innerHeight;
-      const startY = Math.max(0, scrollYRef.current - 100);
-      const endY = Math.min(height, scrollYRef.current + visibleHeight + 100);
+    // Draw a semicircle made of dots
+    const drawDotSemicircle = (
+      ctx: CanvasRenderingContext2D, 
+      centerX: number, 
+      centerY: number, 
+      radius: number, 
+      time: number
+    ) => {
+      // Semicircle parameters
+      const totalDots = 20000; // Use many dots for the grainy effect
+      const dotMaxSize = 1.5; // Maximum dot size
+      const dotMinSize = 0.5; // Minimum dot size
       
-      // More noise points for visibility
-      const noisePoints = 2000; // Increased number of points
+      // We'll use a density function to concentrate dots along the semicircle edge
+      const densityFactor = 0.5; // Controls how concentrated dots are at the edge
       
       ctx.save();
-      ctx.globalAlpha = 0.1; // Increased opacity for more visibility
       
-      for (let i = 0; i < noisePoints; i++) {
-        const x = Math.random() * width;
-        const y = startY + Math.random() * (endY - startY);
+      for (let i = 0; i < totalDots; i++) {
+        // Create a random angle in the semicircle (0 to π)
+        const angle = Math.random() * Math.PI;
         
-        // Vary size based on position for a more natural feel
-        const size = Math.random() * 2.5 + 0.8; // Increased size
+        // Create a random distance from center, with higher concentration near the edge
+        const distanceRatio = Math.pow(Math.random(), densityFactor);
+        const distance = radius * distanceRatio;
         
-        ctx.fillStyle = `rgba(240, 240, 245, ${Math.random() * 0.3})`; // Increased opacity
-        ctx.beginPath();
-        ctx.arc(x, y, size, 0, Math.PI * 2);
-        ctx.fill();
+        // Calculate position with slight movement based on time
+        const xMovement = Math.sin(time * 2 + i * 0.0001) * 2;
+        const yMovement = Math.cos(time * 3 + i * 0.0001) * 2;
+        
+        const x = centerX + Math.cos(angle) * distance + xMovement;
+        const y = centerY + Math.sin(angle) * distance + yMovement;
+        
+        // Only draw if within canvas bounds
+        if (x >= 0 && x <= canvas.width && y >= 0 && y <= canvas.height) {
+          // Dot size varies based on distance from edge and time
+          const sizeFactor = 1 - Math.abs(distanceRatio - 0.9);
+          const size = dotMinSize + sizeFactor * dotMaxSize;
+          
+          // Dot opacity also varies
+          const baseOpacity = 0.3; // Higher base opacity
+          const opacityVariation = 0.5;
+          const opacity = Math.min(baseOpacity * (1 + Math.sin(time * 5 + i * 0.01) * opacityVariation), 1);
+          
+          // Draw the dot
+          ctx.fillStyle = `rgba(230, 230, 235, ${opacity})`;
+          ctx.beginPath();
+          ctx.arc(x, y, size, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
+      
+      ctx.restore();
+      
+      // Create subtle glow at the edge of the semicircle
+      addSemicircleGlow(ctx, centerX, centerY, radius);
+    };
+    
+    // Add a subtle glow to the edge of the semicircle
+    const addSemicircleGlow = (
+      ctx: CanvasRenderingContext2D, 
+      centerX: number, 
+      centerY: number, 
+      radius: number
+    ) => {
+      const gradientWidth = radius * 0.1;
+      
+      // Create a gradient along the semicircle edge
+      const gradient = ctx.createLinearGradient(
+        centerX - radius, centerY, 
+        centerX - radius + gradientWidth, centerY
+      );
+      
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 0.03)');
+      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      
+      ctx.save();
+      ctx.globalCompositeOperation = 'screen';
+      
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, Math.PI, true);
+      ctx.arc(centerX, centerY, radius - gradientWidth, Math.PI, 0, false);
+      ctx.closePath();
+      
+      ctx.fillStyle = gradient;
+      ctx.fill();
       
       ctx.restore();
     };
@@ -168,7 +166,7 @@ const BackgroundEffect: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     
     // Start animation
-    drawSemicircle();
+    drawEffect();
     
     console.log('BackgroundEffect animation started');
     
