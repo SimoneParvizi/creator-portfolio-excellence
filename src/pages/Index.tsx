@@ -26,7 +26,7 @@ const Index = () => {
       threshold: 0.1,
     };
 
-    const observer = new IntersectionObserView(handleIntersection, observerOptions);
+    const observer = new IntersectionObserver(handleIntersection, observerOptions);
     const elements = document.querySelectorAll('.slide-up');
 
     elements.forEach((el) => {
