@@ -53,13 +53,13 @@ const MinimalistDotBackground: React.FC = () => {
       draw() {
         if (!ctx) return;
         
-        // Add smoothing to the dots
-        ctx.shadowBlur = 1;
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+        // Enhanced smoothing with better shadow effect
+        ctx.shadowBlur = 3;
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.15)';
         
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(40, 40, 45, 0.6)'; // Keeping the opacity at 0.6
+        ctx.fillStyle = 'rgba(30, 30, 35, 0.6)'; // Slightly darker color
         ctx.fill();
         
         // Reset shadow for performance

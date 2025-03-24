@@ -60,12 +60,13 @@ const Hero: React.FC = () => {
               >
                 <a href="#projects">View My Work</a>
               </Button>
-              <a 
-                href="#contact" 
-                className="inline-flex h-11 items-center justify-center rounded-md border border-input bg-background/70 backdrop-blur-sm px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent"
+              <Button 
+                asChild
+                variant="default" 
+                className="h-11 px-8 bg-black text-white hover:bg-black/90"
               >
-                Contact Me
-              </a>
+                <a href="#contact">Contact Me</a>
+              </Button>
             </div>
           </div>
         </div>
