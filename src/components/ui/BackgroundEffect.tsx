@@ -3,9 +3,7 @@ import React, { useEffect, useRef } from 'react';
 
 const BackgroundEffect: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mousePositionRef = useRef({ x: 0, y: 0 });
   const rafRef = useRef<number | null>(null);
-  const scrollYRef = useRef(0);
   
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -16,181 +14,150 @@ const BackgroundEffect: React.FC = () => {
     
     console.log('BackgroundEffect initialized');
     
-    // Track mouse position
-    const handleMouseMove = (e: MouseEvent) => {
-      mousePositionRef.current = {
-        x: e.clientX,
-        y: e.clientY + window.scrollY
-      };
-    };
-
-    // Track scroll position
-    const handleScroll = () => {
-      scrollYRef.current = window.scrollY;
-    };
-    
-    // Handle window resize
-    const handleResize = () => {
+    // Set canvas dimensions
+    const setCanvasDimensions = () => {
       canvas.width = window.innerWidth;
-      canvas.height = document.documentElement.scrollHeight; // Use full document height
+      canvas.height = document.documentElement.scrollHeight;
       console.log(`Canvas resized: ${canvas.width}x${canvas.height}`);
-      drawEffect(); // Redraw on resize
     };
     
-    // Draw the background effect with a dot-based semicircle pattern
-    const drawEffect = () => {
-      if (!canvas || !ctx) return;
+    // Initialize particles
+    const particleCount = 2500;
+    const particles: Particle[] = [];
+    
+    interface Particle {
+      x: number;
+      y: number;
+      radius: number;
+      color: string;
+      speed: number;
+      opacity: number;
+      angle: number;
+      distance: number;
+      centerX: number;
+      centerY: number;
+    }
+    
+    // Create semicircle of particles
+    const createParticles = () => {
+      particles.length = 0;
+      const centerX = canvas.width * 0.7;
+      const centerY = canvas.height * 0.35;
+      const maxRadius = Math.max(canvas.width, canvas.height) * 0.4;
       
-      // Clear canvas
+      for (let i = 0; i < particleCount; i++) {
+        // Create particles around a semicircle (0 to PI)
+        const angle = Math.random() * Math.PI;
+        // Create a distance distribution that favors the edge
+        const distanceRatio = Math.pow(Math.random(), 0.4);
+        const distance = maxRadius * distanceRatio;
+        
+        particles.push({
+          x: centerX + Math.cos(angle) * distance,
+          y: centerY + Math.sin(angle) * distance,
+          radius: Math.random() * 1.8 + 0.4,
+          color: `rgba(220, 220, 230, ${Math.random() * 0.3 + 0.5})`,
+          speed: 0.1 + Math.random() * 0.2,
+          opacity: Math.random() * 0.4 + 0.6,
+          angle,
+          distance,
+          centerX,
+          centerY
+        });
+      }
+    };
+    
+    // Animate particles
+    const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Set background
-      ctx.fillStyle = 'rgba(248, 248, 249, 0.01)';
+      // Draw a subtle gradient background
+      const gradient = ctx.createRadialGradient(
+        canvas.width * 0.7, canvas.height * 0.35, 0,
+        canvas.width * 0.7, canvas.height * 0.35, Math.max(canvas.width, canvas.height) * 0.6
+      );
+      gradient.addColorStop(0, 'rgba(240, 240, 245, 0.01)');
+      gradient.addColorStop(0.6, 'rgba(235, 235, 245, 0.005)');
+      gradient.addColorStop(1, 'rgba(245, 245, 250, 0)');
+      ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // Calculate the center and radius of the semicircle
-      const time = Date.now() * 0.0001; // Time factor for subtle movement
-      const mouseFactor = 0.01; // How much the mouse influences the position
-      const mouseOffsetX = (mousePositionRef.current.x - canvas.width / 2) * mouseFactor;
-      const mouseOffsetY = (mousePositionRef.current.y - canvas.height / 2) * mouseFactor;
+      // Update and draw particles
+      const time = Date.now() * 0.0002;
       
-      // Calculate center with subtle movement
-      const centerX = canvas.width * 0.75 + Math.sin(time) * 10 + mouseOffsetX;
-      const centerY = canvas.height * 0.3 + Math.cos(time) * 5 + mouseOffsetY - scrollYRef.current * 0.2;
-      
-      // Calculate radius with very subtle pulsing
-      const baseRadius = Math.max(canvas.width, canvas.height) * 0.7;
-      const radius = baseRadius + Math.sin(time * 1.5) * (baseRadius * 0.01);
-      
-      // Draw the dots in a semicircle pattern
-      drawDotSemicircle(ctx, centerX, centerY, radius, time);
-      
-      // Continue animation
-      rafRef.current = requestAnimationFrame(drawEffect);
-    };
-    
-    // Draw a semicircle made of dots
-    const drawDotSemicircle = (
-      ctx: CanvasRenderingContext2D, 
-      centerX: number, 
-      centerY: number, 
-      radius: number, 
-      time: number
-    ) => {
-      // Semicircle parameters
-      const totalDots = 20000; // Use many dots for the grainy effect
-      const dotMaxSize = 1.5; // Maximum dot size
-      const dotMinSize = 0.5; // Minimum dot size
-      
-      // We'll use a density function to concentrate dots along the semicircle edge
-      const densityFactor = 0.5; // Controls how concentrated dots are at the edge
-      
-      ctx.save();
-      
-      for (let i = 0; i < totalDots; i++) {
-        // Create a random angle in the semicircle (0 to π)
-        const angle = Math.random() * Math.PI;
+      particles.forEach(particle => {
+        // Add slight movement to particles
+        const xOffset = Math.sin(time + particle.angle * 10) * 2;
+        const yOffset = Math.cos(time + particle.angle * 5) * 2;
         
-        // Create a random distance from center, with higher concentration near the edge
-        const distanceRatio = Math.pow(Math.random(), densityFactor);
-        const distance = radius * distanceRatio;
-        
-        // Calculate position with slight movement based on time
-        const xMovement = Math.sin(time * 2 + i * 0.0001) * 2;
-        const yMovement = Math.cos(time * 3 + i * 0.0001) * 2;
-        
-        const x = centerX + Math.cos(angle) * distance + xMovement;
-        const y = centerY + Math.sin(angle) * distance + yMovement;
+        const x = particle.centerX + Math.cos(particle.angle) * particle.distance + xOffset;
+        const y = particle.centerY + Math.sin(particle.angle) * particle.distance + yOffset;
         
         // Only draw if within canvas bounds
         if (x >= 0 && x <= canvas.width && y >= 0 && y <= canvas.height) {
-          // Dot size varies based on distance from edge and time
-          const sizeFactor = 1 - Math.abs(distanceRatio - 0.9);
-          const size = dotMinSize + sizeFactor * dotMaxSize;
+          // Oscillate opacity for twinkling effect
+          const dynamicOpacity = particle.opacity * (0.7 + Math.sin(time * 5 + particle.angle * 2) * 0.3);
           
-          // Dot opacity also varies
-          const baseOpacity = 0.3; // Higher base opacity
-          const opacityVariation = 0.5;
-          const opacity = Math.min(baseOpacity * (1 + Math.sin(time * 5 + i * 0.01) * opacityVariation), 1);
-          
-          // Draw the dot
-          ctx.fillStyle = `rgba(230, 230, 235, ${opacity})`;
           ctx.beginPath();
-          ctx.arc(x, y, size, 0, Math.PI * 2);
+          ctx.arc(x, y, particle.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(230, 230, 240, ${dynamicOpacity})`;
           ctx.fill();
         }
-      }
+      });
       
-      ctx.restore();
-      
-      // Create subtle glow at the edge of the semicircle
-      addSemicircleGlow(ctx, centerX, centerY, radius);
-    };
-    
-    // Add a subtle glow to the edge of the semicircle
-    const addSemicircleGlow = (
-      ctx: CanvasRenderingContext2D, 
-      centerX: number, 
-      centerY: number, 
-      radius: number
-    ) => {
-      const gradientWidth = radius * 0.1;
-      
-      // Create a gradient along the semicircle edge
-      const gradient = ctx.createLinearGradient(
-        centerX - radius, centerY, 
-        centerX - radius + gradientWidth, centerY
+      // Add a subtle glow around the edge
+      const edgeGradient = ctx.createRadialGradient(
+        canvas.width * 0.7, canvas.height * 0.35, Math.max(canvas.width, canvas.height) * 0.35,
+        canvas.width * 0.7, canvas.height * 0.35, Math.max(canvas.width, canvas.height) * 0.45
       );
+      edgeGradient.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
+      edgeGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
       
-      gradient.addColorStop(0, 'rgba(255, 255, 255, 0.03)');
-      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-      
-      ctx.save();
       ctx.globalCompositeOperation = 'screen';
-      
+      ctx.fillStyle = edgeGradient;
       ctx.beginPath();
-      ctx.arc(centerX, centerY, radius, 0, Math.PI, true);
-      ctx.arc(centerX, centerY, radius - gradientWidth, Math.PI, 0, false);
+      ctx.arc(canvas.width * 0.7, canvas.height * 0.35, Math.max(canvas.width, canvas.height) * 0.4, 0, Math.PI, true);
+      ctx.arc(canvas.width * 0.7, canvas.height * 0.35, Math.max(canvas.width, canvas.height) * 0.3, Math.PI, 0, false);
       ctx.closePath();
-      
-      ctx.fillStyle = gradient;
       ctx.fill();
       
-      ctx.restore();
+      ctx.globalCompositeOperation = 'source-over';
+      
+      rafRef.current = requestAnimationFrame(animate);
     };
     
     // Initialize
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('scroll', handleScroll);
+    setCanvasDimensions();
+    createParticles();
+    animate();
+    console.log('Animation started with', particles.length, 'particles');
     
-    // Start animation
-    drawEffect();
-    
-    console.log('BackgroundEffect animation started');
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      setCanvasDimensions();
+      createParticles();
+    });
     
     // Cleanup
     return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('scroll', handleScroll);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      console.log('BackgroundEffect cleaned up');
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+      window.removeEventListener('resize', setCanvasDimensions);
     };
   }, []);
   
   return (
     <canvas 
       ref={canvasRef} 
-      className="fixed top-0 left-0 w-full h-full pointer-events-none -z-10"
       style={{ 
         position: 'fixed',
         top: 0,
         left: 0,
         width: '100%',
         height: '100%',
-        zIndex: -10
+        zIndex: -10,
+        pointerEvents: 'none',
       }}
     />
   );
