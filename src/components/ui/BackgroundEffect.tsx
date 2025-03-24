@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 const BackgroundEffect: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number | null>(null);
+  const scrollYRef = useRef<number>(0);
   
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -21,48 +22,75 @@ const BackgroundEffect: React.FC = () => {
       console.log(`Canvas resized: ${canvas.width}x${canvas.height}`);
     };
     
+    // Update scroll position reference
+    const updateScrollPosition = () => {
+      scrollYRef.current = window.scrollY;
+    };
+    
     // Initialize particles
-    const particleCount = 2500;
+    const particleCount = 5000; // Increased for more density
     const particles: Particle[] = [];
     
     interface Particle {
       x: number;
       y: number;
-      radius: number;
+      size: number;
       color: string;
       speed: number;
       opacity: number;
-      angle: number;
-      distance: number;
-      centerX: number;
-      centerY: number;
+      parallaxFactor: number; // For parallax scrolling effect
+      directionX: number;
+      directionY: number;
+      originalX: number;
+      originalY: number;
+      driftRadius: number;
+      driftAngle: number;
+      driftSpeed: number;
     }
     
-    // Create semicircle of particles
+    // Create particle distribution
     const createParticles = () => {
       particles.length = 0;
-      const centerX = canvas.width * 0.7;
-      const centerY = canvas.height * 0.35;
-      const maxRadius = Math.max(canvas.width, canvas.height) * 0.4;
+      
+      // Create a circular/curved gradient field of particles
+      const centerX = canvas.width * 0.5;
+      const centerY = canvas.height * 0.4;
+      const maxRadius = Math.max(canvas.width, canvas.height) * 0.7;
       
       for (let i = 0; i < particleCount; i++) {
-        // Create particles around a semicircle (0 to PI)
-        const angle = Math.random() * Math.PI;
-        // Create a distance distribution that favors the edge
-        const distanceRatio = Math.pow(Math.random(), 0.4);
-        const distance = maxRadius * distanceRatio;
+        // Use a mix of spiral and circular pattern for distribution
+        const angle = Math.random() * Math.PI * 2;
+        // Create a distance distribution that has higher density in specific areas
+        const distanceFactor = Math.pow(Math.random(), 0.7); // Power determines concentration
+        const distance = maxRadius * distanceFactor;
+        
+        // Slightly vary the opacity and size for depth perception
+        const opacity = 0.3 + Math.random() * 0.5; // Higher opacity for better visibility
+        const parallaxFactor = 0.2 + Math.random() * 0.4; // How much the particle responds to scroll
+        
+        // Create drift parameters
+        const driftRadius = 1 + Math.random() * 3; // How far the particle can drift
+        const driftAngle = Math.random() * Math.PI * 2; // Starting angle for drift
+        const driftSpeed = 0.0005 + Math.random() * 0.001; // Speed of drift
+        
+        const originalX = centerX + Math.cos(angle) * distance;
+        const originalY = centerY + Math.sin(angle) * distance;
         
         particles.push({
-          x: centerX + Math.cos(angle) * distance,
-          y: centerY + Math.sin(angle) * distance,
-          radius: Math.random() * 1.8 + 0.4,
-          color: `rgba(220, 220, 230, ${Math.random() * 0.3 + 0.5})`,
-          speed: 0.1 + Math.random() * 0.2,
-          opacity: Math.random() * 0.4 + 0.6,
-          angle,
-          distance,
-          centerX,
-          centerY
+          x: originalX,
+          y: originalY,
+          originalX,
+          originalY,
+          size: 0.5 + Math.random() * 1.5, // Varied sizes
+          color: `rgba(230, 230, 240, ${opacity})`,
+          speed: 0.2 + Math.random() * 0.3,
+          opacity,
+          parallaxFactor,
+          directionX: Math.random() > 0.5 ? 1 : -1,
+          directionY: Math.random() > 0.5 ? 1 : -1,
+          driftRadius,
+          driftAngle,
+          driftSpeed
         });
       }
     };
@@ -71,56 +99,50 @@ const BackgroundEffect: React.FC = () => {
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Draw a subtle gradient background
-      const gradient = ctx.createRadialGradient(
-        canvas.width * 0.7, canvas.height * 0.35, 0,
-        canvas.width * 0.7, canvas.height * 0.35, Math.max(canvas.width, canvas.height) * 0.6
-      );
-      gradient.addColorStop(0, 'rgba(240, 240, 245, 0.01)');
-      gradient.addColorStop(0.6, 'rgba(235, 235, 245, 0.005)');
-      gradient.addColorStop(1, 'rgba(245, 245, 250, 0)');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Get the current time for animation
+      const time = Date.now() * 0.0002;
+      const scrollY = scrollYRef.current;
       
       // Update and draw particles
-      const time = Date.now() * 0.0002;
-      
       particles.forEach(particle => {
-        // Add slight movement to particles
-        const xOffset = Math.sin(time + particle.angle * 10) * 2;
-        const yOffset = Math.cos(time + particle.angle * 5) * 2;
+        // Apply parallax effect based on scroll position
+        const parallaxOffset = scrollY * particle.parallaxFactor;
         
-        const x = particle.centerX + Math.cos(particle.angle) * particle.distance + xOffset;
-        const y = particle.centerY + Math.sin(particle.angle) * particle.distance + yOffset;
+        // Calculate drift position
+        const driftX = Math.cos(particle.driftAngle) * particle.driftRadius;
+        const driftY = Math.sin(particle.driftAngle) * particle.driftRadius;
         
-        // Only draw if within canvas bounds
-        if (x >= 0 && x <= canvas.width && y >= 0 && y <= canvas.height) {
-          // Oscillate opacity for twinkling effect
-          const dynamicOpacity = particle.opacity * (0.7 + Math.sin(time * 5 + particle.angle * 2) * 0.3);
+        // Update drift angle
+        particle.driftAngle += particle.driftSpeed;
+        
+        // Calculate final position with parallax and drift
+        const x = particle.originalX + driftX;
+        const y = particle.originalY + driftY - parallaxOffset;
+        
+        // Only draw if within canvas bounds with a small margin
+        if (x >= -20 && x <= canvas.width + 20 && y >= -20 && y <= canvas.height + 20) {
+          // Add subtle pulsing to the opacity
+          const dynamicOpacity = particle.opacity * (0.8 + Math.sin(time * 5 + particle.driftAngle * 2) * 0.2);
           
           ctx.beginPath();
-          ctx.arc(x, y, particle.radius, 0, Math.PI * 2);
+          ctx.arc(x, y, particle.size, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(230, 230, 240, ${dynamicOpacity})`;
           ctx.fill();
         }
       });
       
-      // Add a subtle glow around the edge
-      const edgeGradient = ctx.createRadialGradient(
-        canvas.width * 0.7, canvas.height * 0.35, Math.max(canvas.width, canvas.height) * 0.35,
-        canvas.width * 0.7, canvas.height * 0.35, Math.max(canvas.width, canvas.height) * 0.45
+      // Optional: Add a subtle glow to create depth
+      const gradient = ctx.createRadialGradient(
+        canvas.width * 0.5, canvas.height * 0.4, 0,
+        canvas.width * 0.5, canvas.height * 0.4, Math.max(canvas.width, canvas.height) * 0.7
       );
-      edgeGradient.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
-      edgeGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 0.03)');
+      gradient.addColorStop(0.7, 'rgba(255, 255, 255, 0.01)');
+      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
       
-      ctx.globalCompositeOperation = 'screen';
-      ctx.fillStyle = edgeGradient;
-      ctx.beginPath();
-      ctx.arc(canvas.width * 0.7, canvas.height * 0.35, Math.max(canvas.width, canvas.height) * 0.4, 0, Math.PI, true);
-      ctx.arc(canvas.width * 0.7, canvas.height * 0.35, Math.max(canvas.width, canvas.height) * 0.3, Math.PI, 0, false);
-      ctx.closePath();
-      ctx.fill();
-      
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.globalCompositeOperation = 'source-over';
       
       rafRef.current = requestAnimationFrame(animate);
@@ -130,13 +152,16 @@ const BackgroundEffect: React.FC = () => {
     setCanvasDimensions();
     createParticles();
     animate();
-    console.log('Animation started with', particles.length, 'particles');
     
-    // Handle window resize
+    // Event listeners
     window.addEventListener('resize', () => {
       setCanvasDimensions();
       createParticles();
     });
+    
+    window.addEventListener('scroll', updateScrollPosition);
+    
+    console.log('Animation started with', particles.length, 'particles');
     
     // Cleanup
     return () => {
@@ -144,6 +169,8 @@ const BackgroundEffect: React.FC = () => {
         cancelAnimationFrame(rafRef.current);
       }
       window.removeEventListener('resize', setCanvasDimensions);
+      window.removeEventListener('scroll', updateScrollPosition);
+      console.log('BackgroundEffect cleaned up');
     };
   }, []);
   
