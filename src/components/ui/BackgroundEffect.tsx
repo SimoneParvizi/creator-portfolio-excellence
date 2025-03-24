@@ -1,195 +1,200 @@
 
 import React, { useEffect, useRef } from 'react';
 
+interface Point {
+  x: number;
+  y: number;
+  angle: number;
+  speed: number;
+  distance: number;
+  size: number;
+  color: string;
+}
+
 const BackgroundEffect: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef = useRef({ x: 0, y: 0 });
-  const nodesRef = useRef<Node[]>([]);
+  const pointsRef = useRef<Point[]>([]);
+  const mousePositionRef = useRef({ x: 0, y: 0 });
   const rafRef = useRef<number | null>(null);
   const scrollYRef = useRef(0);
-
-  interface Node {
-    x: number;
-    y: number;
-    size: number;
-    speed: number;
-    vx: number;
-    vy: number;
-    color: string;
-  }
-
+  
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
+    
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-
-    // Initialize canvas size
+    
     const handleResize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      initNodes();
+      initPoints();
     };
-
-    // Track mouse position
+    
     const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current = {
+      mousePositionRef.current = {
         x: e.clientX,
         y: e.clientY + window.scrollY
       };
     };
 
-    // Track scroll position
     const handleScroll = () => {
       scrollYRef.current = window.scrollY;
     };
-
-    // Create a grid of nodes
-    const initNodes = () => {
-      const nodes: Node[] = [];
-      const gridSize = Math.max(canvas.width, canvas.height) > 1000 ? 20 : 15;
-      const spacing = Math.min(canvas.width, canvas.height) / gridSize;
+    
+    const initPoints = () => {
+      const points: Point[] = [];
+      const count = 8; // Fewer points for larger shapes
       
-      // Create a grid across the entire viewport and beyond for scrolling
-      for (let x = 0; x < canvas.width; x += spacing) {
-        for (let y = 0; y < canvas.height * 3; y += spacing) { // Extended for scrolling
-          if (Math.random() > 0.4) { // 60% chance to create a node for a sparser look
-            nodes.push({
-              x: x + (Math.random() * spacing * 0.4),
-              y: y + (Math.random() * spacing * 0.4),
-              size: Math.random() * 2 + 1,
-              speed: Math.random() * 0.8 + 0.2,
-              vx: 0,
-              vy: 0,
-              color: getNodeColor(0.7 + Math.random() * 0.3)
-            });
-          }
-        }
+      for (let i = 0; i < count; i++) {
+        points.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height * 3, // Extend beyond viewport for scrolling
+          angle: Math.random() * Math.PI * 2,
+          speed: Math.random() * 0.4 + 0.2,
+          distance: Math.random() * 50 + 50,
+          size: Math.random() * 120 + 120, // Even larger sizes
+          color: getRandomColor(0.25 + Math.random() * 0.2) // More opacity for vibrancy
+        });
       }
       
-      nodesRef.current = nodes;
+      pointsRef.current = points;
     };
 
-    // Generate futuristic colors
-    const getNodeColor = (opacity: number) => {
+    const getRandomColor = (opacity: number) => {
+      // Using more vibrant masculine colors
       const colors = [
-        `rgba(0, 255, 255, ${opacity})`,     // Cyan
-        `rgba(114, 225, 255, ${opacity})`,   // Electric Blue
-        `rgba(0, 229, 255, ${opacity})`,     // Bright Teal
-        `rgba(72, 191, 227, ${opacity})`,    // Deep Sky Blue
-        `rgba(0, 143, 230, ${opacity})`,     // Sapphire
-        `rgba(10, 186, 181, ${opacity})`,    // Turquoise
-        `rgba(0, 201, 182, ${opacity})`,     // Teal Green
-        `rgba(0, 214, 203, ${opacity})`,     // Aquamarine
-        `rgba(105, 240, 174, ${opacity})`,   // Mint
-        `rgba(32, 191, 107, ${opacity})`,    // Emerald
+        `rgba(32, 105, 214, ${opacity})`,    // Vivid Blue
+        `rgba(75, 107, 175, ${opacity})`,    // Bold Royal Blue
+        `rgba(113, 59, 165, ${opacity})`,    // Rich Purple
+        `rgba(173, 48, 48, ${opacity})`,     // Strong Red
+        `rgba(40, 116, 166, ${opacity})`,    // Ocean Blue
+        `rgba(30, 130, 150, ${opacity})`,    // Vibrant Teal
+        `rgba(142, 68, 173, ${opacity})`,    // Bright Purple
+        `rgba(175, 65, 65, ${opacity})`,     // Intense Burgundy
+        `rgba(39, 174, 96, ${opacity})`,     // Emerald Green
+        `rgba(156, 93, 37, ${opacity})`,     // Amber
+        `rgba(125, 60, 152, ${opacity})`,    // Majestic Purple
+        `rgba(37, 116, 169, ${opacity})`,    // Sapphire Blue
+        `rgba(192, 95, 32, ${opacity})`,     // Rust Orange
+        `rgba(21, 122, 118, ${opacity})`,    // Deep Turquoise
+        `rgba(149, 76, 109, ${opacity})`,    // Berry
       ];
       return colors[Math.floor(Math.random() * colors.length)];
     };
-
-    // Main rendering function
-    const draw = () => {
+    
+    const drawPoints = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Create minimal dark background with a subtle gradient
+      // Create subtle gradient background
       const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-      gradient.addColorStop(0, '#0f0f12');
-      gradient.addColorStop(1, '#121218');
+      gradient.addColorStop(0, '#f8f8f9');
+      gradient.addColorStop(1, '#f1f1f3');
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // Adjust for scrolling
+      // Update points positions
+      pointsRef.current.forEach((point, i) => {
+        // Calculate the mouse influence
+        const dx = point.x - mousePositionRef.current.x;
+        const dy = point.y - (mousePositionRef.current.y);
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        // Move points away from mouse position with stronger effect
+        if (distance < 400) {
+          const angle = Math.atan2(dy, dx);
+          const force = (400 - distance) / 8; // Increased force
+          point.x += Math.cos(angle) * force * 0.3;
+          point.y += Math.sin(angle) * force * 0.3;
+        }
+        
+        // Animate points in a circular motion
+        point.angle += point.speed * 0.01;
+        point.x += Math.cos(point.angle) * 0.8; // Increased movement
+        point.y += Math.sin(point.angle) * 0.8;
+        
+        // Wrap around edges
+        if (point.x < -point.size) point.x = canvas.width + point.size;
+        if (point.x > canvas.width + point.size) point.x = -point.size;
+        if (point.y < -point.size + scrollYRef.current) point.y = canvas.height + point.size + scrollYRef.current;
+        if (point.y > canvas.height + point.size + scrollYRef.current) point.y = -point.size + scrollYRef.current;
+      });
+      
+      // Draw abstract shapes with enhanced visibility
+      drawAbstractShapes(ctx);
+      
+      rafRef.current = requestAnimationFrame(drawPoints);
+    };
+    
+    const drawAbstractShapes = (ctx: CanvasRenderingContext2D) => {
       ctx.save();
       ctx.translate(0, -scrollYRef.current);
       
-      // Update nodes with mouse influence
-      nodesRef.current.forEach(node => {
-        // Calculate distance from mouse
-        const dx = node.x - mouseRef.current.x;
-        const dy = node.y - mouseRef.current.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        // Mouse repulsion effect - stronger and with wider range
-        if (distance < 250) {
-          const force = (250 - distance) / 10;
-          const angle = Math.atan2(dy, dx);
-          node.vx += Math.cos(angle) * force * 0.08;
-          node.vy += Math.sin(angle) * force * 0.08;
-        }
-        
-        // Apply velocity with damping
-        node.vx *= 0.95;
-        node.vy *= 0.95;
-        node.x += node.vx;
-        node.y += node.vy;
-        
-        // Slight random movement
-        node.x += (Math.random() - 0.5) * 0.3;
-        node.y += (Math.random() - 0.5) * 0.3;
-        
-        // Draw the node as a small circle
+      // First draw filled shapes with more pronounced appearance
+      pointsRef.current.forEach((point, i) => {
         ctx.beginPath();
-        ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
-        ctx.fillStyle = node.color;
-        ctx.fill();
-      });
-      
-      // Draw connections for geometric patterns
-      nodesRef.current.forEach((node, i) => {
-        for (let j = i + 1; j < nodesRef.current.length; j++) {
-          const otherNode = nodesRef.current[j];
-          const dx = node.x - otherNode.x;
-          const dy = node.y - otherNode.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+        const time = Date.now() * 0.0005; // Slowed down for smoother morphing
+        const sizePulse = Math.sin(time + i) * 30 + 20; // More pronounced pulse
+        
+        // Create flowing blob/abstract shape with more complex morphing
+        ctx.beginPath();
+        for (let angle = 0; angle < Math.PI * 2; angle += 0.01) {
+          const xOffset = Math.cos(angle * 3 + time + i) * 40; // Larger offsets
+          const yOffset = Math.sin(angle * 2 + time + i * 0.5) * 40;
+          const radius = point.size + xOffset + yOffset + sizePulse;
+          const x = point.x + Math.cos(angle) * radius;
+          const y = point.y + Math.sin(angle) * radius;
           
-          // Draw connection if within threshold
-          if (distance < 100) {
-            ctx.beginPath();
-            ctx.moveTo(node.x, node.y);
-            ctx.lineTo(otherNode.x, otherNode.y);
-            const opacity = (100 - distance) / 100;
-            ctx.strokeStyle = `rgba(0, 210, 255, ${opacity * 0.4})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
+          if (angle === 0) {
+            ctx.moveTo(x, y);
+          } else {
+            ctx.lineTo(x, y);
           }
         }
+        ctx.closePath();
+        ctx.fillStyle = point.color;
+        ctx.fill();
+
+        // Add a subtle glow effect for more vibrancy
+        ctx.shadowColor = point.color.replace(/[\d.]+\)$/g, '0.7)');
+        ctx.shadowBlur = 15;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.shadowBlur = 0;
       });
       
-      // Draw mouse influence area - subtle glow effect
-      const mouseX = mouseRef.current.x;
-      const mouseY = mouseRef.current.y;
-      
-      // Only draw if mouse has moved inside canvas
-      if (mouseX > 0 && mouseY > 0) {
-        const radius = 120;
-        const gradient = ctx.createRadialGradient(
-          mouseX, mouseY, 0,
-          mouseX, mouseY, radius
-        );
-        gradient.addColorStop(0, 'rgba(0, 210, 255, 0.08)');
-        gradient.addColorStop(1, 'rgba(0, 210, 255, 0)');
-        
-        ctx.beginPath();
-        ctx.arc(mouseX, mouseY, radius, 0, Math.PI * 2);
-        ctx.fillStyle = gradient;
-        ctx.fill();
-      }
+      // Then draw connections between points with higher visibility
+      pointsRef.current.forEach((point, i) => {
+        pointsRef.current.forEach((otherPoint, j) => {
+          if (i !== j) {
+            const dx = point.x - otherPoint.x;
+            const dy = point.y - otherPoint.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < 500) { // Increased connection distance
+              ctx.beginPath();
+              ctx.moveTo(point.x, point.y);
+              ctx.lineTo(otherPoint.x, otherPoint.y);
+              const opacity = (500 - distance) / 2500;
+              ctx.strokeStyle = `rgba(70, 95, 130, ${opacity * 2.5})`; // More visible lines with vibrant color
+              ctx.lineWidth = 2.5; // Thicker lines
+              ctx.stroke();
+            }
+          }
+        });
+      });
       
       ctx.restore();
-      
-      rafRef.current = requestAnimationFrame(draw);
     };
     
-    // Initialize and start animation
     handleResize();
     window.addEventListener('resize', handleResize);
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', handleScroll);
     
-    draw();
+    drawPoints();
     
-    // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
@@ -201,7 +206,7 @@ const BackgroundEffect: React.FC = () => {
   return (
     <canvas 
       ref={canvasRef} 
-      className="fixed top-0 left-0 w-full h-full -z-10"
+      className="fixed top-0 left-0 w-full h-full -z-10 opacity-90"
       style={{ pointerEvents: 'none' }}
     />
   );
