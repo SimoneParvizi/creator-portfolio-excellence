@@ -30,7 +30,7 @@ const MinimalistDotBackground: React.FC = () => {
     
     // Particles array
     const particles: Particle[] = [];
-    const PARTICLE_COUNT = 200; // Significantly increased number of dots
+    const PARTICLE_COUNT = 350; // Increased to 350 dots
     
     // Particle class
     class Particle {
@@ -54,7 +54,7 @@ const MinimalistDotBackground: React.FC = () => {
         if (!ctx) return;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(40, 40, 45, 0.4)'; // Darker color (closer to black) with slightly more opacity
+        ctx.fillStyle = 'rgba(40, 40, 45, 0.6)'; // Increased opacity to 0.6
         ctx.fill();
       }
       
