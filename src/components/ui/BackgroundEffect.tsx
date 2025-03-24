@@ -21,6 +21,7 @@ const BackgroundEffect: React.FC = () => {
         x: e.clientX,
         y: e.clientY
       };
+      console.log(`Mouse position: ${e.clientX}, ${e.clientY}`);
     };
     
     // Handle window resize
@@ -35,7 +36,7 @@ const BackgroundEffect: React.FC = () => {
     
     // Particles array
     const particles: Particle[] = [];
-    const PARTICLE_COUNT = 50; // Keep the count low for minimalism
+    const PARTICLE_COUNT = 80; // Increased for better visibility
     
     // Particle class
     class Particle {
@@ -45,23 +46,23 @@ const BackgroundEffect: React.FC = () => {
       baseX: number;
       baseY: number;
       density: number;
-      opacity: number;
+      color: string;
       
       constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
         this.baseX = x;
         this.baseY = y;
-        this.size = Math.random() * 2 + 1; // Small dots
+        this.size = Math.random() * 3 + 2; // Larger dots for visibility
         this.density = (Math.random() * 10) + 1;
-        this.opacity = Math.random() * 0.5 + 0.2; // Subtle opacity
+        this.color = `rgba(60, 60, 70, 0.8)`; // Darker color with higher opacity
       }
       
       draw() {
         if (!ctx) return;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(120, 120, 130, ${this.opacity})`;
+        ctx.fillStyle = this.color;
         ctx.fill();
       }
       
@@ -70,15 +71,15 @@ const BackgroundEffect: React.FC = () => {
         const dx = mousePositionRef.current.x - this.x;
         const dy = mousePositionRef.current.y - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        const maxDistance = 100;
+        const maxDistance = 150; // Increased interaction radius
         
-        // Move particles away from mouse within a certain radius
+        // Move particles away from mouse within a certain radius with more force
         if (distance < maxDistance) {
           const forceDirectionX = dx / distance;
           const forceDirectionY = dy / distance;
           const force = (maxDistance - distance) / maxDistance;
-          const directionX = forceDirectionX * force * this.density * -0.5;
-          const directionY = forceDirectionY * force * this.density * -0.5;
+          const directionX = forceDirectionX * force * this.density * -1.5; // Increased repulsion force
+          const directionY = forceDirectionY * force * this.density * -1.5;
           
           this.x += directionX;
           this.y += directionY;
@@ -86,11 +87,11 @@ const BackgroundEffect: React.FC = () => {
           // Slowly return to original position
           if (this.x !== this.baseX) {
             const dx = this.baseX - this.x;
-            this.x += dx / 20;
+            this.x += dx / 15; // Faster return for better responsiveness
           }
           if (this.y !== this.baseY) {
             const dy = this.baseY - this.y;
-            this.y += dy / 20;
+            this.y += dy / 15;
           }
         }
         
@@ -144,14 +145,15 @@ const BackgroundEffect: React.FC = () => {
   return (
     <canvas 
       ref={canvasRef} 
-      className="fixed top-0 left-0 w-full h-full pointer-events-none -z-10"
+      className="fixed top-0 left-0 w-full h-full"
       style={{ 
         position: 'fixed',
         top: 0,
         left: 0,
         width: '100%',
         height: '100%',
-        zIndex: -10
+        zIndex: -10,
+        pointerEvents: 'none' // Allow interaction with elements below the canvas
       }}
     />
   );
