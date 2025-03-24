@@ -52,14 +52,15 @@ const BackgroundEffect: React.FC = () => {
       particles.length = 0;
       
       // Half-sphere parameters
-      const centerX = canvas.width * 0.5;
+      // Position the center at the right edge of the screen for horizontal half-sphere
+      const centerX = canvas.width;
       const centerY = canvas.height * 0.5;
-      const radius = Math.min(canvas.width, canvas.height) * 0.4;
+      const radius = Math.min(canvas.width, canvas.height) * 0.5;
       
       for (let i = 0; i < particleCount; i++) {
         // Use spherical coordinates to place particles on a half-sphere
-        // Phi ranges from 0 to PI/2 (half sphere)
-        const phi = Math.random() * Math.PI * 0.5;
+        // Phi ranges from PI/2 to PI for right-facing half sphere
+        const phi = (Math.PI / 2) + (Math.random() * Math.PI / 2);
         const theta = Math.random() * Math.PI * 2;
         
         // Convert spherical to cartesian coordinates
@@ -67,9 +68,9 @@ const BackgroundEffect: React.FC = () => {
         const y = radius * Math.sin(phi) * Math.sin(theta);
         const z = radius * Math.cos(phi);
         
-        // Project to 2D
+        // Project to 2D - flip x and z to make half-sphere face left from right edge
         const projectedX = centerX + x;
-        const projectedY = centerY - z; // Invert z to make the half-sphere face up
+        const projectedY = centerY + y;
         
         // Higher opacity for better visibility
         const opacity = 0.4 + Math.random() * 0.6;
@@ -112,12 +113,13 @@ const BackgroundEffect: React.FC = () => {
         const waveOffset = Math.sin(time * particle.waveSpeed + particle.wavePhase) * 10;
         
         // Project from 3D to 2D considering the wave effect
-        const centerX = canvas.width * 0.5;
+        const centerX = canvas.width;
         const centerY = canvas.height * 0.5;
         
         // Recreate 3D position with wave motion
         const x = particle.originalX;
-        const y = particle.originalY - waveOffset; // Apply wave to Y axis (up/down)
+        // Apply wave to Y axis (up/down)
+        const y = particle.originalY + waveOffset;
         const z = particle.originalZ;
         
         // Add parallax effect based on scroll position
@@ -126,7 +128,7 @@ const BackgroundEffect: React.FC = () => {
         
         // Project to 2D with parallax
         const projectedX = centerX + x;
-        const projectedY = centerY - z - scrollOffset + waveOffset;
+        const projectedY = centerY + y - scrollOffset;
         
         // Only draw if within canvas bounds with a small margin
         if (projectedX >= -20 && projectedX <= canvas.width + 20 && 
@@ -145,9 +147,9 @@ const BackgroundEffect: React.FC = () => {
       });
       
       // Add a subtle glow effect
-      const centerX = canvas.width * 0.5;
+      const centerX = canvas.width;
       const centerY = canvas.height * 0.5;
-      const radius = Math.min(canvas.width, canvas.height) * 0.4;
+      const radius = Math.min(canvas.width, canvas.height) * 0.5;
       
       const gradient = ctx.createRadialGradient(
         centerX, centerY, 0,
