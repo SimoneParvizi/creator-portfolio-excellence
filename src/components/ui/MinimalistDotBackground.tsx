@@ -30,7 +30,7 @@ const MinimalistDotBackground: React.FC = () => {
     
     // Particles array
     const particles: Particle[] = [];
-    const PARTICLE_COUNT = 80; // Increased number of dots
+    const PARTICLE_COUNT = 200; // Significantly increased number of dots
     
     // Particle class
     class Particle {
@@ -46,15 +46,15 @@ const MinimalistDotBackground: React.FC = () => {
         this.y = y;
         this.baseX = x;
         this.baseY = y;
-        this.size = Math.random() * 1.5 + 1; // Varied size for less uniformity
-        this.density = (Math.random() * 8) + 1; // More varied density
+        this.size = Math.random() * 1.5 + 0.8; // Varied size for less uniformity
+        this.density = (Math.random() * 8) + 1; // Keep varied density
       }
       
       draw() {
         if (!ctx) return;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = '#c0c0c6'; // Keep the subtle light gray color
+        ctx.fillStyle = 'rgba(40, 40, 45, 0.4)'; // Darker color (closer to black) with slightly more opacity
         ctx.fill();
       }
       
@@ -63,14 +63,14 @@ const MinimalistDotBackground: React.FC = () => {
         const dx = mousePositionRef.current.x - this.x;
         const dy = mousePositionRef.current.y - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        const maxDistance = 100; // Increased interaction radius
+        const maxDistance = 100; // Keep interaction radius
         
         // Move particles away from mouse slightly
         if (distance < maxDistance) {
           const forceDirectionX = dx / distance;
           const forceDirectionY = dy / distance;
           const force = (maxDistance - distance) / maxDistance;
-          const directionX = forceDirectionX * force * this.density * -0.9; // Stronger movement
+          const directionX = forceDirectionX * force * this.density * -0.9;
           const directionY = forceDirectionY * force * this.density * -0.9;
           
           this.x += directionX;
@@ -79,7 +79,7 @@ const MinimalistDotBackground: React.FC = () => {
           // Return to original position slowly
           if (this.x !== this.baseX) {
             const dx = this.baseX - this.x;
-            this.x += dx / 15; // Slightly faster return
+            this.x += dx / 15;
           }
           if (this.y !== this.baseY) {
             const dy = this.baseY - this.y;
@@ -95,7 +95,7 @@ const MinimalistDotBackground: React.FC = () => {
     const initializeParticles = () => {
       particles.length = 0;
       
-      // Completely random distribution instead of grid
+      // Completely random distribution
       for (let i = 0; i < PARTICLE_COUNT; i++) {
         const x = Math.random() * canvas.width;
         const y = Math.random() * canvas.height;
