@@ -3,24 +3,19 @@ import React, { useEffect, useState } from 'react';
 
 const MouseScrollIndicator: React.FC = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [targetPosition, setTargetPosition] = useState({ x: 0, y: 0 });
   const [visible, setVisible] = useState(true);
   
   useEffect(() => {
-    // Set initial positions
+    // Set initial position
     setPosition({
-      x: window.innerWidth / 2,
-      y: window.innerHeight / 2
-    });
-    setTargetPosition({
       x: window.innerWidth / 2,
       y: window.innerHeight / 2
     });
     
     const handleMouseMove = (e: MouseEvent) => {
-      // Update target position when mouse moves
-      setTargetPosition({
-        x: e.clientX,
+      // Directly update position with current mouse position plus offset
+      setPosition({
+        x: e.clientX + 30, // Position to the right of cursor
         y: e.clientY
       });
     };
@@ -38,26 +33,10 @@ const MouseScrollIndicator: React.FC = () => {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', handleScroll);
     
-    // Animation loop for smooth following
-    let animationFrameId: number;
-    
-    const animatePosition = () => {
-      // Delayed following with easing factor
-      setPosition(prev => ({
-        x: prev.x + (targetPosition.x - prev.x) * 0.1,
-        y: prev.y + (targetPosition.y - prev.y) * 0.1
-      }));
-      
-      animationFrameId = requestAnimationFrame(animatePosition);
-    };
-    
-    animatePosition();
-    
     // Cleanup
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);
-      cancelAnimationFrame(animationFrameId);
     };
   }, []);
   
@@ -67,7 +46,7 @@ const MouseScrollIndicator: React.FC = () => {
     <div 
       className="fixed pointer-events-none z-50"
       style={{
-        left: `${position.x + 30}px`, // Position to the right of cursor
+        left: `${position.x}px`,
         top: `${position.y}px`,
         transform: 'translate(0, -50%)',
       }}
