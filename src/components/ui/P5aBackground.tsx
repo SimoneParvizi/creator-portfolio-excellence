@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 
 const P5aBackground: React.FC = () => {
@@ -9,6 +8,8 @@ const P5aBackground: React.FC = () => {
   const rafRef = useRef<number | null>(null);
   const sizeRef = useRef({ width: 0, height: 0 });
   const timeRef = useRef<number>(0);
+  const specialDotIndexRef = useRef<number>(-1);
+  const specialDotTimerRef = useRef<number>(0);
 
   // Expanded color palette with darker gray options
   const colors = [
@@ -36,6 +37,9 @@ const P5aBackground: React.FC = () => {
     originalOpacity: number;
     currentOpacity: number;
     opacityChangeSpeed: number;
+    isSpecial: boolean;
+    specialPhase: number; // 0: normal, 1: turning red, 2: still, 3: returning to normal
+    originalColor: string;
     
     constructor(x: number, y: number) {
       this.x = x;
@@ -47,6 +51,7 @@ const P5aBackground: React.FC = () => {
       // Extract color values for opacity manipulation
       const colorIndex = Math.floor(Math.random() * colors.length);
       this.color = colors[colorIndex];
+      this.originalColor = this.color;
       
       // Parse the original opacity from the rgba string
       const opacityMatch = this.color.match(/[\d.]+(?=\))/);
@@ -63,19 +68,106 @@ const P5aBackground: React.FC = () => {
       this.darknessFactor = 1;
       this.darkening = Math.random() > 0.7; // 30% chance to start darkening
       this.opacityChangeSpeed = Math.random() * 0.002 + 0.001; // Speed of opacity change
+      
+      // Special dot properties
+      this.isSpecial = false;
+      this.specialPhase = 0;
     }
     
     draw(ctx: CanvasRenderingContext2D) {
-      // Use the base color but apply current opacity
-      const baseColor = this.color.replace(/[\d.]+(?=\))/, this.currentOpacity.toString());
+      // Determine color based on special status
+      let displayColor;
+      
+      if (this.isSpecial) {
+        if (this.specialPhase === 1) {
+          // Transitioning to red
+          displayColor = `rgba(234, 56, 76, ${this.currentOpacity})`;
+        } else if (this.specialPhase === 2) {
+          // Fully red and still
+          displayColor = `rgba(234, 56, 76, 0.8)`;
+        } else if (this.specialPhase === 3) {
+          // Transitioning back to normal
+          displayColor = `rgba(234, 56, 76, ${this.currentOpacity})`;
+        } else {
+          // Normal behavior but red
+          const baseColor = this.color.replace(/[\d.]+(?=\))/, this.currentOpacity.toString());
+          displayColor = baseColor;
+        }
+      } else {
+        // Regular dot with current opacity
+        const baseColor = this.color.replace(/[\d.]+(?=\))/, this.currentOpacity.toString());
+        displayColor = baseColor;
+      }
       
       ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = baseColor;
+      ctx.arc(this.x, this.y, this.isSpecial ? this.size * 1.5 : this.size, 0, Math.PI * 2);
+      ctx.fillStyle = displayColor;
       ctx.fill();
     }
     
     update(mouse: { x: number, y: number }, time: number, width: number, height: number) {
+      // Different behavior based on special status and phase
+      if (this.isSpecial) {
+        if (this.specialPhase === 1) {
+          // Phase 1: Turning red and slowing down
+          this.color = 'rgba(234, 56, 76, 0.8)'; // Red color
+          
+          // Gradually slow down
+          this.vx *= 0.95;
+          this.vy *= 0.95;
+          
+          // Minimal movement based on time
+          const slowFactor = 0.3; // Reduced movement
+          const xMovement = Math.sin(time * this.speed * slowFactor + this.angle) * 0.2;
+          const yMovement = Math.sin(time * this.speed * 2 * slowFactor + this.angle) * Math.cos(time * this.speed * slowFactor + this.angle) * 0.2;
+          
+          this.x += this.vx + xMovement;
+          this.y += this.vy + yMovement;
+          
+          // Update opacity to become more visible
+          this.currentOpacity = Math.min(0.8, this.currentOpacity + 0.01);
+        }
+        else if (this.specialPhase === 2) {
+          // Phase 2: Still and fully red
+          // Almost no movement
+          this.vx = 0;
+          this.vy = 0;
+          
+          // Minimal wiggle
+          const tinyMovement = Math.sin(time * 0.001) * 0.05;
+          this.x += tinyMovement;
+          this.y += tinyMovement;
+        }
+        else if (this.specialPhase === 3) {
+          // Phase 3: Returning to normal
+          // Gradually restore original color
+          this.color = this.originalColor;
+          
+          // Start regaining normal movement
+          const recoveryFactor = 0.5;
+          const xMovement = Math.sin(time * this.speed * recoveryFactor + this.angle) * 0.3;
+          const yMovement = Math.sin(time * this.speed * 2 * recoveryFactor + this.angle) * Math.cos(time * this.speed * recoveryFactor + this.angle) * 0.3;
+          
+          this.x += this.vx + xMovement;
+          this.y += this.vy + yMovement;
+          
+          // Update opacity to return to original
+          this.currentOpacity = Math.max(this.originalOpacity, this.currentOpacity - 0.01);
+        }
+        else {
+          // Regular behavior for special dot (when not in special phases)
+          this.updateRegular(mouse, time, width, height);
+        }
+      } else {
+        // Regular behavior for normal dots
+        this.updateRegular(mouse, time, width, height);
+      }
+      
+      // Reset connected state for this frame
+      this.connected = false;
+    }
+    
+    updateRegular(mouse: { x: number, y: number }, time: number, width: number, height: number) {
       // Enhanced mouse interaction
       const dx = mouse.x - this.x;
       const dy = mouse.y - this.y;
@@ -131,9 +223,6 @@ const P5aBackground: React.FC = () => {
           this.darkening = Math.random() > 0.95; // 5% chance to start darkening again
         }
       }
-      
-      // Reset connected state for this frame
-      this.connected = false;
     }
   }
 
@@ -236,6 +325,46 @@ const P5aBackground: React.FC = () => {
     }
   };
 
+  const updateSpecialDot = (timestamp: number) => {
+    const dots = dotsRef.current;
+    
+    // Handle special dot
+    if (specialDotIndexRef.current === -1 && Math.random() < 0.001) {
+      // Randomly select a dot to become special (very low probability)
+      specialDotIndexRef.current = Math.floor(Math.random() * dots.length);
+      specialDotTimerRef.current = timestamp;
+      
+      // Initialize the selected dot as special
+      const specialDot = dots[specialDotIndexRef.current];
+      specialDot.isSpecial = true;
+      specialDot.specialPhase = 1; // Start phase 1 (turning red)
+    }
+    
+    // If we have a special dot, update its state based on time
+    if (specialDotIndexRef.current !== -1) {
+      const specialDot = dots[specialDotIndexRef.current];
+      const elapsed = timestamp - specialDotTimerRef.current;
+      
+      if (specialDot.specialPhase === 1 && elapsed > 3000) {
+        // After 3 seconds, transition to phase 2 (still)
+        specialDot.specialPhase = 2;
+        specialDotTimerRef.current = timestamp;
+      }
+      else if (specialDot.specialPhase === 2 && elapsed > 5000) {
+        // After 5 seconds, transition to phase 3 (returning to normal)
+        specialDot.specialPhase = 3;
+        specialDotTimerRef.current = timestamp;
+      }
+      else if (specialDot.specialPhase === 3 && elapsed > 3000) {
+        // After 3 more seconds, complete transition back to normal
+        specialDot.isSpecial = false;
+        specialDot.specialPhase = 0;
+        specialDot.color = specialDot.originalColor;
+        specialDotIndexRef.current = -1; // Reset special dot reference
+      }
+    }
+  };
+
   const animate = (timestamp: number) => {
     if (!contextRef.current || !canvasRef.current) return;
     
@@ -247,6 +376,9 @@ const P5aBackground: React.FC = () => {
     
     // Clear canvas with full opacity
     ctx.clearRect(0, 0, width, height);
+    
+    // Update special dot state
+    updateSpecialDot(timestamp);
     
     // Update and draw dots
     dotsRef.current.forEach(dot => {
