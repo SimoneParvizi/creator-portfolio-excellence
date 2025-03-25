@@ -10,11 +10,13 @@ const P5aBackground: React.FC = () => {
   const sizeRef = useRef({ width: 0, height: 0 });
   const timeRef = useRef<number>(0);
 
-  // Very minimal color palette with subtle gray dots
+  // Expanded color palette with darker gray options
   const colors = [
     'rgba(200, 200, 200, 0.4)',
     'rgba(180, 180, 180, 0.3)',
     'rgba(160, 160, 160, 0.2)',
+    'rgba(120, 120, 120, 0.5)', // Darker option
+    'rgba(100, 100, 100, 0.6)', // Even darker option
   ];
 
   class Dot {
@@ -29,42 +31,69 @@ const P5aBackground: React.FC = () => {
     baseY: number;
     speed: number;
     angle: number;
+    darknessFactor: number;
+    darkening: boolean;
+    originalOpacity: number;
+    currentOpacity: number;
+    opacityChangeSpeed: number;
     
     constructor(x: number, y: number) {
       this.x = x;
       this.y = y;
       this.baseX = x;
       this.baseY = y;
-      this.size = Math.random() * 1 + 0.5; // Very small dots
-      this.color = colors[Math.floor(Math.random() * colors.length)];
+      this.size = Math.random() * 1 + 0.5; // Keep the small dots
+      
+      // Extract color values for opacity manipulation
+      const colorIndex = Math.floor(Math.random() * colors.length);
+      this.color = colors[colorIndex];
+      
+      // Parse the original opacity from the rgba string
+      const opacityMatch = this.color.match(/[\d.]+(?=\))/);
+      this.originalOpacity = opacityMatch ? parseFloat(opacityMatch[0]) : 0.3;
+      this.currentOpacity = this.originalOpacity;
+      
       this.vx = 0;
       this.vy = 0;
       this.connected = false; // Used to track if dot is in a line
       this.speed = Math.random() * 0.0005 + 0.0002; // Very slow movement speed
       this.angle = Math.random() * Math.PI * 2; // Random initial angle
+      
+      // Initialize darkness transition properties
+      this.darknessFactor = 1;
+      this.darkening = Math.random() > 0.7; // 30% chance to start darkening
+      this.opacityChangeSpeed = Math.random() * 0.002 + 0.001; // Speed of opacity change
     }
     
     draw(ctx: CanvasRenderingContext2D) {
+      // Use the base color but apply current opacity
+      const baseColor = this.color.replace(/[\d.]+(?=\))/, this.currentOpacity.toString());
+      
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = this.color;
+      ctx.fillStyle = baseColor;
       ctx.fill();
     }
     
     update(mouse: { x: number, y: number }, time: number, width: number, height: number) {
-      // Very minimal movement only when close to mouse
+      // Enhanced mouse interaction
       const dx = mouse.x - this.x;
       const dy = mouse.y - this.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
-      const maxDistance = 60; // Small influence radius
+      const maxDistance = 80; // Increased influence radius
       
       if (distance < maxDistance) {
         const angle = Math.atan2(dy, dx);
         const force = (maxDistance - distance) / maxDistance;
         
-        // Extremely subtle movement
-        this.vx -= Math.cos(angle) * force * 0.02;
-        this.vy -= Math.sin(angle) * force * 0.02;
+        // Stronger movement away from mouse
+        this.vx -= Math.cos(angle) * force * 0.1;
+        this.vy -= Math.sin(angle) * force * 0.1;
+        
+        // Dots near the mouse get darker temporarily
+        if (distance < 30) {
+          this.currentOpacity = Math.min(0.8, this.currentOpacity + 0.05);
+        }
       }
       
       // Add subtle time-based movement (gentle organic motion)
@@ -84,6 +113,24 @@ const P5aBackground: React.FC = () => {
       // Apply very minimal velocity with strong damping
       this.vx *= 0.9;
       this.vy *= 0.9;
+      
+      // Random opacity transitions
+      if (Math.random() < 0.002) { // Small chance to toggle darkening state
+        this.darkening = !this.darkening;
+      }
+      
+      // Update opacity based on darkening state
+      if (this.darkening) {
+        this.currentOpacity = Math.min(0.8, this.currentOpacity + this.opacityChangeSpeed);
+        if (this.currentOpacity >= 0.8) {
+          this.darkening = false;
+        }
+      } else {
+        this.currentOpacity = Math.max(this.originalOpacity, this.currentOpacity - this.opacityChangeSpeed);
+        if (this.currentOpacity <= this.originalOpacity) {
+          this.darkening = Math.random() > 0.95; // 5% chance to start darkening again
+        }
+      }
       
       // Reset connected state for this frame
       this.connected = false;
@@ -169,9 +216,12 @@ const P5aBackground: React.FC = () => {
       for (const { dot, distance } of nearest) {
         // Only draw if both dots haven't exceeded connection limit
         if (!dots[i].connected || !dot.connected) {
-          const opacity = 1 - (distance / maxDistance);
-          ctx.strokeStyle = `rgba(180, 180, 180, ${opacity * 0.2})`; // Very subtle lines
-          ctx.lineWidth = 0.2; // Extremely thin lines
+          // Modify line opacity based on current dot opacities
+          const avgOpacity = (dots[i].currentOpacity + dot.currentOpacity) / 2;
+          const opacity = (1 - (distance / maxDistance)) * avgOpacity;
+          
+          ctx.strokeStyle = `rgba(180, 180, 180, ${opacity * 0.3})`; // Lines get darker too
+          ctx.lineWidth = 0.2; // Keep extremely thin lines
           
           ctx.beginPath();
           ctx.moveTo(dots[i].x, dots[i].y);
