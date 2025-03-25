@@ -1,20 +1,26 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 const MouseScrollIndicator: React.FC = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [targetPosition, setTargetPosition] = useState({ x: 0, y: 0 });
   const [visible, setVisible] = useState(true);
+  const animationFrameRef = useRef<number>();
   
   useEffect(() => {
-    // Set initial position
+    // Set initial positions
     setPosition({
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2
+    });
+    setTargetPosition({
       x: window.innerWidth / 2,
       y: window.innerHeight / 2
     });
     
     const handleMouseMove = (e: MouseEvent) => {
-      // Directly update position with current mouse position plus offset
-      setPosition({
+      // Update target position when mouse moves
+      setTargetPosition({
         x: e.clientX + 30, // Position to the right of cursor
         y: e.clientY
       });
@@ -33,10 +39,26 @@ const MouseScrollIndicator: React.FC = () => {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', handleScroll);
     
+    // Animation loop for smooth following with more delay
+    const animatePosition = () => {
+      // Use a smaller easing factor (0.05 instead of 0.1) for more delay and smoother sliding
+      setPosition(prev => ({
+        x: prev.x + (targetPosition.x - prev.x) * 0.05,
+        y: prev.y + (targetPosition.y - prev.y) * 0.05
+      }));
+      
+      animationFrameRef.current = requestAnimationFrame(animatePosition);
+    };
+    
+    animatePosition();
+    
     // Cleanup
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
     };
   }, []);
   
@@ -49,6 +71,7 @@ const MouseScrollIndicator: React.FC = () => {
         left: `${position.x}px`,
         top: `${position.y}px`,
         transform: 'translate(0, -50%)',
+        transition: 'opacity 0.3s ease'
       }}
     >
       <div className="font-sans text-xs font-medium tracking-wider text-black opacity-80">
