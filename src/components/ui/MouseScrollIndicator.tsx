@@ -6,17 +6,43 @@ const MouseScrollIndicator: React.FC = () => {
   const [targetPosition, setTargetPosition] = useState({ x: 0, y: 0 });
   const [visible, setVisible] = useState(true);
   const animationFrameRef = useRef<number>();
+  const isInitializedRef = useRef(false);
   
   useEffect(() => {
-    // Set initial positions
-    setPosition({
-      x: window.innerWidth / 2,
-      y: window.innerHeight / 2
-    });
-    setTargetPosition({
-      x: window.innerWidth / 2,
-      y: window.innerHeight / 2
-    });
+    // Force immediate positioning on first render to avoid top-left flash
+    if (!isInitializedRef.current) {
+      const initialX = window.innerWidth / 2;
+      const initialY = window.innerHeight / 2;
+      
+      setPosition({
+        x: initialX,
+        y: initialY
+      });
+      setTargetPosition({
+        x: initialX,
+        y: initialY
+      });
+      
+      isInitializedRef.current = true;
+      
+      // Set position immediately based on cursor if available
+      const setInitialPosition = () => {
+        document.addEventListener('mousemove', onFirstMove, { once: true });
+      };
+      
+      const onFirstMove = (e: MouseEvent) => {
+        setPosition({
+          x: e.clientX + 30,
+          y: e.clientY
+        });
+        setTargetPosition({
+          x: e.clientX + 30,
+          y: e.clientY
+        });
+      };
+      
+      setInitialPosition();
+    }
     
     const handleMouseMove = (e: MouseEvent) => {
       // Update target position when mouse moves
@@ -39,12 +65,12 @@ const MouseScrollIndicator: React.FC = () => {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', handleScroll);
     
-    // Animation loop for smooth following with more delay
+    // Animation loop for smooth following with even more delay
     const animatePosition = () => {
-      // Use a smaller easing factor (0.05 instead of 0.1) for more delay and smoother sliding
+      // Use an even smaller easing factor (0.03 instead of 0.05) for more delay and smoother sliding
       setPosition(prev => ({
-        x: prev.x + (targetPosition.x - prev.x) * 0.05,
-        y: prev.y + (targetPosition.y - prev.y) * 0.05
+        x: prev.x + (targetPosition.x - prev.x) * 0.03,
+        y: prev.y + (targetPosition.y - prev.y) * 0.03
       }));
       
       animationFrameRef.current = requestAnimationFrame(animatePosition);
