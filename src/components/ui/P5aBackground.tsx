@@ -40,6 +40,8 @@ const P5aBackground: React.FC = () => {
     isSpecial: boolean;
     specialPhase: number; // 0: normal, 1: turning red, 2: still, 3: returning to normal
     originalColor: string;
+    originalSize: number;
+    isSquare: boolean;
     
     constructor(x: number, y: number) {
       this.x = x;
@@ -47,6 +49,7 @@ const P5aBackground: React.FC = () => {
       this.baseX = x;
       this.baseY = y;
       this.size = Math.random() * 1 + 0.5; // Keep the small dots
+      this.originalSize = this.size;
       
       // Extract color values for opacity manipulation
       const colorIndex = Math.floor(Math.random() * colors.length);
@@ -72,6 +75,7 @@ const P5aBackground: React.FC = () => {
       // Special dot properties
       this.isSpecial = false;
       this.specialPhase = 0;
+      this.isSquare = false;
     }
     
     draw(ctx: CanvasRenderingContext2D) {
@@ -99,10 +103,18 @@ const P5aBackground: React.FC = () => {
         displayColor = baseColor;
       }
       
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.isSpecial ? this.size * 1.5 : this.size, 0, Math.PI * 2);
-      ctx.fillStyle = displayColor;
-      ctx.fill();
+      if (this.isSquare) {
+        // Draw a square instead of a circle
+        const squareSize = this.size * 2;
+        ctx.fillStyle = displayColor;
+        ctx.fillRect(this.x - squareSize/2, this.y - squareSize/2, squareSize, squareSize);
+      } else {
+        // Draw standard circle
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = displayColor;
+        ctx.fill();
+      }
     }
     
     update(mouse: { x: number, y: number }, time: number, width: number, height: number) {
@@ -128,7 +140,7 @@ const P5aBackground: React.FC = () => {
           this.currentOpacity = Math.min(0.8, this.currentOpacity + 0.01);
         }
         else if (this.specialPhase === 2) {
-          // Phase 2: Still and fully red
+          // Phase 2: Still, fully red, slightly larger, and becomes a square
           // Almost no movement
           this.vx = 0;
           this.vy = 0;
@@ -137,11 +149,21 @@ const P5aBackground: React.FC = () => {
           const tinyMovement = Math.sin(time * 0.001) * 0.05;
           this.x += tinyMovement;
           this.y += tinyMovement;
+          
+          // Become a square
+          this.isSquare = true;
+          
+          // Increase size slightly (just enough to be perceptible)
+          this.size = this.originalSize * 1.2;
         }
         else if (this.specialPhase === 3) {
           // Phase 3: Returning to normal
-          // Gradually restore original color
+          // Gradually restore original color and shape
           this.color = this.originalColor;
+          this.isSquare = false;
+          
+          // Gradually return to original size
+          this.size = this.originalSize + (this.size - this.originalSize) * 0.9;
           
           // Start regaining normal movement
           const recoveryFactor = 0.5;
@@ -338,6 +360,7 @@ const P5aBackground: React.FC = () => {
       const specialDot = dots[specialDotIndexRef.current];
       specialDot.isSpecial = true;
       specialDot.specialPhase = 1; // Start phase 1 (turning red)
+      specialDot.originalSize = specialDot.size; // Store original size
     }
     
     // If we have a special dot, update its state based on time
@@ -346,7 +369,7 @@ const P5aBackground: React.FC = () => {
       const elapsed = timestamp - specialDotTimerRef.current;
       
       if (specialDot.specialPhase === 1 && elapsed > 3000) {
-        // After 3 seconds, transition to phase 2 (still)
+        // After 3 seconds, transition to phase 2 (still, square, and slightly larger)
         specialDot.specialPhase = 2;
         specialDotTimerRef.current = timestamp;
       }
@@ -360,6 +383,8 @@ const P5aBackground: React.FC = () => {
         specialDot.isSpecial = false;
         specialDot.specialPhase = 0;
         specialDot.color = specialDot.originalColor;
+        specialDot.isSquare = false;
+        specialDot.size = specialDot.originalSize;
         specialDotIndexRef.current = -1; // Reset special dot reference
       }
     }
