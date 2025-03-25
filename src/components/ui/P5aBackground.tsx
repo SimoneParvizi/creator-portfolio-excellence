@@ -8,6 +8,7 @@ const P5aBackground: React.FC = () => {
   const dotsRef = useRef<Dot[]>([]);
   const rafRef = useRef<number | null>(null);
   const sizeRef = useRef({ width: 0, height: 0 });
+  const timeRef = useRef<number>(0);
 
   // Very minimal color palette with subtle gray dots
   const colors = [
@@ -24,15 +25,23 @@ const P5aBackground: React.FC = () => {
     vx: number;
     vy: number;
     connected: boolean;
+    baseX: number;
+    baseY: number;
+    speed: number;
+    angle: number;
     
     constructor(x: number, y: number) {
       this.x = x;
       this.y = y;
+      this.baseX = x;
+      this.baseY = y;
       this.size = Math.random() * 1 + 0.5; // Very small dots
       this.color = colors[Math.floor(Math.random() * colors.length)];
       this.vx = 0;
       this.vy = 0;
       this.connected = false; // Used to track if dot is in a line
+      this.speed = Math.random() * 0.0005 + 0.0002; // Very slow movement speed
+      this.angle = Math.random() * Math.PI * 2; // Random initial angle
     }
     
     draw(ctx: CanvasRenderingContext2D) {
@@ -42,7 +51,7 @@ const P5aBackground: React.FC = () => {
       ctx.fill();
     }
     
-    update(mouse: { x: number, y: number }, width: number, height: number) {
+    update(mouse: { x: number, y: number }, time: number, width: number, height: number) {
       // Very minimal movement only when close to mouse
       const dx = mouse.x - this.x;
       const dy = mouse.y - this.y;
@@ -58,9 +67,21 @@ const P5aBackground: React.FC = () => {
         this.vy -= Math.sin(angle) * force * 0.02;
       }
       
+      // Add subtle time-based movement (gentle organic motion)
+      // Figure 8 / infinity pattern movement
+      const xMovement = Math.sin(time * this.speed + this.angle) * 0.5;
+      const yMovement = Math.sin(time * this.speed * 2 + this.angle) * Math.cos(time * this.speed + this.angle) * 0.5;
+      
+      // Blend time-based movement with mouse interaction
+      this.x += this.vx + xMovement;
+      this.y += this.vy + yMovement;
+      
+      // Slow return to original position
+      const returnSpeed = 0.01;
+      this.x += (this.baseX - this.x) * returnSpeed;
+      this.y += (this.baseY - this.y) * returnSpeed;
+      
       // Apply very minimal velocity with strong damping
-      this.x += this.vx;
-      this.y += this.vy;
       this.vx *= 0.9;
       this.vy *= 0.9;
       
@@ -165,8 +186,11 @@ const P5aBackground: React.FC = () => {
     }
   };
 
-  const animate = () => {
+  const animate = (timestamp: number) => {
     if (!contextRef.current || !canvasRef.current) return;
+    
+    // Update time for organic movement patterns
+    timeRef.current = timestamp;
     
     const ctx = contextRef.current;
     const { width, height } = sizeRef.current;
@@ -176,7 +200,7 @@ const P5aBackground: React.FC = () => {
     
     // Update and draw dots
     dotsRef.current.forEach(dot => {
-      dot.update(mouseRef.current, width, height);
+      dot.update(mouseRef.current, timeRef.current, width, height);
       dot.draw(ctx);
     });
     
