@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 
 const MouseScrollIndicator: React.FC = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [targetPosition, setTargetPosition] = useState({ x: 0, y: 0 });
   const [visible, setVisible] = useState(true);
   const [hovering, setHovering] = useState(false);
   const [hoveringHeading, setHoveringHeading] = useState(false);
@@ -11,8 +12,8 @@ const MouseScrollIndicator: React.FC = () => {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (cursorRef.current) {
-        // Update position immediately for more responsive movement
-        setPosition({
+        // Update target position for smoother following
+        setTargetPosition({
           x: e.clientX,
           y: e.clientY
         });
@@ -49,11 +50,31 @@ const MouseScrollIndicator: React.FC = () => {
       x: window.innerWidth / 2,
       y: window.innerHeight / 2
     });
+    setTargetPosition({
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2
+    });
+    
+    // Animation frame for smooth movement
+    let animationFrameId: number;
+    
+    const animatePosition = () => {
+      // Add easing effect for smoother movement
+      setPosition(prev => ({
+        x: prev.x + (targetPosition.x - prev.x) * 0.1,
+        y: prev.y + (targetPosition.y - prev.y) * 0.1
+      }));
+      
+      animationFrameId = requestAnimationFrame(animatePosition);
+    };
+    
+    animatePosition();
     
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mouseover', handleNavHover);
+      cancelAnimationFrame(animationFrameId);
     };
   }, []);
   
@@ -64,13 +85,13 @@ const MouseScrollIndicator: React.FC = () => {
       ref={cursorRef}
       className="fixed pointer-events-none z-50 flex items-center justify-center"
       style={{
-        left: `${position.x}px`,
-        top: `${position.y - 25}px`, // Position slightly above the cursor
-        transform: 'translate(-50%, -50%)',
+        left: `${position.x + 25}px`, // Position to the right of the cursor
+        top: `${position.y}px`,
+        transform: 'translate(0, -50%)',
       }}
     >
       <div className={`font-display text-xs tracking-widest ${hoveringHeading ? 'text-white' : 'text-black'} italic font-light opacity-80`}>
-        scroll me
+        scroll down
       </div>
     </div>
   );
