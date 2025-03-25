@@ -2,54 +2,23 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 const MouseScrollIndicator: React.FC = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [targetPosition, setTargetPosition] = useState({ x: 0, y: 0 });
-  const [visible, setVisible] = useState(true);
+  const [position, setPosition] = useState({ x: -100, y: -100 }); // Start off-screen
+  const [visible, setVisible] = useState(false); // Start invisible
   const animationFrameRef = useRef<number>();
-  const isInitializedRef = useRef(false);
+  const mousePositionRef = useRef({ x: 0, y: 0 });
   
   useEffect(() => {
-    // Force immediate positioning on first render to avoid top-left flash
-    if (!isInitializedRef.current) {
-      const initialX = window.innerWidth / 2;
-      const initialY = window.innerHeight / 2;
-      
-      setPosition({
-        x: initialX,
-        y: initialY
-      });
-      setTargetPosition({
-        x: initialX,
-        y: initialY
-      });
-      
-      isInitializedRef.current = true;
-      
-      // Set position immediately based on cursor if available
-      const setInitialPosition = () => {
-        document.addEventListener('mousemove', onFirstMove, { once: true });
-      };
-      
-      const onFirstMove = (e: MouseEvent) => {
-        setPosition({
-          x: e.clientX + 30,
-          y: e.clientY
-        });
-        setTargetPosition({
-          x: e.clientX + 30,
-          y: e.clientY
-        });
-      };
-      
-      setInitialPosition();
-    }
-    
+    // Track mouse position without causing re-renders
     const handleMouseMove = (e: MouseEvent) => {
-      // Update target position when mouse moves
-      setTargetPosition({
+      mousePositionRef.current = {
         x: e.clientX + 30, // Position to the right of cursor
         y: e.clientY
-      });
+      };
+      
+      // Make visible after first mouse move
+      if (!visible) {
+        setVisible(true);
+      }
     };
     
     const handleScroll = () => {
@@ -65,18 +34,18 @@ const MouseScrollIndicator: React.FC = () => {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', handleScroll);
     
-    // Animation loop for smooth following with even more delay
+    // Animation loop for smooth following
     const animatePosition = () => {
-      // Use an even smaller easing factor (0.03 instead of 0.05) for more delay and smoother sliding
       setPosition(prev => ({
-        x: prev.x + (targetPosition.x - prev.x) * 0.03,
-        y: prev.y + (targetPosition.y - prev.y) * 0.03
+        x: prev.x + (mousePositionRef.current.x - prev.x) * 0.02, // Even slower for more lag
+        y: prev.y + (mousePositionRef.current.y - prev.y) * 0.02
       }));
       
       animationFrameRef.current = requestAnimationFrame(animatePosition);
     };
     
-    animatePosition();
+    // Start animation
+    animationFrameRef.current = requestAnimationFrame(animatePosition);
     
     // Cleanup
     return () => {
@@ -86,7 +55,7 @@ const MouseScrollIndicator: React.FC = () => {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, []);
+  }, [visible]);
   
   if (!visible) return null;
   
