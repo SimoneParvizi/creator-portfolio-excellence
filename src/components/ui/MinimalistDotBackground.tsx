@@ -65,11 +65,11 @@ const MinimalistDotBackground: React.FC = () => {
           this.x, this.y, radius
         );
         
-        // Lighter color with higher transparency
-        gradient.addColorStop(0, 'rgba(150, 150, 165, 0.4)'); // Lighter center color, more transparent
-        gradient.addColorStop(0.3, 'rgba(150, 150, 165, 0.25)'); // Middle fade
-        gradient.addColorStop(0.7, 'rgba(150, 150, 165, 0.1)'); // Further fade
-        gradient.addColorStop(1, 'rgba(150, 150, 165, 0)'); // Completely transparent at edge
+        // Slightly darker color with same transparency
+        gradient.addColorStop(0, 'rgba(140, 140, 155, 0.4)'); // Slightly darker center color
+        gradient.addColorStop(0.3, 'rgba(140, 140, 155, 0.25)'); // Middle fade
+        gradient.addColorStop(0.7, 'rgba(140, 140, 155, 0.1)'); // Further fade
+        gradient.addColorStop(1, 'rgba(140, 140, 155, 0)'); // Completely transparent at edge
         
         // Enhanced smoothing with even better shadow effect
         ctx.shadowBlur = 8; // Increased blur for even smoother edges
