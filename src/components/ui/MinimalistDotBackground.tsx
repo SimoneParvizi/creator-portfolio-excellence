@@ -49,7 +49,7 @@ const MinimalistDotBackground: React.FC = () => {
         this.y = y;
         this.baseX = x;
         this.baseY = y;
-        this.size = Math.random() * 2.2 + 1.2; // Larger size
+        this.size = Math.random() * 3 + 1.5; // Even larger size for more gradual fade
         this.density = (Math.random() * 8) + 1;
         this.speed = Math.random() * 0.08 + 0.02; // Very slow speed
         this.angle = Math.random() * Math.PI * 2; // Random initial angle
@@ -58,22 +58,25 @@ const MinimalistDotBackground: React.FC = () => {
       draw() {
         if (!ctx) return;
         
-        // Create a radial gradient for each dot to make them smooth at edges
+        // Create a radial gradient with a larger radius for more gradual fade
+        const radius = this.size * 3; // Increase the radius for a more gradual fade
         const gradient = ctx.createRadialGradient(
           this.x, this.y, 0,
-          this.x, this.y, this.size * 2
+          this.x, this.y, radius
         );
         
-        gradient.addColorStop(0, 'rgba(30, 30, 35, 0.7)'); // Solid in the center
-        gradient.addColorStop(0.6, 'rgba(30, 30, 35, 0.4)'); // Start fading
-        gradient.addColorStop(1, 'rgba(30, 30, 35, 0)'); // Completely transparent at edge
+        // Lighter color with higher transparency
+        gradient.addColorStop(0, 'rgba(150, 150, 165, 0.4)'); // Lighter center color, more transparent
+        gradient.addColorStop(0.3, 'rgba(150, 150, 165, 0.25)'); // Middle fade
+        gradient.addColorStop(0.7, 'rgba(150, 150, 165, 0.1)'); // Further fade
+        gradient.addColorStop(1, 'rgba(150, 150, 165, 0)'); // Completely transparent at edge
         
-        // Enhanced smoothing with better shadow effect
-        ctx.shadowBlur = 5;
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.15)';
+        // Enhanced smoothing with even better shadow effect
+        ctx.shadowBlur = 8; // Increased blur for even smoother edges
+        ctx.shadowColor = 'rgba(255, 255, 255, 0.1)'; // Lighter shadow
         
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, radius, 0, Math.PI * 2);
         ctx.fillStyle = gradient;
         ctx.fill();
         
