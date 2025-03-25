@@ -9,7 +9,7 @@ const MouseScrollIndicator: React.FC = () => {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (cursorRef.current) {
-        // Add smooth animation with slight delay
+        // Update position immediately for more responsive movement
         setPosition({
           x: e.clientX,
           y: e.clientY
@@ -47,12 +47,12 @@ const MouseScrollIndicator: React.FC = () => {
   return (
     <div 
       ref={cursorRef}
-      className="fixed pointer-events-none z-50 flex items-center justify-center transition-opacity duration-500"
+      className="fixed pointer-events-none z-50 flex items-center justify-center"
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,
         transform: 'translate(-50%, -50%)',
-        transition: 'left 0.3s ease-out, top 0.3s ease-out',
+        // Remove transition for immediate response to mouse movements
       }}
     >
       <div className="bg-black/20 backdrop-blur-sm text-white px-2 py-1 rounded-full text-xs uppercase tracking-wider">

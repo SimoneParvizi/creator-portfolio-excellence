@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
 import AnimatedText from '../ui/AnimatedText';
-import ScrollIndicator from '../ui/ScrollIndicator';
 import MouseScrollIndicator from '../ui/MouseScrollIndicator';
 import { Button } from '@/components/ui/button';
 
@@ -75,7 +74,7 @@ const Hero: React.FC = () => {
         </div>
       </div>
       
-      <ScrollIndicator />
+      {/* ScrollIndicator component removed */}
     </section>
   );
 };
