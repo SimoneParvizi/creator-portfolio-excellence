@@ -4,8 +4,10 @@ import React, { useEffect, useState, useRef } from 'react';
 const MouseScrollIndicator: React.FC = () => {
   const [position, setPosition] = useState({ x: -100, y: -100 }); // Start off-screen
   const [visible, setVisible] = useState(false); // Start invisible
+  const [isExiting, setIsExiting] = useState(false); // For exit animation
   const animationFrameRef = useRef<number>();
   const mousePositionRef = useRef({ x: 0, y: 0 });
+  const exitTimeoutRef = useRef<NodeJS.Timeout>();
   
   useEffect(() => {
     // Track mouse position without causing re-renders
@@ -16,7 +18,7 @@ const MouseScrollIndicator: React.FC = () => {
       };
       
       // Make visible after first mouse move, but only if we're still at the top of the page
-      if (!visible && window.scrollY <= 10) {
+      if (!visible && window.scrollY <= 10 && !isExiting) {
         setVisible(true);
       }
     };
@@ -27,16 +29,32 @@ const MouseScrollIndicator: React.FC = () => {
       if (heroSection) {
         const heroBottom = heroSection.getBoundingClientRect().bottom;
         // Hide indicator when scrolled past hero section
-        if (heroBottom <= 0) {
-          setVisible(false);
-        } else if (window.scrollY <= 10) {
+        if (heroBottom <= 0 && visible && !isExiting) {
+          // Start exit animation
+          setIsExiting(true);
+          
+          // Actually hide after animation completes
+          if (exitTimeoutRef.current) clearTimeout(exitTimeoutRef.current);
+          exitTimeoutRef.current = setTimeout(() => {
+            setVisible(false);
+            setIsExiting(false);
+          }, 800); // Matches animation duration
+        } else if (window.scrollY <= 10 && !isExiting) {
           setVisible(true);
         }
       } else {
         // If no hero section, use simple scroll check
-        if (window.scrollY > 10) {
-          setVisible(false);
-        } else {
+        if (window.scrollY > 10 && visible && !isExiting) {
+          // Start exit animation
+          setIsExiting(true);
+          
+          // Actually hide after animation completes
+          if (exitTimeoutRef.current) clearTimeout(exitTimeoutRef.current);
+          exitTimeoutRef.current = setTimeout(() => {
+            setVisible(false);
+            setIsExiting(false);
+          }, 800); // Matches animation duration
+        } else if (window.scrollY <= 10 && !isExiting) {
           setVisible(true);
         }
       }
@@ -69,14 +87,17 @@ const MouseScrollIndicator: React.FC = () => {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
+      if (exitTimeoutRef.current) {
+        clearTimeout(exitTimeoutRef.current);
+      }
     };
-  }, [visible]);
+  }, [visible, isExiting]);
   
   if (!visible) return null;
   
   return (
     <div 
-      className="fixed pointer-events-none z-50"
+      className={`fixed pointer-events-none z-50 ${isExiting ? 'animate-wobble-fade-out' : 'animate-fade-in'}`}
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,
