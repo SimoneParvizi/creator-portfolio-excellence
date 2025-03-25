@@ -15,24 +15,39 @@ const MouseScrollIndicator: React.FC = () => {
         y: e.clientY
       };
       
-      // Make visible after first mouse move
-      if (!visible) {
+      // Make visible after first mouse move, but only if we're still at the top of the page
+      if (!visible && window.scrollY <= 10) {
         setVisible(true);
       }
     };
     
     const handleScroll = () => {
-      // Hide indicator when scrolling
-      if (window.scrollY > 10) {
-        setVisible(false);
+      // Check if we've scrolled past the hero section
+      const heroSection = document.getElementById('hero');
+      if (heroSection) {
+        const heroBottom = heroSection.getBoundingClientRect().bottom;
+        // Hide indicator when scrolled past hero section
+        if (heroBottom <= 0) {
+          setVisible(false);
+        } else if (window.scrollY <= 10) {
+          setVisible(true);
+        }
       } else {
-        setVisible(true);
+        // If no hero section, use simple scroll check
+        if (window.scrollY > 10) {
+          setVisible(false);
+        } else {
+          setVisible(true);
+        }
       }
     };
     
     // Add event listeners
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', handleScroll);
+    
+    // Initial check
+    handleScroll();
     
     // Animation loop for smooth following
     const animatePosition = () => {
