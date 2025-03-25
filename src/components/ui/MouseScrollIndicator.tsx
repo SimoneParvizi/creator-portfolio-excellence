@@ -11,13 +11,11 @@ const MouseScrollIndicator: React.FC = () => {
   
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (cursorRef.current) {
-        // Update target position for smoother following
-        setTargetPosition({
-          x: e.clientX,
-          y: e.clientY
-        });
-      }
+      // Update target position for smoother following
+      setTargetPosition({
+        x: e.clientX,
+        y: e.clientY
+      });
     };
     
     const handleScroll = () => {
@@ -61,8 +59,8 @@ const MouseScrollIndicator: React.FC = () => {
     const animatePosition = () => {
       // Add easing effect for smoother, delayed movement
       setPosition(prev => ({
-        x: prev.x + (targetPosition.x - prev.x) * 0.06, // Reduced easing factor for more sliding effect
-        y: prev.y + (targetPosition.y - prev.y) * 0.06
+        x: prev.x + (targetPosition.x - prev.x) * 0.05, // Reduced easing factor for more sliding effect
+        y: prev.y + (targetPosition.y - prev.y) * 0.05
       }));
       
       animationFrameId = requestAnimationFrame(animatePosition);
