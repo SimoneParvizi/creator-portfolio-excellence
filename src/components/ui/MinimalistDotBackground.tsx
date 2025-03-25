@@ -5,6 +5,7 @@ const MinimalistDotBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mousePositionRef = useRef({ x: 0, y: 0 });
   const rafRef = useRef<number | null>(null);
+  const timeRef = useRef<number>(0);
   
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -40,33 +41,47 @@ const MinimalistDotBackground: React.FC = () => {
       baseX: number;
       baseY: number;
       density: number;
+      speed: number;
+      angle: number;
       
       constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
         this.baseX = x;
         this.baseY = y;
-        this.size = Math.random() * 1.5 + 0.8; // Varied size for less uniformity
-        this.density = (Math.random() * 8) + 1; // Keep varied density
+        this.size = Math.random() * 2.2 + 1.2; // Larger size
+        this.density = (Math.random() * 8) + 1;
+        this.speed = Math.random() * 0.08 + 0.02; // Very slow speed
+        this.angle = Math.random() * Math.PI * 2; // Random initial angle
       }
       
       draw() {
         if (!ctx) return;
         
+        // Create a radial gradient for each dot to make them smooth at edges
+        const gradient = ctx.createRadialGradient(
+          this.x, this.y, 0,
+          this.x, this.y, this.size * 2
+        );
+        
+        gradient.addColorStop(0, 'rgba(30, 30, 35, 0.7)'); // Solid in the center
+        gradient.addColorStop(0.6, 'rgba(30, 30, 35, 0.4)'); // Start fading
+        gradient.addColorStop(1, 'rgba(30, 30, 35, 0)'); // Completely transparent at edge
+        
         // Enhanced smoothing with better shadow effect
-        ctx.shadowBlur = 3;
+        ctx.shadowBlur = 5;
         ctx.shadowColor = 'rgba(0, 0, 0, 0.15)';
         
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(30, 30, 35, 0.6)'; // Slightly darker color
+        ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
         ctx.fill();
         
         // Reset shadow for performance
         ctx.shadowBlur = 0;
       }
       
-      update() {
+      update(time: number) {
         // Calculate distance between particle and mouse
         const dx = mousePositionRef.current.x - this.x;
         const dy = mousePositionRef.current.y - this.y;
@@ -84,14 +99,23 @@ const MinimalistDotBackground: React.FC = () => {
           this.x += directionX;
           this.y += directionY;
         } else {
-          // Return to original position slowly
+          // Passive slow movement in a figure-8 pattern
+          const xMovement = Math.sin(time * this.speed + this.angle) * 1.5;
+          const yMovement = Math.sin(time * this.speed * 0.8 + this.angle) * Math.cos(time * this.speed * 0.4 + this.angle) * 1.5;
+          
+          // Blend passive movement with return to base position
           if (this.x !== this.baseX) {
             const dx = this.baseX - this.x;
-            this.x += dx / 15;
+            this.x += dx / 15 + xMovement * 0.05;
+          } else {
+            this.x += xMovement * 0.05;
           }
+          
           if (this.y !== this.baseY) {
             const dy = this.baseY - this.y;
-            this.y += dy / 15;
+            this.y += dy / 15 + yMovement * 0.05;
+          } else {
+            this.y += yMovement * 0.05;
           }
         }
         
@@ -112,13 +136,16 @@ const MinimalistDotBackground: React.FC = () => {
     };
     
     // Animation loop
-    const animate = () => {
+    const animate = (timestamp: number) => {
       if (!ctx || !canvas) return;
+      
+      // Update time value for passive movement
+      timeRef.current = timestamp * 0.001; // Convert to seconds for easier math
       
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       // Update and draw particles
-      particles.forEach(particle => particle.update());
+      particles.forEach(particle => particle.update(timeRef.current));
       
       rafRef.current = requestAnimationFrame(animate);
     };
@@ -129,7 +156,7 @@ const MinimalistDotBackground: React.FC = () => {
     window.addEventListener('mousemove', handleMouseMove);
     
     // Start animation
-    animate();
+    animate(0);
     
     // Cleanup
     return () => {
