@@ -72,35 +72,35 @@ const Navbar = () => {
         <div className="px-4 pt-6 pb-8 space-y-6 bg-background/90 backdrop-blur-md">
           <a 
             href="#about" 
-            className="block text-lg font-medium py-2" 
+            className="block text-lg font-medium py-2 nav-link" 
             onClick={() => setMobileMenuOpen(false)}
           >
             About
           </a>
           <a 
             href="#projects" 
-            className="block text-lg font-medium py-2" 
+            className="block text-lg font-medium py-2 nav-link" 
             onClick={() => setMobileMenuOpen(false)}
           >
             Projects
           </a>
           <a 
             href="#books" 
-            className="block text-lg font-medium py-2" 
+            className="block text-lg font-medium py-2 nav-link" 
             onClick={() => setMobileMenuOpen(false)}
           >
             Book
           </a>
           <a 
             href="#booking" 
-            className="block text-lg font-medium py-2" 
+            className="block text-lg font-medium py-2 nav-link" 
             onClick={() => setMobileMenuOpen(false)}
           >
             Book My Time
           </a>
           <a 
             href="#contact" 
-            className="block text-lg font-medium py-2" 
+            className="block text-lg font-medium py-2 nav-link" 
             onClick={() => setMobileMenuOpen(false)}
           >
             Contact

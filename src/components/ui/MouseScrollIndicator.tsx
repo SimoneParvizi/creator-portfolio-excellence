@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 const MouseScrollIndicator: React.FC = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [visible, setVisible] = useState(true);
+  const [hovering, setHovering] = useState(false);
   const cursorRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
@@ -25,10 +26,18 @@ const MouseScrollIndicator: React.FC = () => {
         setVisible(true);
       }
     };
+
+    const handleNavHover = (e: MouseEvent) => {
+      // Check if hovering over nav links
+      const target = e.target as Element;
+      const isNavLink = target.closest('.nav-link') !== null;
+      setHovering(isNavLink);
+    };
     
     // Add event listeners
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('mouseover', handleNavHover);
     
     // Set initial position
     setPosition({
@@ -39,10 +48,11 @@ const MouseScrollIndicator: React.FC = () => {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mouseover', handleNavHover);
     };
   }, []);
   
-  if (!visible) return null;
+  if (!visible || hovering) return null;
   
   return (
     <div 
@@ -52,10 +62,9 @@ const MouseScrollIndicator: React.FC = () => {
         left: `${position.x}px`,
         top: `${position.y}px`,
         transform: 'translate(-50%, -50%)',
-        // Remove transition for immediate response to mouse movements
       }}
     >
-      <div className="bg-black/20 backdrop-blur-sm text-white px-2 py-1 rounded-full text-xs uppercase tracking-wider">
+      <div className="text-black font-display italic tracking-widest text-xs lowercase opacity-70">
         scroll
       </div>
     </div>
