@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 
 const DesignerBackground: React.FC = () => {
@@ -58,14 +57,14 @@ const DesignerBackground: React.FC = () => {
         const angle = Math.atan2(dy, dx);
         const force = (maxDistance - distance) / maxDistance;
         
-        // Much stronger repulsion (3x stronger)
-        this.vx -= Math.cos(angle) * force * 0.15; // Was 0.05
-        this.vy -= Math.sin(angle) * force * 0.15; // Was 0.05
+        // Very strong repulsion (5x stronger than original)
+        this.vx -= Math.cos(angle) * force * 0.25; // Was 0.15
+        this.vy -= Math.sin(angle) * force * 0.25; // Was 0.15
         
-        // More dramatic size change
-        this.size = this.originalSize + force * 2.5; // Was 1.2
+        // No size change during interaction - keeping original size
+        // this.size = this.originalSize; // Size does not change with mouse interaction
       } else {
-        // Return to original size
+        // Return to original size (if it was changed anywhere else)
         if (this.size > this.originalSize) {
           this.size -= 0.1; // Faster return to original size
         }
@@ -84,8 +83,8 @@ const DesignerBackground: React.FC = () => {
       // Apply velocity with less damping for more persistent movement
       this.x += this.vx;
       this.y += this.vy;
-      this.vx *= 0.92; // Was 0.94
-      this.vy *= 0.92; // Was 0.94
+      this.vx *= 0.88; // Was 0.92, now 0.88 for even more movement
+      this.vy *= 0.88; // Was 0.92, now 0.88
       
       // Boundary checking
       if (this.x < 0 || this.x > width) {

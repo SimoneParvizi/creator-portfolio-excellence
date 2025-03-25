@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 
 const P5aBackground: React.FC = () => {
@@ -201,19 +200,14 @@ const P5aBackground: React.FC = () => {
         const angle = Math.atan2(dy, dx);
         const force = (maxDistance - distance) / maxDistance;
         
-        // Much stronger movement away from mouse (3x stronger)
-        this.vx -= Math.cos(angle) * force * 0.3;
-        this.vy -= Math.sin(angle) * force * 0.3;
+        // Even stronger movement away from mouse (4x stronger)
+        this.vx -= Math.cos(angle) * force * 0.4;
+        this.vy -= Math.sin(angle) * force * 0.4;
         
-        // Dots near the mouse get darker and larger temporarily
+        // Dots near the mouse get darker but not bigger
         if (distance < 50) {
           this.currentOpacity = Math.min(0.9, this.currentOpacity + 0.08);
-          this.size = this.originalSize + (force * 1.5);
-        }
-      } else {
-        // Gradually return to original size
-        if (this.size > this.originalSize) {
-          this.size = this.originalSize + (this.size - this.originalSize) * 0.9;
+          // Size remains constant - no size change on mouse interaction
         }
       }
       
@@ -231,9 +225,9 @@ const P5aBackground: React.FC = () => {
       this.x += (this.baseX - this.x) * returnSpeed;
       this.y += (this.baseY - this.y) * returnSpeed;
       
-      // Apply velocity with slightly less damping for more noticeable movement
-      this.vx *= 0.85; // Was 0.9, now 0.85 for more persistence in movement
-      this.vy *= 0.85; // Was 0.9, now 0.85
+      // Apply velocity with even less damping for more noticeable movement
+      this.vx *= 0.8; // Was 0.85, now 0.8 for more persistence in movement
+      this.vy *= 0.8; // Was 0.85, now 0.8
       
       // Random opacity transitions
       if (Math.random() < 0.002) { // Small chance to toggle darkening state
