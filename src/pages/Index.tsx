@@ -8,7 +8,7 @@ import Projects from '../components/sections/Projects';
 import Books from '../components/sections/Books';
 import Booking from '../components/sections/Booking';
 import Contact from '../components/sections/Contact';
-import DesignerBackground from '../components/ui/DesignerBackground';
+import P5aBackground from '../components/ui/P5aBackground';
 
 const Index = () => {
   useEffect(() => {
@@ -42,7 +42,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative overflow-x-hidden bg-white">
-      <DesignerBackground />
+      <P5aBackground />
       <Navbar />
       <main>
         <Hero />
