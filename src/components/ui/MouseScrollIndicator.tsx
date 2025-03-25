@@ -5,6 +5,7 @@ const MouseScrollIndicator: React.FC = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [visible, setVisible] = useState(true);
   const [hovering, setHovering] = useState(false);
+  const [hoveringHeading, setHoveringHeading] = useState(false);
   const cursorRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
@@ -32,6 +33,10 @@ const MouseScrollIndicator: React.FC = () => {
       const target = e.target as Element;
       const isNavLink = target.closest('.nav-link') !== null;
       setHovering(isNavLink);
+      
+      // Check if hovering over main heading
+      const isHeading = target.closest('h1') !== null;
+      setHoveringHeading(isHeading);
     };
     
     // Add event listeners
@@ -60,12 +65,12 @@ const MouseScrollIndicator: React.FC = () => {
       className="fixed pointer-events-none z-50 flex items-center justify-center"
       style={{
         left: `${position.x}px`,
-        top: `${position.y}px`,
+        top: `${position.y - 25}px`, // Position slightly above the cursor
         transform: 'translate(-50%, -50%)',
       }}
     >
-      <div className="text-black font-display italic tracking-widest text-xs lowercase opacity-70">
-        scroll
+      <div className={`font-display text-xs tracking-widest ${hoveringHeading ? 'text-white' : 'text-black'} italic font-light opacity-80`}>
+        scroll me
       </div>
     </div>
   );

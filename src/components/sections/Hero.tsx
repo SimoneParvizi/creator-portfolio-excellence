@@ -73,8 +73,6 @@ const Hero: React.FC = () => {
           </div>
         </div>
       </div>
-      
-      {/* ScrollIndicator component removed */}
     </section>
   );
 };
