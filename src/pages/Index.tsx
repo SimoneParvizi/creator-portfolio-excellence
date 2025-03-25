@@ -8,7 +8,7 @@ import Projects from '../components/sections/Projects';
 import Books from '../components/sections/Books';
 import Booking from '../components/sections/Booking';
 import Contact from '../components/sections/Contact';
-import MinimalistDotBackground from '../components/ui/MinimalistDotBackground';
+import DesignerBackground from '../components/ui/DesignerBackground';
 
 const Index = () => {
   useEffect(() => {
@@ -42,7 +42,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative overflow-x-hidden bg-white">
-      <MinimalistDotBackground />
+      <DesignerBackground />
       <Navbar />
       <main>
         <Hero />
