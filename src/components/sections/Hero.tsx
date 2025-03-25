@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import AnimatedText from '../ui/AnimatedText';
 import MouseScrollIndicator from '../ui/MouseScrollIndicator';
+import ScrollIndicator from '../ui/ScrollIndicator';
 import { Button } from '@/components/ui/button';
 
 const Hero: React.FC = () => {
@@ -16,6 +17,7 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-transparent to-transparent pointer-events-none"></div>
       
       <MouseScrollIndicator />
+      <ScrollIndicator />
       
       <div className="section-container">
         <div className="max-w-4xl mx-auto">

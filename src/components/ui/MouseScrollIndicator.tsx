@@ -59,10 +59,10 @@ const MouseScrollIndicator: React.FC = () => {
     let animationFrameId: number;
     
     const animatePosition = () => {
-      // Add easing effect for smoother movement
+      // Add easing effect for smoother, delayed movement
       setPosition(prev => ({
-        x: prev.x + (targetPosition.x - prev.x) * 0.1,
-        y: prev.y + (targetPosition.y - prev.y) * 0.1
+        x: prev.x + (targetPosition.x - prev.x) * 0.06, // Reduced easing factor for more sliding effect
+        y: prev.y + (targetPosition.y - prev.y) * 0.06
       }));
       
       animationFrameId = requestAnimationFrame(animatePosition);
@@ -76,7 +76,7 @@ const MouseScrollIndicator: React.FC = () => {
       window.removeEventListener('mouseover', handleNavHover);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [targetPosition]);
   
   if (!visible || hovering) return null;
   
@@ -85,12 +85,12 @@ const MouseScrollIndicator: React.FC = () => {
       ref={cursorRef}
       className="fixed pointer-events-none z-50 flex items-center justify-center"
       style={{
-        left: `${position.x + 25}px`, // Position to the right of the cursor
+        left: `${position.x + 28}px`, // Position to the right of the cursor
         top: `${position.y}px`,
         transform: 'translate(0, -50%)',
       }}
     >
-      <div className={`font-display text-xs tracking-widest ${hoveringHeading ? 'text-white' : 'text-black'} italic font-light opacity-80`}>
+      <div className={`font-sans text-xs font-medium tracking-wider ${hoveringHeading ? 'text-white' : 'text-black'} opacity-80`}>
         scroll down
       </div>
     </div>
