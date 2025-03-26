@@ -44,7 +44,7 @@ const Books = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-10 items-center">
+        <div className="grid md:grid-cols-2 gap-10 items-center mb-16">
           <div className="slide-up">
             <div className="aspect-[3/4] bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl overflow-hidden shadow-xl border border-border/40">
               <img 
@@ -88,7 +88,7 @@ const Books = () => {
           </div>
         </div>
         
-        <div className="mt-12">
+        <div className="mt-24 pt-8 border-t border-border/20">
           <TestimonialCarousel />
         </div>
       </div>

@@ -69,62 +69,62 @@ const TestimonialCard: React.FC<TestimonialProps> = ({ quote, name, title, image
 const TestimonialCarousel: React.FC = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<any>(null);
-  const animationRef = useRef<number | null>(null);
+  const scrollIntervalRef = useRef<number | null>(null);
+  const isHovering = useRef(false);
   
   const setApi = (api: any) => {
     apiRef.current = api;
   };
   
   useEffect(() => {
-    // Start automatic smooth scrolling
-    let lastTime = 0;
-    const scrollSpeed = 0.4; // pixels per millisecond - adjust for faster/slower scrolling
+    // Improved continuous scrolling with better performance
+    const scrollSpeed = 0.5; // pixels per millisecond
+    let lastTimestamp = 0;
     
-    const scrollStep = (timestamp: number) => {
-      if (!apiRef.current) {
-        animationRef.current = requestAnimationFrame(scrollStep);
-        return;
+    const scroll = () => {
+      if (apiRef.current && !isHovering.current) {
+        // Scroll a small amount to create smooth continuous movement
+        const currentPosition = apiRef.current.scrollProgress();
+        apiRef.current.scrollTo(currentPosition + 0.0005);
+        
+        // If we're at the end, smoothly loop back to start
+        if (currentPosition >= 0.99) {
+          apiRef.current.scrollTo(0);
+        }
       }
       
-      if (lastTime === 0) {
-        lastTime = timestamp;
-        animationRef.current = requestAnimationFrame(scrollStep);
-        return;
-      }
-      
-      const deltaTime = timestamp - lastTime;
-      lastTime = timestamp;
-      
-      // Get the current scroll position
-      const scrollPos = apiRef.current.scrollSnapList();
-      const scrollLength = apiRef.current.scrollSnapList().length * scrollSpeed;
-      
-      // Scroll by a small amount based on time elapsed
-      apiRef.current.scrollTo(apiRef.current.scrollProgress() + (deltaTime * scrollSpeed / 10000));
-      
-      // If we've reached the end, loop back to the beginning smoothly
-      if (apiRef.current.canScrollNext() === false) {
-        apiRef.current.scrollTo(0);
-        lastTime = 0; // Reset timer to avoid a big jump
-      }
-      
-      animationRef.current = requestAnimationFrame(scrollStep);
+      scrollIntervalRef.current = requestAnimationFrame(scroll);
     };
     
-    animationRef.current = requestAnimationFrame(scrollStep);
+    // Start scrolling
+    scrollIntervalRef.current = requestAnimationFrame(scroll);
     
-    // Return cleanup function
+    // Clean up
     return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
+      if (scrollIntervalRef.current) {
+        cancelAnimationFrame(scrollIntervalRef.current);
       }
     };
   }, []);
   
+  // Handle mouse hover to pause scrolling
+  const handleMouseEnter = () => {
+    isHovering.current = true;
+  };
+  
+  const handleMouseLeave = () => {
+    isHovering.current = false;
+  };
+  
   return (
     <div className="slide-up">
       <h3 className="text-2xl font-semibold mb-6 text-center">What People Are Saying</h3>
-      <div className="relative" ref={carouselRef}>
+      <div 
+        className="relative" 
+        ref={carouselRef}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         <Carousel
           setApi={setApi}
           opts={{
