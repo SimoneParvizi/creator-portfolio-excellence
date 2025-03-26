@@ -56,11 +56,16 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
   }, [once, delay]);
   
   return (
-    <div className={`overflow-hidden ${className}`}>
+    <div className={`overflow-hidden ${className}`} style={{ display: 'block', visibility: 'visible' }}>
       <div 
         ref={textRef} 
         className="mask-reveal"
-        style={{ opacity: 1, transform: 'translateY(0)' }}
+        style={{ 
+          opacity: 1, 
+          transform: 'translateY(0)',
+          visibility: 'visible',
+          display: 'block'
+        }}
       >
         {text}
       </div>
