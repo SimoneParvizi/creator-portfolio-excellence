@@ -8,6 +8,7 @@ const Hero: React.FC = () => {
   const [loaded, setLoaded] = useState(false);
   
   useEffect(() => {
+    // Force loaded state to be true after component mounts
     setLoaded(true);
   }, []);
 

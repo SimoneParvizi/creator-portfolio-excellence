@@ -15,6 +15,7 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
   const [isVisible, setIsVisible] = useState(false);
   
   useEffect(() => {
+    // Force animation to always show after a delay
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, delay);
