@@ -121,7 +121,7 @@ const Skills: React.FC = () => {
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">My Expertise</h2>
-          <p className="section-subtitle slide-up font-display">
+          <p className="section-subtitle slide-up">
             I specialize in building scalable ML systems and infrastructure that helps organizations 
             deliver machine learning solutions faster and more reliably.
           </p>
@@ -138,31 +138,6 @@ const Skills: React.FC = () => {
               index={index}
             />
           ))}
-        </div>
-
-        <div className="mt-16 max-w-3xl mx-auto slide-up">
-          <div className="p-6 rounded-2xl bg-foreground/[0.02] border border-foreground/10">
-            <div className="flex flex-col md:flex-row gap-6 items-center">
-              <div className="w-24 h-24 rounded-full overflow-hidden bg-secondary flex-shrink-0">
-                <img
-                  src="https://placehold.co/400x400/222/444?text=JD"
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground italic mb-2 font-display">
-                  "I believe in creating infrastructure and systems that not only scale reliably
-                  but also accelerate the ML development lifecycle. My approach combines 
-                  technical expertise with practical strategies to help teams deliver ML solutions faster."
-                </p>
-                <div className="font-medium">Simone Parvizi</div>
-                <div className="text-sm text-muted-foreground">
-                  MLOps & DevOps Specialist | Author
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>

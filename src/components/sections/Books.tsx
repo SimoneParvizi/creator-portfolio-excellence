@@ -2,6 +2,7 @@
 import React, { useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from 'lucide-react';
+import TestimonialCarousel from '../ui/TestimonialCarousel';
 
 const Books = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -38,7 +39,7 @@ const Books = () => {
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">My Book</h2>
-          <p className="section-subtitle slide-up font-display">
+          <p className="section-subtitle slide-up">
             Sharing knowledge and experience through practical, actionable insights
           </p>
         </div>
@@ -56,7 +57,7 @@ const Books = () => {
           
           <div className="slide-up">
             <h3 className="text-2xl font-semibold mb-4">MLOps in Practice</h3>
-            <p className="text-muted-foreground mb-6 font-display">
+            <p className="text-muted-foreground mb-6">
               A comprehensive guide to implementing MLOps in your organization. Learn how to build 
               scalable ML pipelines, automate deployment, monitor models in production, and 
               foster collaboration between data scientists and operations teams.
@@ -85,6 +86,10 @@ const Books = () => {
               Get the Book <ExternalLink size={16} />
             </Button>
           </div>
+        </div>
+        
+        <div className="mt-16">
+          <TestimonialCarousel />
         </div>
       </div>
     </section>
