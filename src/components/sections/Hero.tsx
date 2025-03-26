@@ -31,17 +31,17 @@ const Hero: React.FC = () => {
           <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold tracking-tight mb-8">
             <AnimatedText 
               text="Creating digital" 
-              className="block mb-2"
+              className="block mb-2 opacity-100"
               delay={300}  
             />
             <AnimatedText 
               text="experiences that" 
-              className="block mb-2"
+              className="block mb-2 opacity-100"
               delay={500}
             />
             <AnimatedText 
               text="perform & inspire" 
-              className="block"
+              className="block opacity-100"
               delay={700}
             />
           </h1>

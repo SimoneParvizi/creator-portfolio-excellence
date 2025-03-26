@@ -60,7 +60,7 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
       <div 
         ref={textRef} 
         className="mask-reveal"
-        style={{ opacity: 1 }}
+        style={{ opacity: 1, transform: 'translateY(0)' }}
       >
         {text}
       </div>
