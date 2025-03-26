@@ -38,7 +38,7 @@ const Books = () => {
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">My Book</h2>
-          <p className="section-subtitle slide-up">
+          <p className="section-subtitle slide-up font-display">
             Sharing knowledge and experience through practical, actionable insights
           </p>
         </div>
@@ -56,7 +56,7 @@ const Books = () => {
           
           <div className="slide-up">
             <h3 className="text-2xl font-semibold mb-4">MLOps in Practice</h3>
-            <p className="text-muted-foreground mb-6">
+            <p className="text-muted-foreground mb-6 font-display">
               A comprehensive guide to implementing MLOps in your organization. Learn how to build 
               scalable ML pipelines, automate deployment, monitor models in production, and 
               foster collaboration between data scientists and operations teams.
