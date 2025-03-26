@@ -31,12 +31,12 @@ const Hero: React.FC = () => {
           <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold tracking-tight mb-8">
             <AnimatedText 
               text="Creating digital" 
-              className="block"
+              className="block mb-2"
               delay={300}  
             />
             <AnimatedText 
               text="experiences that" 
-              className="block"
+              className="block mb-2"
               delay={500}
             />
             <AnimatedText 
