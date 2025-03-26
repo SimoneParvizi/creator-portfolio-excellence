@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 type AnimatedTextProps = {
   text: string;
@@ -15,7 +15,6 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
   delay = 0
 }) => {
   const textRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -23,14 +22,14 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setTimeout(() => {
-              setIsVisible(true);
+              entry.target.classList.add('reveal');
             }, delay);
             
             if (once) {
               observer.unobserve(entry.target);
             }
           } else if (!once) {
-            setIsVisible(false);
+            entry.target.classList.remove('reveal');
           }
         });
       },
@@ -56,8 +55,7 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
     <div className={`overflow-hidden ${className}`}>
       <div 
         ref={textRef} 
-        className={`transform transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}
-        style={{ transitionDelay: `${delay}ms` }}
+        className="mask-reveal"
       >
         {text}
       </div>

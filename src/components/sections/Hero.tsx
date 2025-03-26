@@ -31,12 +31,12 @@ const Hero: React.FC = () => {
           <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold tracking-tight mb-8">
             <AnimatedText 
               text="Creating digital" 
-              className="block mb-2"
+              className="block"
               delay={300}  
             />
             <AnimatedText 
               text="experiences that" 
-              className="block mb-2"
+              className="block"
               delay={500}
             />
             <AnimatedText 
@@ -47,11 +47,10 @@ const Hero: React.FC = () => {
           </h1>
           
           <div 
-            className={`transition-all duration-1000 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-            style={{ transitionDelay: '1000ms' }}
+            className={`transition-all duration-1000 delay-1000 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-12 text-balance">
-              I create elegant solutions with meticulous attention to detail.
+              I create elegant solution with meticulous attention to detail.
               I will not waste mine and your time.
             </p>
 
