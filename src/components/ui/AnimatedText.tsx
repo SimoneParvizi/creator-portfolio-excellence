@@ -22,14 +22,18 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setTimeout(() => {
-              entry.target.classList.add('reveal');
+              if (textRef.current) {
+                textRef.current.classList.add('reveal');
+              }
             }, delay);
             
             if (once) {
               observer.unobserve(entry.target);
             }
           } else if (!once) {
-            entry.target.classList.remove('reveal');
+            if (textRef.current) {
+              textRef.current.classList.remove('reveal');
+            }
           }
         });
       },
@@ -56,6 +60,7 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
       <div 
         ref={textRef} 
         className="mask-reveal"
+        style={{ opacity: 1 }}
       >
         {text}
       </div>
