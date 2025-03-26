@@ -141,7 +141,7 @@ const About: React.FC = () => {
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">About Me</h2>
           <p className="section-subtitle slide-up">
-            A glimpse into my professional journey and personal vision
+            What a better way than show it
           </p>
         </div>
 

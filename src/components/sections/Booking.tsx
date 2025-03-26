@@ -118,7 +118,7 @@ const Booking = () => {
             get personalized advice, or learn more about implementing DevOps practices.
           </p>
           <p className="text-lg text-primary-foreground font-medium mt-4 slide-up bg-primary/80 py-2 px-4 rounded-md inline-block shadow-sm">
-            Your first 30-minute consultation is completely free of charge!
+            The first 30-minute consultation is free of charge
           </p>
         </div>
 
@@ -199,7 +199,7 @@ const Booking = () => {
               onClick={handleContinue}
               disabled={!date || !selectedTimeSlot || !selectedType}
             >
-              Continue to Booking
+              Let's do it
             </Button>
           </div>
         </div>

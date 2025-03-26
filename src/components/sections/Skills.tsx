@@ -122,8 +122,8 @@ const Skills: React.FC = () => {
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">My Expertise</h2>
           <p className="section-subtitle slide-up">
-            I specialize in building scalable ML systems and infrastructure that helps organizations 
-            deliver machine learning solutions faster and more reliably.
+            I specialize in building scalable MLOps systems and infrastructure that will make
+            your product robust and reliable.
           </p>
         </div>
 
