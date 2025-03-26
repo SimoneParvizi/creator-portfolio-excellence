@@ -46,20 +46,20 @@ const testimonials: TestimonialProps[] = [
 
 const TestimonialCard: React.FC<TestimonialProps> = ({ quote, name, title, image }) => {
   return (
-    <Card className="p-6 rounded-xl border border-border/40 bg-card/80 backdrop-blur-sm shadow-md h-full flex flex-col">
-      <div className="mb-4 text-primary/40">
-        <Quote size={32} />
+    <Card className="p-5 rounded-xl border border-border/40 bg-card/80 backdrop-blur-sm shadow-md h-full flex flex-col">
+      <div className="mb-3 text-primary/40">
+        <Quote size={24} />
       </div>
-      <p className="italic text-muted-foreground mb-6">{quote}</p>
+      <p className="italic text-muted-foreground mb-4 text-sm">{quote}</p>
       <div className="mt-auto flex items-center">
         {image && (
-          <div className="w-12 h-12 rounded-full overflow-hidden mr-4 flex-shrink-0 border border-border/40">
+          <div className="w-10 h-10 rounded-full overflow-hidden mr-3 flex-shrink-0 border border-border/40">
             <img src={image} alt={name} className="w-full h-full object-cover" />
           </div>
         )}
         <div>
-          <p className="font-semibold">{name}</p>
-          <p className="text-sm text-muted-foreground">{title}</p>
+          <p className="font-semibold text-sm">{name}</p>
+          <p className="text-xs text-muted-foreground">{title}</p>
         </div>
       </div>
     </Card>
@@ -81,7 +81,7 @@ const TestimonialCarousel: React.FC = () => {
       if (apiRef.current) {
         apiRef.current.scrollNext();
       }
-    }, 5000);
+    }, 3000); // Speed up the auto-scrolling (was 5000)
 
     return () => {
       if (autoplayRef.current) {
@@ -92,7 +92,7 @@ const TestimonialCarousel: React.FC = () => {
 
   return (
     <div className="slide-up">
-      <h3 className="text-2xl font-semibold mb-8 text-center">What People Are Saying</h3>
+      <h3 className="text-2xl font-semibold mb-6 text-center">What People Are Saying</h3>
       <div className="relative" ref={carouselRef}>
         <Carousel
           setApi={setApi}
@@ -111,7 +111,7 @@ const TestimonialCarousel: React.FC = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center mt-6">
             <CarouselPrevious className="relative static translate-y-0 left-0 mr-2" />
             <CarouselNext className="relative static translate-y-0 right-0 ml-2" />
           </div>
