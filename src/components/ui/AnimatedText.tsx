@@ -1,71 +1,32 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type AnimatedTextProps = {
   text: string;
   className?: string;
-  once?: boolean;
   delay?: number;
 };
 
 const AnimatedText: React.FC<AnimatedTextProps> = ({ 
   text, 
   className = "", 
-  once = true,
   delay = 0
 }) => {
-  const textRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
   
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              if (textRef.current) {
-                textRef.current.classList.add('reveal');
-              }
-            }, delay);
-            
-            if (once) {
-              observer.unobserve(entry.target);
-            }
-          } else if (!once) {
-            if (textRef.current) {
-              textRef.current.classList.remove('reveal');
-            }
-          }
-        });
-      },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1,
-      }
-    );
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, delay);
     
-    if (textRef.current) {
-      observer.observe(textRef.current);
-    }
-    
-    return () => {
-      if (textRef.current) {
-        observer.unobserve(textRef.current);
-      }
-    };
-  }, [once, delay]);
+    return () => clearTimeout(timer);
+  }, [delay]);
   
   return (
-    <div className={`overflow-hidden ${className}`} style={{ display: 'block', visibility: 'visible' }}>
+    <div className={`overflow-hidden ${className}`}>
       <div 
-        ref={textRef} 
-        className="mask-reveal"
-        style={{ 
-          opacity: 1, 
-          transform: 'translateY(0)',
-          visibility: 'visible',
-          display: 'block'
-        }}
+        className={`transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+        style={{ transitionDelay: `${delay}ms` }}
       >
         {text}
       </div>
