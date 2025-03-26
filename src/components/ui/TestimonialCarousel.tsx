@@ -69,7 +69,6 @@ const TestimonialCard: React.FC<TestimonialProps> = ({ quote, name, title, image
 const TestimonialCarousel: React.FC = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<any>(null);
-  const scrollIntervalRef = useRef<number | null>(null);
   const isHovering = useRef(false);
   
   const setApi = (api: any) => {
@@ -77,33 +76,25 @@ const TestimonialCarousel: React.FC = () => {
   };
   
   useEffect(() => {
-    // Improved continuous scrolling with better performance
-    const scrollSpeed = 0.5; // pixels per millisecond
-    let lastTimestamp = 0;
+    if (!apiRef.current) return;
     
-    const scroll = () => {
+    const scrollInterval = setInterval(() => {
       if (apiRef.current && !isHovering.current) {
-        // Scroll a small amount to create smooth continuous movement
+        // Get current scroll position
         const currentPosition = apiRef.current.scrollProgress();
-        apiRef.current.scrollTo(currentPosition + 0.0005);
         
-        // If we're at the end, smoothly loop back to start
+        // Scroll a small amount
+        apiRef.current.scrollTo(currentPosition + 0.001);
+        
+        // If we're at the end, loop back to start
         if (currentPosition >= 0.99) {
           apiRef.current.scrollTo(0);
         }
       }
-      
-      scrollIntervalRef.current = requestAnimationFrame(scroll);
-    };
+    }, 20); // Small interval for smoother animation
     
-    // Start scrolling
-    scrollIntervalRef.current = requestAnimationFrame(scroll);
-    
-    // Clean up
     return () => {
-      if (scrollIntervalRef.current) {
-        cancelAnimationFrame(scrollIntervalRef.current);
-      }
+      clearInterval(scrollInterval);
     };
   }, []);
   
@@ -115,6 +106,9 @@ const TestimonialCarousel: React.FC = () => {
   const handleMouseLeave = () => {
     isHovering.current = false;
   };
+  
+  // We need to use the duplicated list to create the continuous effect
+  const extendedTestimonials = [...testimonials, ...testimonials, ...testimonials];
   
   return (
     <div className="slide-up">
@@ -134,8 +128,7 @@ const TestimonialCarousel: React.FC = () => {
           className="w-full"
         >
           <CarouselContent>
-            {/* Duplicate testimonials for continuous scrolling effect */}
-            {[...testimonials, ...testimonials].map((testimonial, index) => (
+            {extendedTestimonials.map((testimonial, index) => (
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 pl-4">
                 <div className="h-full">
                   <TestimonialCard {...testimonial} />
