@@ -68,28 +68,59 @@ const TestimonialCard: React.FC<TestimonialProps> = ({ quote, name, title, image
 
 const TestimonialCarousel: React.FC = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
-  const autoplayRef = useRef<NodeJS.Timeout | null>(null);
   const apiRef = useRef<any>(null);
-
+  const animationRef = useRef<number | null>(null);
+  
   const setApi = (api: any) => {
     apiRef.current = api;
   };
-
+  
   useEffect(() => {
-    // Start the automatic scrolling
-    autoplayRef.current = setInterval(() => {
-      if (apiRef.current) {
-        apiRef.current.scrollNext();
+    // Start automatic smooth scrolling
+    let lastTime = 0;
+    const scrollSpeed = 0.4; // pixels per millisecond - adjust for faster/slower scrolling
+    
+    const scrollStep = (timestamp: number) => {
+      if (!apiRef.current) {
+        animationRef.current = requestAnimationFrame(scrollStep);
+        return;
       }
-    }, 3000); // Speed up the auto-scrolling (was 5000)
-
+      
+      if (lastTime === 0) {
+        lastTime = timestamp;
+        animationRef.current = requestAnimationFrame(scrollStep);
+        return;
+      }
+      
+      const deltaTime = timestamp - lastTime;
+      lastTime = timestamp;
+      
+      // Get the current scroll position
+      const scrollPos = apiRef.current.scrollSnapList();
+      const scrollLength = apiRef.current.scrollSnapList().length * scrollSpeed;
+      
+      // Scroll by a small amount based on time elapsed
+      apiRef.current.scrollTo(apiRef.current.scrollProgress() + (deltaTime * scrollSpeed / 10000));
+      
+      // If we've reached the end, loop back to the beginning smoothly
+      if (apiRef.current.canScrollNext() === false) {
+        apiRef.current.scrollTo(0);
+        lastTime = 0; // Reset timer to avoid a big jump
+      }
+      
+      animationRef.current = requestAnimationFrame(scrollStep);
+    };
+    
+    animationRef.current = requestAnimationFrame(scrollStep);
+    
+    // Return cleanup function
     return () => {
-      if (autoplayRef.current) {
-        clearInterval(autoplayRef.current);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
       }
     };
   }, []);
-
+  
   return (
     <div className="slide-up">
       <h3 className="text-2xl font-semibold mb-6 text-center">What People Are Saying</h3>
@@ -103,7 +134,8 @@ const TestimonialCarousel: React.FC = () => {
           className="w-full"
         >
           <CarouselContent>
-            {testimonials.map((testimonial, index) => (
+            {/* Duplicate testimonials for continuous scrolling effect */}
+            {[...testimonials, ...testimonials].map((testimonial, index) => (
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 pl-4">
                 <div className="h-full">
                   <TestimonialCard {...testimonial} />
