@@ -50,8 +50,8 @@ const Hero: React.FC = () => {
             className={`transition-all duration-1000 delay-1000 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-12 text-balance">
-              I'm a passionate software developer specializing in creating elegant, 
-              high-performance applications with meticulous attention to detail.
+              I create elegant solution with meticulous attention to detail.
+              I will not waste mine and your time.
             </p>
 
             <div className="flex flex-wrap gap-4">

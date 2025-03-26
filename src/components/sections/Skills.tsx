@@ -156,7 +156,7 @@ const Skills: React.FC = () => {
                   but also accelerate the ML development lifecycle. My approach combines 
                   technical expertise with practical strategies to help teams deliver ML solutions faster."
                 </p>
-                <div className="font-medium">John Doe</div>
+                <div className="font-medium">Simone Parvizi</div>
                 <div className="text-sm text-muted-foreground">
                   MLOps & DevOps Specialist | Author
                 </div>
