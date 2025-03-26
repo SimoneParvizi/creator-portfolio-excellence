@@ -24,6 +24,7 @@
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
     --radius: 0.5rem;
+    --accent-red: 0 92% 50%;
   }
 
   .dark {
@@ -46,6 +47,7 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+    --accent-red: 0 92% 50%;
   }
 }
 
@@ -99,7 +101,7 @@
   }
   
   .section-subtitle {
-    @apply text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl;
+    @apply text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl font-sans;
   }
   
   .card-glassmorphism {
@@ -116,6 +118,33 @@
   
   .nav-link:hover::after {
     @apply w-full;
+  }
+  
+  /* Fancy red hover effect for navigation */
+  .fancy-hover {
+    @apply relative overflow-hidden;
+  }
+  
+  .fancy-hover::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: hsl(var(--accent-red));
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease-out;
+  }
+  
+  .fancy-hover:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  
+  .fancy-hover:hover {
+    @apply text-[#ea384c] transition-colors duration-300;
   }
   
   .text-balance {

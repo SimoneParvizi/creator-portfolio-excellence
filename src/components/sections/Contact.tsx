@@ -77,7 +77,7 @@ const Contact: React.FC = () => {
               <div className="space-y-6">
                 <div>
                   <h3 className="text-xl font-semibold mb-3">Contact Information</h3>
-                  <p className="text-muted-foreground">
+                  <p className="text-muted-foreground font-sans">
                     Fill out the form or reach out directly through the following channels.
                   </p>
                 </div>
@@ -134,7 +134,7 @@ const Contact: React.FC = () => {
                 <div className="h-full flex flex-col items-center justify-center text-center p-6 rounded-2xl border border-green-500/30 bg-green-500/5">
                   <CheckCircle className="w-12 h-12 text-green-500 mb-4" />
                   <h3 className="text-xl font-semibold mb-2">Message Sent!</h3>
-                  <p className="text-muted-foreground">
+                  <p className="text-muted-foreground font-sans">
                     Thank you for reaching out. I'll get back to you as soon as possible.
                   </p>
                 </div>
@@ -188,11 +188,11 @@ const Contact: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="inline-flex h-11 items-center justify-center rounded-md bg-foreground px-8 text-sm font-medium text-background shadow transition-colors hover:bg-foreground/80 disabled:opacity-70 disabled:cursor-not-allowed w-full"
+                    className="inline-flex h-11 items-center justify-center rounded-md bg-foreground px-8 text-sm font-medium text-white shadow transition-colors hover:bg-foreground/80 disabled:opacity-70 disabled:cursor-not-allowed w-full"
                   >
                     {isSubmitting ? (
                       <div className="flex items-center">
-                        <div className="w-5 h-5 border-2 border-background border-t-transparent rounded-full animate-spin mr-2"></div>
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
                         <span>Sending...</span>
                       </div>
                     ) : (

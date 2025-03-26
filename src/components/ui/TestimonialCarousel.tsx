@@ -50,7 +50,7 @@ const TestimonialCard: React.FC<TestimonialProps> = ({ quote, name, title, image
       <div className="mb-3 text-primary/40">
         <Quote size={24} />
       </div>
-      <p className="italic text-muted-foreground mb-4 text-sm">{quote}</p>
+      <p className="italic text-muted-foreground mb-4 text-sm font-sans">{quote}</p>
       <div className="mt-auto flex items-center">
         {image && (
           <div className="w-10 h-10 rounded-full overflow-hidden mr-3 flex-shrink-0 border border-border/40">
@@ -59,7 +59,7 @@ const TestimonialCard: React.FC<TestimonialProps> = ({ quote, name, title, image
         )}
         <div>
           <p className="font-semibold text-sm">{name}</p>
-          <p className="text-xs text-muted-foreground">{title}</p>
+          <p className="text-xs text-muted-foreground font-sans">{title}</p>
         </div>
       </div>
     </Card>
@@ -70,31 +70,39 @@ const TestimonialCarousel: React.FC = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<any>(null);
   const isHovering = useRef(false);
+  const animationRef = useRef<number | null>(null);
   
   const setApi = (api: any) => {
     apiRef.current = api;
   };
   
   useEffect(() => {
-    if (!apiRef.current) return;
-    
-    const scrollInterval = setInterval(() => {
+    const animateScroll = () => {
       if (apiRef.current && !isHovering.current) {
         // Get current scroll position
         const currentPosition = apiRef.current.scrollProgress();
         
-        // Scroll a small amount
-        apiRef.current.scrollTo(currentPosition + 0.001);
+        // Scroll a small amount for smooth continuous movement
+        apiRef.current.scrollTo(currentPosition + 0.0005);
         
         // If we're at the end, loop back to start
         if (currentPosition >= 0.99) {
           apiRef.current.scrollTo(0);
         }
       }
-    }, 20); // Small interval for smoother animation
+      
+      animationRef.current = requestAnimationFrame(animateScroll);
+    };
+    
+    // Start the animation if the API is available
+    if (apiRef.current) {
+      animationRef.current = requestAnimationFrame(animateScroll);
+    }
     
     return () => {
-      clearInterval(scrollInterval);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
     };
   }, []);
   

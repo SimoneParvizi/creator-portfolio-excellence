@@ -42,11 +42,11 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-6">
-            <a href="#about" className="nav-link">About</a>
-            <a href="#projects" className="nav-link">Projects</a>
-            <a href="#books" className="nav-link">Book</a>
-            <a href="#booking" className="nav-link">Book My Time</a>
-            <a href="#contact" className="nav-link">Contact</a>
+            <a href="#about" className="nav-link fancy-hover">About</a>
+            <a href="#projects" className="nav-link fancy-hover">Projects</a>
+            <a href="#books" className="nav-link fancy-hover">Book</a>
+            <a href="#booking" className="nav-link fancy-hover">Book My Time</a>
+            <a href="#contact" className="nav-link fancy-hover">Contact</a>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -72,35 +72,35 @@ const Navbar = () => {
         <div className="px-4 pt-6 pb-8 space-y-6 bg-background/90 backdrop-blur-md">
           <a 
             href="#about" 
-            className="block text-lg font-medium py-2 nav-link" 
+            className="block text-lg font-medium py-2 nav-link fancy-hover" 
             onClick={() => setMobileMenuOpen(false)}
           >
             About
           </a>
           <a 
             href="#projects" 
-            className="block text-lg font-medium py-2 nav-link" 
+            className="block text-lg font-medium py-2 nav-link fancy-hover" 
             onClick={() => setMobileMenuOpen(false)}
           >
             Projects
           </a>
           <a 
             href="#books" 
-            className="block text-lg font-medium py-2 nav-link" 
+            className="block text-lg font-medium py-2 nav-link fancy-hover" 
             onClick={() => setMobileMenuOpen(false)}
           >
             Book
           </a>
           <a 
             href="#booking" 
-            className="block text-lg font-medium py-2 nav-link" 
+            className="block text-lg font-medium py-2 nav-link fancy-hover" 
             onClick={() => setMobileMenuOpen(false)}
           >
             Book My Time
           </a>
           <a 
             href="#contact" 
-            className="block text-lg font-medium py-2 nav-link" 
+            className="block text-lg font-medium py-2 nav-link fancy-hover" 
             onClick={() => setMobileMenuOpen(false)}
           >
             Contact

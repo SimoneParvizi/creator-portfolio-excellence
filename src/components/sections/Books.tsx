@@ -88,7 +88,7 @@ const Books = () => {
           </div>
         </div>
         
-        <div className="mt-24 pt-8 border-t border-border/20">
+        <div className="mt-32 pt-12 border-t border-border/20">
           <TestimonialCarousel />
         </div>
       </div>
