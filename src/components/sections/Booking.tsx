@@ -312,7 +312,7 @@ const Booking = () => {
         </DialogContent>
       </Dialog>
       
-      <style jsx global>{`
+      <style>{`
         .calendar-fancy-hover .rdp-day:not(.rdp-day_disabled):hover {
           color: #ea384c !important;
           transition: color 0.3s ease;
