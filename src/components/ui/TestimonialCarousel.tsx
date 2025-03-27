@@ -67,41 +67,32 @@ const TestimonialCard: React.FC<TestimonialProps> = ({ quote, name, title, image
 };
 
 const TestimonialCarousel: React.FC = () => {
-  const carouselRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<any>(null);
   const isHovering = useRef(false);
-  const animationRef = useRef<number | null>(null);
+  const autoScrollInterval = useRef<NodeJS.Timeout | null>(null);
   
   const setApi = (api: any) => {
     apiRef.current = api;
   };
   
+  // Setup auto-scroll functionality
   useEffect(() => {
-    const animateScroll = () => {
-      if (apiRef.current && !isHovering.current) {
-        // Get current scroll position
-        const currentPosition = apiRef.current.scrollProgress();
-        
-        // Scroll a small amount for smooth continuous movement
-        apiRef.current.scrollTo(currentPosition + 0.0005);
-        
-        // If we're at the end, loop back to start
-        if (currentPosition >= 0.99) {
-          apiRef.current.scrollTo(0);
+    // Start auto-scrolling when component mounts
+    const startAutoScroll = () => {
+      autoScrollInterval.current = setInterval(() => {
+        if (apiRef.current && !isHovering.current) {
+          apiRef.current.scrollNext();
         }
-      }
-      
-      animationRef.current = requestAnimationFrame(animateScroll);
+      }, 4000); // Scroll every 4 seconds
     };
     
-    // Start the animation if the API is available
-    if (apiRef.current) {
-      animationRef.current = requestAnimationFrame(animateScroll);
-    }
+    // Start auto-scrolling
+    startAutoScroll();
     
+    // Cleanup interval on component unmount
     return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
+      if (autoScrollInterval.current) {
+        clearInterval(autoScrollInterval.current);
       }
     };
   }, []);
@@ -123,7 +114,6 @@ const TestimonialCarousel: React.FC = () => {
       <h3 className="text-2xl font-semibold mb-6 text-center">What People Are Saying</h3>
       <div 
         className="relative" 
-        ref={carouselRef}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
