@@ -76,6 +76,21 @@ const Booking = () => {
     },
   });
 
+  const handleTimeSlotClick = (time: string) => {
+    setSelectedTimeSlot(selectedTimeSlot === time ? null : time);
+  };
+
+  const handleTypeClick = (typeId: string) => {
+    setSelectedType(selectedType === typeId ? null : typeId);
+  };
+
+  const getButtonText = () => {
+    if (!date || !selectedTimeSlot || !selectedType) {
+      return "Continue Booking";
+    }
+    return "Let's do it";
+  };
+
   const handleContinue = () => {
     if (date && selectedTimeSlot && selectedType) {
       setShowForm(true);
@@ -134,7 +149,7 @@ const Booking = () => {
                   mode="single"
                   selected={date}
                   onSelect={setDate}
-                  className="pointer-events-auto rounded-md border"
+                  className="pointer-events-auto rounded-md border calendar-fancy-hover"
                   disabled={(date) => 
                     date < new Date() || // No past dates
                     date.getDay() === 0 || // No Sundays
@@ -158,7 +173,7 @@ const Booking = () => {
                       key={time}
                       variant={selectedTimeSlot === time ? "default" : "outline"}
                       className="justify-start"
-                      onClick={() => setSelectedTimeSlot(time)}
+                      onClick={() => handleTimeSlotClick(time)}
                       disabled={!date}
                     >
                       <Clock className="mr-2 h-4 w-4" />
@@ -181,7 +196,7 @@ const Booking = () => {
                       key={type.id}
                       variant={selectedType === type.id ? "default" : "outline"}
                       className="w-full justify-start text-left h-auto py-3"
-                      onClick={() => setSelectedType(type.id)}
+                      onClick={() => handleTypeClick(type.id)}
                     >
                       <div>
                         <div className="font-medium">{type.title}</div>
@@ -199,7 +214,7 @@ const Booking = () => {
               onClick={handleContinue}
               disabled={!date || !selectedTimeSlot || !selectedType}
             >
-              Let's do it
+              {getButtonText()}
             </Button>
           </div>
         </div>
@@ -207,7 +222,7 @@ const Booking = () => {
 
       {/* Booking Form Dialog */}
       <Dialog open={showForm} onOpenChange={setShowForm}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md bg-white border-none">
           <DialogHeader>
             <DialogTitle>Complete Your Booking</DialogTitle>
             <DialogDescription>
@@ -268,7 +283,7 @@ const Booking = () => {
                 <Button type="button" variant="outline" onClick={() => setShowForm(false)}>
                   Cancel
                 </Button>
-                <Button type="submit">
+                <Button type="submit" className="text-white">
                   Book Session
                 </Button>
               </div>
@@ -279,7 +294,7 @@ const Booking = () => {
 
       {/* Confirmation Dialog */}
       <Dialog open={showConfirmation} onOpenChange={setShowConfirmation}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md bg-white border-none">
           <div className="text-center py-4">
             <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <CheckCircle className="h-6 w-6 text-primary" />
@@ -296,6 +311,18 @@ const Booking = () => {
           </div>
         </DialogContent>
       </Dialog>
+      
+      <style jsx global>{`
+        .calendar-fancy-hover .rdp-day:not(.rdp-day_disabled):hover {
+          color: #ea384c !important;
+          transition: color 0.3s ease;
+        }
+        
+        .calendar-fancy-hover .rdp-button:hover:not([disabled]) {
+          color: #ea384c !important;
+          transition: color 0.3s ease;
+        }
+      `}</style>
     </section>
   );
 };
