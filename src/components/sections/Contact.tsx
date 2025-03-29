@@ -1,6 +1,8 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import { Send, CheckCircle } from 'lucide-react';
+import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
 
 const Contact: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -144,14 +146,14 @@ const Contact: React.FC = () => {
                     <label htmlFor="name" className="block text-sm font-medium mb-2">
                       Name
                     </label>
-                    <input
+                    <Input
                       type="text"
                       id="name"
                       name="name"
                       value={formState.name}
                       onChange={handleChange}
                       required
-                      className="block w-full rounded-md border border-input bg-background px-4 py-2 text-foreground shadow-sm focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
+                      className="block w-full rounded-md bg-white/90 border-input backdrop-blur-sm shadow-sm focus:border-ring"
                     />
                   </div>
                   
@@ -159,14 +161,14 @@ const Contact: React.FC = () => {
                     <label htmlFor="email" className="block text-sm font-medium mb-2">
                       Email
                     </label>
-                    <input
+                    <Input
                       type="email"
                       id="email"
                       name="email"
                       value={formState.email}
                       onChange={handleChange}
                       required
-                      className="block w-full rounded-md border border-input bg-background px-4 py-2 text-foreground shadow-sm focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
+                      className="block w-full rounded-md bg-white/90 border-input backdrop-blur-sm shadow-sm focus:border-ring"
                     />
                   </div>
                   
@@ -174,15 +176,15 @@ const Contact: React.FC = () => {
                     <label htmlFor="message" className="block text-sm font-medium mb-2">
                       Message
                     </label>
-                    <textarea
+                    <Textarea
                       id="message"
                       name="message"
                       value={formState.message}
                       onChange={handleChange}
                       required
                       rows={5}
-                      className="block w-full rounded-md border border-input bg-background px-4 py-2 text-foreground shadow-sm focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring resize-none"
-                    ></textarea>
+                      className="block w-full rounded-md bg-white/90 border-input backdrop-blur-sm shadow-sm focus:border-ring resize-none"
+                    />
                   </div>
                   
                   <button
