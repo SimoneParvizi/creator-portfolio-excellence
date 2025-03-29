@@ -65,7 +65,6 @@
   }
 }
 
-/* Typography */
 @font-face {
   font-family: 'Inter var';
   font-weight: 100 900;
@@ -116,7 +115,7 @@
   }
   
   .input-opaque {
-    @apply bg-white/90 backdrop-blur-sm border-gray-300 shadow-inner;
+    @apply bg-white/75 backdrop-blur-sm border-gray-300 shadow-inner;
   }
   
   .nav-link {
@@ -131,7 +130,6 @@
     @apply w-full;
   }
   
-  /* Fancy red hover effect for navigation */
   .fancy-hover {
     @apply relative overflow-hidden;
   }
