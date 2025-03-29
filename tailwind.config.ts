@@ -145,6 +145,7 @@ export default {
 				sans: ['Inter var', 'sans-serif'],
 				display: ['Cardo', 'serif'],
 				mono: ['JetBrains Mono', 'monospace'],
+				antonia: ['Antonia H2', 'serif'],
 			},
 		}
 	},

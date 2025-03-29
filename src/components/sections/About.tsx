@@ -82,7 +82,6 @@ const About: React.FC = () => {
       size: "large",
       position: "center-left"
     },
-    // Adding more images
     {
       src: "https://images.unsplash.com/photo-1594904351111-a072f80b1a71?q=80&w=2070&auto=format&fit=crop",
       alt: "Data Pipeline Architecture",
@@ -110,6 +109,42 @@ const About: React.FC = () => {
       caption: "Data science excellence",
       size: "small",
       position: "bottom-center"
+    },
+    // Adding more images
+    {
+      src: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?q=80&w=2070&auto=format&fit=crop",
+      alt: "Remote Work",
+      caption: "Embracing remote collaboration",
+      size: "medium",
+      position: "middle-right"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=2070&auto=format&fit=crop",
+      alt: "Code Quality",
+      caption: "Maintaining high code quality",
+      size: "small",
+      position: "top-right-corner"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2070&auto=format&fit=crop",
+      alt: "Programming",
+      caption: "Coding best practices",
+      size: "small",
+      position: "middle-left"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2070&auto=format&fit=crop",
+      alt: "Productivity",
+      caption: "Optimizing work environments",
+      size: "medium",
+      position: "bottom-right-corner"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1581093199926-4ef5e4832bd1?q=80&w=2070&auto=format&fit=crop",
+      alt: "AI Research",
+      caption: "Advancing AI research",
+      size: "large",
+      position: "middle-center"
     }
   ];
 
