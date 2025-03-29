@@ -137,8 +137,10 @@ const Booking = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12">
-          <div className="space-y-8 flex flex-col slide-up">
+        {/* Updated layout for more equal distribution */}
+        <div className="grid md:grid-cols-12 gap-8">
+          {/* Date Selection */}
+          <div className="md:col-span-4 space-y-8 flex flex-col slide-up">
             <Card className="flex-1">
               <CardHeader>
                 <CardTitle>Select a Date</CardTitle>
@@ -149,7 +151,7 @@ const Booking = () => {
                   mode="single"
                   selected={date}
                   onSelect={setDate}
-                  className="pointer-events-auto rounded-md border calendar-fancy-hover"
+                  className="pointer-events-auto rounded-md border calendar-fancy-hover mx-auto"
                   disabled={(date) => 
                     date < new Date() || // No past dates
                     date.getDay() === 0 || // No Sundays
@@ -160,14 +162,15 @@ const Booking = () => {
             </Card>
           </div>
 
-          <div className="space-y-8 flex flex-col slide-up">
+          {/* Time Selection */}
+          <div className="md:col-span-4 space-y-8 flex flex-col slide-up">
             <Card className="flex-1">
               <CardHeader>
                 <CardTitle>Select a Time</CardTitle>
                 <CardDescription>Available time slots for {date ? format(date, "EEEE, MMMM d, yyyy") : "your selected date"}</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {timeSlots.map((time) => (
                     <Button
                       key={time}
@@ -183,7 +186,10 @@ const Booking = () => {
                 </div>
               </CardContent>
             </Card>
+          </div>
 
+          {/* Consultation Type and Continue Button */}
+          <div className="md:col-span-4 space-y-8 flex flex-col slide-up">
             <Card className="flex-1">
               <CardHeader>
                 <CardTitle>Consultation Type</CardTitle>
