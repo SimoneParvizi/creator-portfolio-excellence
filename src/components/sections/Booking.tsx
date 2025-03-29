@@ -172,7 +172,7 @@ const Booking = () => {
                     <Button
                       key={time}
                       variant={selectedTimeSlot === time ? "default" : "outline"}
-                      className="justify-start"
+                      className={`justify-start timeslot-fancy-hover ${selectedTimeSlot === time ? "" : "hover:border-[#ea384c]"}`}
                       onClick={() => handleTimeSlotClick(time)}
                       disabled={!date}
                     >
@@ -195,7 +195,7 @@ const Booking = () => {
                     <Button
                       key={type.id}
                       variant={selectedType === type.id ? "default" : "outline"}
-                      className="w-full justify-start text-left h-auto py-3"
+                      className={`w-full justify-start text-left h-auto py-3 consultation-fancy-hover ${selectedType === type.id ? "" : "hover:border-[#ea384c]"}`}
                       onClick={() => handleTypeClick(type.id)}
                     >
                       <div>
@@ -319,6 +319,22 @@ const Booking = () => {
         }
         
         .calendar-fancy-hover .rdp-button:hover:not([disabled]) {
+          color: #ea384c !important;
+          transition: color 0.3s ease;
+        }
+
+        .timeslot-fancy-hover:hover:not([disabled]) {
+          color: #ea384c !important;
+          transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .consultation-fancy-hover:hover:not([disabled]) {
+          color: #ea384c !important;
+          transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .timeslot-fancy-hover:hover:not([disabled]) svg,
+        .consultation-fancy-hover:hover:not([disabled]) svg {
           color: #ea384c !important;
           transition: color 0.3s ease;
         }
