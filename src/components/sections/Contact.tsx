@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect, useState } from 'react';
 import { Send, CheckCircle, Linkedin, Github, Twitter } from 'lucide-react';
 import { Input } from '../ui/input';
@@ -100,21 +101,21 @@ const Contact: React.FC = () => {
                   <div className="flex space-x-4">
                     <a 
                       href="#" 
-                      className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-[#0077B5] hover:border-[#0077B5] hover:text-white transition-colors"
+                      className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-[#0077B5] text-white transition-colors"
                       aria-label="LinkedIn"
                     >
                       <Linkedin className="w-5 h-5" />
                     </a>
                     <a 
                       href="#" 
-                      className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-[#333333] hover:border-[#333333] hover:text-white transition-colors"
+                      className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-[#333333] text-white transition-colors"
                       aria-label="GitHub"
                     >
                       <Github className="w-5 h-5" />
                     </a>
                     <a 
                       href="#" 
-                      className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-[#1DA1F2] hover:border-[#1DA1F2] hover:text-white transition-colors"
+                      className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-[#1DA1F2] text-white transition-colors"
                       aria-label="Twitter"
                     >
                       <Twitter className="w-5 h-5" />
@@ -146,7 +147,7 @@ const Contact: React.FC = () => {
                       value={formState.name}
                       onChange={handleChange}
                       required
-                      className="block w-full rounded-md bg-white/75 border-input backdrop-blur-sm shadow-sm focus:border-ring"
+                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring"
                     />
                   </div>
                   
@@ -161,7 +162,7 @@ const Contact: React.FC = () => {
                       value={formState.email}
                       onChange={handleChange}
                       required
-                      className="block w-full rounded-md bg-white/75 border-input backdrop-blur-sm shadow-sm focus:border-ring"
+                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring"
                     />
                   </div>
                   
@@ -176,7 +177,7 @@ const Contact: React.FC = () => {
                       onChange={handleChange}
                       required
                       rows={5}
-                      className="block w-full rounded-md bg-white/75 border-input backdrop-blur-sm shadow-sm focus:border-ring resize-none"
+                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring resize-none"
                     />
                   </div>
                   
