@@ -1,6 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 
-const P5aBackground: React.FC = () => {
+interface P5aBackgroundProps {
+  isTransitioning?: boolean;
+}
+
+const P5aBackground: React.FC<P5aBackgroundProps> = ({ isTransitioning = false }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
@@ -10,6 +14,7 @@ const P5aBackground: React.FC = () => {
   const timeRef = useRef<number>(0);
   const specialDotIndexRef = useRef<number>(-1);
   const specialDotTimerRef = useRef<number>(0);
+  const speedFactorRef = useRef<number>(isTransitioning ? 5 : 1);
 
   // Expanded color palette with darker gray options
   const colors = [
@@ -117,7 +122,7 @@ const P5aBackground: React.FC = () => {
       }
     }
     
-    update(mouse: { x: number, y: number }, time: number, width: number, height: number) {
+    update(mouse: { x: number, y: number }, time: number, width: number, height: number, speedFactor: number = 1) {
       // Different behavior based on special status and phase
       if (this.isSpecial) {
         if (this.specialPhase === 1) {
@@ -178,18 +183,18 @@ const P5aBackground: React.FC = () => {
         }
         else {
           // Regular behavior for special dot (when not in special phases)
-          this.updateRegular(mouse, time, width, height);
+          this.updateRegular(mouse, time, width, height, speedFactor);
         }
       } else {
         // Regular behavior for normal dots
-        this.updateRegular(mouse, time, width, height);
+        this.updateRegular(mouse, time, width, height, speedFactor);
       }
       
       // Reset connected state for this frame
       this.connected = false;
     }
     
-    updateRegular(mouse: { x: number, y: number }, time: number, width: number, height: number) {
+    updateRegular(mouse: { x: number, y: number }, time: number, width: number, height: number, speedFactor: number = 1) {
       // Enhanced mouse interaction
       const dx = mouse.x - this.x;
       const dy = mouse.y - this.y;
@@ -201,8 +206,8 @@ const P5aBackground: React.FC = () => {
         const force = (maxDistance - distance) / maxDistance;
         
         // Even stronger movement away from mouse (4x stronger)
-        this.vx -= Math.cos(angle) * force * 0.4;
-        this.vy -= Math.sin(angle) * force * 0.4;
+        this.vx -= Math.cos(angle) * force * 0.4 * speedFactor;
+        this.vy -= Math.sin(angle) * force * 0.4 * speedFactor;
         
         // Dots near the mouse get darker but not bigger
         if (distance < 50) {
@@ -212,36 +217,38 @@ const P5aBackground: React.FC = () => {
       }
       
       // Add subtle time-based movement (gentle organic motion)
-      // Figure 8 / infinity pattern movement
-      const xMovement = Math.sin(time * this.speed + this.angle) * 0.5;
-      const yMovement = Math.sin(time * this.speed * 2 + this.angle) * Math.cos(time * this.speed + this.angle) * 0.5;
+      // Figure 8 / infinity pattern movement with speedFactor
+      const xMovement = Math.sin(time * this.speed * speedFactor + this.angle) * 0.5 * speedFactor;
+      const yMovement = Math.sin(time * this.speed * 2 * speedFactor + this.angle) * Math.cos(time * this.speed * speedFactor + this.angle) * 0.5 * speedFactor;
       
       // Blend time-based movement with mouse interaction
       this.x += this.vx + xMovement;
       this.y += this.vy + yMovement;
       
-      // Slow return to original position
-      const returnSpeed = 0.01;
+      // Slow return to original position - faster during transitions
+      const returnSpeed = 0.01 * speedFactor;
       this.x += (this.baseX - this.x) * returnSpeed;
       this.y += (this.baseY - this.y) * returnSpeed;
       
       // Apply velocity with even less damping for more noticeable movement
-      this.vx *= 0.8; // Was 0.85, now 0.8 for more persistence in movement
-      this.vy *= 0.8; // Was 0.85, now 0.8
+      // During transition, reduce damping even more
+      const dampingFactor = speedFactor > 1 ? 0.7 : 0.8;
+      this.vx *= dampingFactor;
+      this.vy *= dampingFactor;
       
       // Random opacity transitions
-      if (Math.random() < 0.002) { // Small chance to toggle darkening state
+      if (Math.random() < 0.002 * speedFactor) { // Small chance to toggle darkening state
         this.darkening = !this.darkening;
       }
       
       // Update opacity based on darkening state
       if (this.darkening) {
-        this.currentOpacity = Math.min(0.8, this.currentOpacity + this.opacityChangeSpeed);
+        this.currentOpacity = Math.min(0.8, this.currentOpacity + this.opacityChangeSpeed * speedFactor);
         if (this.currentOpacity >= 0.8) {
           this.darkening = false;
         }
       } else {
-        this.currentOpacity = Math.max(this.originalOpacity, this.currentOpacity - this.opacityChangeSpeed);
+        this.currentOpacity = Math.max(this.originalOpacity, this.currentOpacity - this.opacityChangeSpeed * speedFactor);
         if (this.currentOpacity <= this.originalOpacity) {
           this.darkening = Math.random() > 0.95; // 5% chance to start darkening again
         }
@@ -406,14 +413,19 @@ const P5aBackground: React.FC = () => {
     // Update special dot state
     updateSpecialDot(timestamp);
     
-    // Update and draw dots
+    // Update and draw dots with current speed factor
     dotsRef.current.forEach(dot => {
-      dot.update(mouseRef.current, timeRef.current, width, height);
+      dot.update(mouseRef.current, timeRef.current, width, height, speedFactorRef.current);
       dot.draw(ctx);
     });
     
     // Draw minimal connecting lines
     drawLines(ctx, dotsRef.current);
+    
+    // Gradually reduce speed factor if we're transitioning
+    if (speedFactorRef.current > 1.0) {
+      speedFactorRef.current = Math.max(1.0, speedFactorRef.current * 0.97);
+    }
     
     rafRef.current = requestAnimationFrame(animate);
   };
@@ -451,6 +463,10 @@ const P5aBackground: React.FC = () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    speedFactorRef.current = isTransitioning ? 5 : speedFactorRef.current;
+  }, [isTransitioning]);
 
   return (
     <canvas
