@@ -2,25 +2,27 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import P5aBackground from '../ui/P5aBackground';
+import { useLocation } from 'react-router-dom';
 
 interface PageLayoutProps {
   children: React.ReactNode;
 }
 
 const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
-  const [isTransitioning, setIsTransitioning] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
-    // Initially set transition state to true
+    // Set transition state to true when location changes
     setIsTransitioning(true);
     
     // After a short delay, set it to false to slow down the animation
     const timer = setTimeout(() => {
       setIsTransitioning(false);
-    }, 800); // 800ms for the fast animation
+    }, 1000); // 1000ms (1 second) for the fast animation
     
     return () => clearTimeout(timer);
-  }, []);
+  }, [location]);
 
   return (
     <div className="min-h-screen relative overflow-x-hidden bg-white">
