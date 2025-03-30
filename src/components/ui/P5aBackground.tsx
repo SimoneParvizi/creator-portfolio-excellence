@@ -27,6 +27,16 @@ const P5aBackground: React.FC<P5aBackgroundProps> = ({ isTransitioning = false }
     }
   }, [isTransitioning]);
 
+  const handleMouseMove = (e: MouseEvent) => {
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    
+    mouseRef.current = {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    };
+  };
+
   const colors = [
     'rgba(200, 200, 200, 0.4)',
     'rgba(180, 180, 180, 0.3)',
