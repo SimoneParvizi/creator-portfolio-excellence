@@ -26,12 +26,14 @@ const Navbar = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
-  // New function to trigger dot animation
-  const triggerDotsAnimation = (isSpecialLink: boolean) => {
-    if (isSpecialLink) {
-      // Dispatch custom event for dot animation
-      window.dispatchEvent(new CustomEvent('startDotTransition'));
-      console.log('Triggering leftward dot animation for special link');
+  // Helper function to determine if a link should go to a section on the homepage
+  const getLinkProps = (path: string) => {
+    if (location.pathname === '/' && path.startsWith('#')) {
+      return { href: path };
+    } else if (path.startsWith('#') && location.pathname !== '/') {
+      return { to: `/${path}`, as: Link };
+    } else {
+      return { to: path, as: Link };
     }
   };
 
@@ -53,13 +55,7 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-6">
-            <Link 
-              to="/about" 
-              className="nav-link fancy-hover"
-              onClick={() => triggerDotsAnimation(true)}
-            >
-              About
-            </Link>
+            <Link to="/about" className="nav-link fancy-hover">About</Link>
             {location.pathname === '/' ? (
               <a href="#projects" className="nav-link fancy-hover">Projects</a>
             ) : (
@@ -70,13 +66,7 @@ const Navbar = () => {
             ) : (
               <Link to="/#books" className="nav-link fancy-hover">Book</Link>
             )}
-            <Link 
-              to="/booking" 
-              className="nav-link fancy-hover"
-              onClick={() => triggerDotsAnimation(true)}
-            >
-              Book My Time
-            </Link>
+            <Link to="/booking" className="nav-link fancy-hover">Book My Time</Link>
             {location.pathname === '/' ? (
               <a href="#contact" className="nav-link fancy-hover">Contact</a>
             ) : (
@@ -108,10 +98,7 @@ const Navbar = () => {
           <Link 
             to="/about" 
             className="block text-lg font-medium py-2 nav-link fancy-hover" 
-            onClick={() => {
-              setMobileMenuOpen(false);
-              triggerDotsAnimation(true);
-            }}
+            onClick={() => setMobileMenuOpen(false)}
           >
             About
           </Link>
@@ -152,10 +139,7 @@ const Navbar = () => {
           <Link
             to="/booking" 
             className="block text-lg font-medium py-2 nav-link fancy-hover" 
-            onClick={() => {
-              setMobileMenuOpen(false);
-              triggerDotsAnimation(true);
-            }}
+            onClick={() => setMobileMenuOpen(false)}
           >
             Book My Time
           </Link>
