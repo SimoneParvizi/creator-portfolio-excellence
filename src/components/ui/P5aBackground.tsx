@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react';
 
 interface P5aBackgroundProps {
@@ -217,9 +218,9 @@ const P5aBackground: React.FC<P5aBackgroundProps> = ({ isTransitioning = false }
         }
       }
       
-      // Add transition direction influence for horizontal movement
-      const transitionSpeed = 2.5 * speedFactor * transitionDirection;
-      this.vx += transitionSpeed * 0.1; // Add constant velocity in transition direction
+      // Stronger transition effect - multiply transitionSpeed for more visible movement
+      const transitionSpeed = 4.0 * speedFactor * transitionDirection;
+      this.vx += transitionSpeed * 0.15; // Increased velocity in transition direction
       
       const xMovement = Math.sin(time * this.speed * speedFactor + this.angle) * 0.5 * speedFactor;
       const yMovement = Math.sin(time * this.speed * 2 * speedFactor + this.angle) * Math.cos(time * this.speed * speedFactor + this.angle) * 0.5 * speedFactor;
@@ -228,11 +229,12 @@ const P5aBackground: React.FC<P5aBackgroundProps> = ({ isTransitioning = false }
       this.y += this.vy + yMovement;
       
       // During transition, reduce the "return to base" behavior
-      const returnStrength = speedFactor > 2 ? 0.001 : 0.01;
+      const returnStrength = speedFactor > 2 ? 0.0005 : 0.01;
       this.x += (this.baseX - this.x) * returnStrength * speedFactor;
       this.y += (this.baseY - this.y) * returnStrength * speedFactor;
       
-      const dampingFactor = speedFactor > 1 ? 0.7 : 0.8;
+      // Slower damping during transitions to maintain momentum
+      const dampingFactor = speedFactor > 1 ? 0.92 : 0.8;
       this.vx *= dampingFactor;
       this.vy *= dampingFactor;
       
@@ -397,8 +399,9 @@ const P5aBackground: React.FC<P5aBackgroundProps> = ({ isTransitioning = false }
     
     drawLines(ctx, dotsRef.current);
     
+    // Slower decay for the speed factor to make the transition more noticeable
     if (speedFactorRef.current > 1.0) {
-      speedFactorRef.current = Math.max(1.0, speedFactorRef.current * 0.97);
+      speedFactorRef.current = Math.max(1.0, speedFactorRef.current * 0.98);
     } else {
       transitionDirectionRef.current = 1; // Reset direction when back to normal speed
     }

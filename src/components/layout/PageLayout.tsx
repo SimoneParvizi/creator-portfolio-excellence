@@ -15,10 +15,12 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
   useEffect(() => {
     // Set transition state to true when location changes
     setIsTransitioning(true);
+    console.log('Page transition started - moving dots left');
     
     // After a delay, set it to false to slow down the animation
     const timer = setTimeout(() => {
       setIsTransitioning(false);
+      console.log('Page transition ended - returning to normal');
     }, 1200); // 1.2 seconds for the transition animation
     
     return () => clearTimeout(timer);
