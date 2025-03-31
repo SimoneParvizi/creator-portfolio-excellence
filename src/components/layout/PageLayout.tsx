@@ -16,10 +16,10 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
     // Set transition state to true when location changes
     setIsTransitioning(true);
     
-    // After a short delay, set it to false to slow down the animation
+    // After a delay, set it to false to slow down the animation
     const timer = setTimeout(() => {
       setIsTransitioning(false);
-    }, 1000); // 1000ms (1 second) for the fast animation
+    }, 1200); // 1.2 seconds for the transition animation
     
     return () => clearTimeout(timer);
   }, [location]);
