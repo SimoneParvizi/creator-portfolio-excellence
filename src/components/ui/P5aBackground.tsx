@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 
 interface P5aBackgroundProps {
@@ -20,15 +19,25 @@ const P5aBackground: React.FC<P5aBackgroundProps> = ({ isTransitioning = false }
   const transitionDirectionRef = useRef<number>(1); // 1 for right, -1 for left
 
   useEffect(() => {
-    if (isTransitioning) {
+    const handleSpecialTransition = () => {
+      console.log('Special link clicked - starting leftward dot animation');
       speedFactorRef.current = 5; // Speed up dots during transition
       transitionDirectionRef.current = -1; // Move dots to the left during transitions
-      console.log('Speeding up dots for transition and moving left');
-    } else {
-      // Will gradually slow down in the animation loop
-      console.log('Will gradually slow down dots after transition');
-    }
-  }, [isTransitioning]);
+      
+      // Reset after animation completes
+      setTimeout(() => {
+        console.log('Animation complete - returning to normal');
+        // Will gradually slow down through the animation loop
+      }, 1000);
+    };
+    
+    // Listen for the custom event
+    window.addEventListener('startDotTransition', handleSpecialTransition);
+    
+    return () => {
+      window.removeEventListener('startDotTransition', handleSpecialTransition);
+    };
+  }, []);
 
   const handleMouseMove = (e: MouseEvent) => {
     const rect = canvasRef.current?.getBoundingClientRect();

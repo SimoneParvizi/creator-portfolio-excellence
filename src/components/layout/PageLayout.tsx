@@ -1,34 +1,16 @@
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Navbar from './Navbar';
 import P5aBackground from '../ui/P5aBackground';
-import { useLocation } from 'react-router-dom';
 
 interface PageLayoutProps {
   children: React.ReactNode;
 }
 
 const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const location = useLocation();
-
-  useEffect(() => {
-    // Set transition state to true when location changes
-    setIsTransitioning(true);
-    console.log('Page transition started - moving dots left');
-    
-    // After a delay, set it to false to slow down the animation
-    const timer = setTimeout(() => {
-      setIsTransitioning(false);
-      console.log('Page transition ended - returning to normal');
-    }, 1200); // 1.2 seconds for the transition animation
-    
-    return () => clearTimeout(timer);
-  }, [location]);
-
   return (
     <div className="min-h-screen relative overflow-x-hidden bg-white">
-      <P5aBackground isTransitioning={isTransitioning} />
+      <P5aBackground />
       <Navbar />
       <main className="pt-24">
         {children}
