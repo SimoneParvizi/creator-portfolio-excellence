@@ -218,9 +218,14 @@ const P5aBackground: React.FC<P5aBackgroundProps> = ({ isTransitioning = false }
         }
       }
       
-      // Stronger transition effect - multiply transitionSpeed for more visible movement
-      const transitionSpeed = 4.0 * speedFactor * transitionDirection;
-      this.vx += transitionSpeed * 0.15; // Increased velocity in transition direction
+      // Apply transition direction force - ensure dots always move in the correct direction
+      if (transitionDirection < 0) {
+        // Moving left during transition
+        this.vx -= 0.2 * speedFactor;
+      } else {
+        // Very slight natural rightward drift when not transitioning
+        this.vx += 0.01;
+      }
       
       const xMovement = Math.sin(time * this.speed * speedFactor + this.angle) * 0.5 * speedFactor;
       const yMovement = Math.sin(time * this.speed * 2 * speedFactor + this.angle) * Math.cos(time * this.speed * speedFactor + this.angle) * 0.5 * speedFactor;
@@ -230,11 +235,11 @@ const P5aBackground: React.FC<P5aBackgroundProps> = ({ isTransitioning = false }
       
       // During transition, reduce the "return to base" behavior
       const returnStrength = speedFactor > 2 ? 0.0005 : 0.01;
-      this.x += (this.baseX - this.x) * returnStrength * speedFactor;
-      this.y += (this.baseY - this.y) * returnStrength * speedFactor;
+      this.x += (this.baseX - this.x) * returnStrength;
+      this.y += (this.baseY - this.y) * returnStrength;
       
-      // Slower damping during transitions to maintain momentum
-      const dampingFactor = speedFactor > 1 ? 0.92 : 0.8;
+      // Faster damping during normal state, slower during transitions
+      const dampingFactor = speedFactor > 1 ? 0.85 : 0.75;
       this.vx *= dampingFactor;
       this.vy *= dampingFactor;
       
@@ -399,11 +404,14 @@ const P5aBackground: React.FC<P5aBackgroundProps> = ({ isTransitioning = false }
     
     drawLines(ctx, dotsRef.current);
     
-    // Slower decay for the speed factor to make the transition more noticeable
+    // Faster decay for speed factor to ensure dots return to normal speed quicker
     if (speedFactorRef.current > 1.0) {
-      speedFactorRef.current = Math.max(1.0, speedFactorRef.current * 0.98);
-    } else {
-      transitionDirectionRef.current = 1; // Reset direction when back to normal speed
+      speedFactorRef.current = Math.max(1.0, speedFactorRef.current * 0.95);
+      
+      // If we're almost back to normal speed, reset the direction
+      if (speedFactorRef.current < 1.2) {
+        transitionDirectionRef.current = 1; // Reset direction when back to normal speed
+      }
     }
     
     rafRef.current = requestAnimationFrame(animate);
