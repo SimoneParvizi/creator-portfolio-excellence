@@ -53,9 +53,8 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Updated Order */}
           <nav className="hidden md:flex space-x-6">
-            <Link to="/about" className="nav-link fancy-hover">About</Link>
             {location.pathname === '/' ? (
               <a href="#projects" className="nav-link fancy-hover">Projects</a>
             ) : (
@@ -72,6 +71,7 @@ const Navbar = () => {
             ) : (
               <Link to="/#contact" className="nav-link fancy-hover">Contact</Link>
             )}
+            <Link to="/about" className="nav-link fancy-hover">About</Link>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -86,7 +86,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation - Updated Order */}
       <div 
         className={`md:hidden transition-all duration-300 ease-in-out ${
           mobileMenuOpen 
@@ -95,13 +95,6 @@ const Navbar = () => {
         }`}
       >
         <div className="px-4 pt-6 pb-8 space-y-6 bg-background/90 backdrop-blur-md">
-          <Link 
-            to="/about" 
-            className="block text-lg font-medium py-2 nav-link fancy-hover" 
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            About
-          </Link>
           {location.pathname === '/' ? (
             <a 
               href="#projects" 
@@ -160,6 +153,13 @@ const Navbar = () => {
               Contact
             </Link>
           )}
+          <Link 
+            to="/about" 
+            className="block text-lg font-medium py-2 nav-link fancy-hover" 
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            About
+          </Link>
         </div>
       </div>
     </header>
