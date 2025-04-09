@@ -76,51 +76,35 @@ const Contact: React.FC = () => {
         <div className="max-w-3xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12">
             <div className="slide-up">
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-xl font-semibold mb-3">Contact Information</h3>
-                  <p className="text-muted-foreground font-sans">
-                    Fill out the form or reach out directly through the following channels.
-                  </p>
-                </div>
+              <div className="space-y-6">                
+                <a href="mailto:parvizi.simone@gmail.com" className="text-foreground/80 hover:text-foreground transition-colors">
+                  parvizi.simone@gmail.com
+                </a>
                 
-                <div>
-                  <div className="text-sm font-medium mb-1">Email</div>
-                  <a href="mailto:parvizi.simone@gmail.com" className="text-foreground/80 hover:text-foreground transition-colors">
-                    parvizi.simone@gmail.com
+                <div className="text-foreground/80">San Francisco, CA</div>
+                
+                <div className="pt-4 flex space-x-4">
+                  <a 
+                    href="#" 
+                    className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-[#0077B5] text-white transition-colors"
+                    aria-label="LinkedIn"
+                  >
+                    <Linkedin className="w-5 h-5" />
                   </a>
-                </div>
-                
-                <div>
-                  <div className="text-sm font-medium mb-1">Location</div>
-                  <div className="text-foreground/80">San Francisco, CA</div>
-                </div>
-                
-                <div className="pt-4">
-                  <div className="text-sm font-medium mb-3">Connect</div>
-                  <div className="flex space-x-4">
-                    <a 
-                      href="#" 
-                      className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-[#0077B5] text-white transition-colors"
-                      aria-label="LinkedIn"
-                    >
-                      <Linkedin className="w-5 h-5" />
-                    </a>
-                    <a 
-                      href="#" 
-                      className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-[#333333] text-white transition-colors"
-                      aria-label="GitHub"
-                    >
-                      <Github className="w-5 h-5" />
-                    </a>
-                    <a 
-                      href="#" 
-                      className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-[#1DA1F2] text-white transition-colors"
-                      aria-label="Twitter"
-                    >
-                      <Twitter className="w-5 h-5" />
-                    </a>
-                  </div>
+                  <a 
+                    href="#" 
+                    className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-[#333333] text-white transition-colors"
+                    aria-label="GitHub"
+                  >
+                    <Github className="w-5 h-5" />
+                  </a>
+                  <a 
+                    href="#" 
+                    className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-[#1DA1F2] text-white transition-colors"
+                    aria-label="Twitter"
+                  >
+                    <Twitter className="w-5 h-5" />
+                  </a>
                 </div>
               </div>
             </div>
