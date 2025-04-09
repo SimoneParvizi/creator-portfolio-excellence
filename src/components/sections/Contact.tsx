@@ -122,47 +122,41 @@ const Contact: React.FC = () => {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium mb-2">
-                      Name
-                    </label>
                     <Input
                       type="text"
                       id="name"
                       name="name"
+                      placeholder="Name"
                       value={formState.name}
                       onChange={handleChange}
                       required
-                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring"
+                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring placeholder:text-foreground/40"
                     />
                   </div>
                   
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium mb-2">
-                      Email
-                    </label>
                     <Input
                       type="email"
                       id="email"
                       name="email"
+                      placeholder="Email"
                       value={formState.email}
                       onChange={handleChange}
                       required
-                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring"
+                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring placeholder:text-foreground/40"
                     />
                   </div>
                   
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium mb-2">
-                      Message
-                    </label>
                     <Textarea
                       id="message"
                       name="message"
+                      placeholder="Message"
                       value={formState.message}
                       onChange={handleChange}
                       required
                       rows={5}
-                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring resize-none"
+                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring resize-none placeholder:text-foreground/40"
                     />
                   </div>
                   
