@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState, useRef } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const MouseScrollIndicator: React.FC = () => {
   const [position, setPosition] = useState({ x: -100, y: -100 }); // Start off-screen
@@ -8,6 +9,12 @@ const MouseScrollIndicator: React.FC = () => {
   const animationFrameRef = useRef<number>();
   const mousePositionRef = useRef({ x: 0, y: 0 });
   const exitTimeoutRef = useRef<NodeJS.Timeout>();
+  const isMobile = useIsMobile();
+  
+  // If on mobile, don't render anything
+  if (isMobile) {
+    return null;
+  }
   
   useEffect(() => {
     // Track mouse position without causing re-renders

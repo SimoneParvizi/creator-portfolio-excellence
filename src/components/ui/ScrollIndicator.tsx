@@ -1,11 +1,18 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const ScrollIndicator: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
   const exitTimeoutRef = useRef<NodeJS.Timeout>();
+  const isMobile = useIsMobile();
+
+  // If on mobile, don't render anything
+  if (isMobile) {
+    return null;
+  }
 
   useEffect(() => {
     const handleScroll = () => {
