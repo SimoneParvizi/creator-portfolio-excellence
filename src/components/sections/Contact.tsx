@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Send, CheckCircle, Linkedin, Github, Twitter } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
+import { Button } from '../ui/button';
 
 const Contact: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -75,9 +76,9 @@ const Contact: React.FC = () => {
 
         <div className="max-w-3xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12">
-            <div className="slide-up">
+            <div className="slide-up flex flex-col justify-center">
               <div className="space-y-6">                
-                <a href="mailto:parvizi.simone@gmail.com" className="text-foreground/80 hover:text-foreground transition-colors">
+                <a href="mailto:parvizi.simone@gmail.com" className="text-foreground/80 hover:text-foreground transition-colors block">
                   parvizi.simone@gmail.com
                 </a>
                 
