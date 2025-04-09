@@ -1,6 +1,6 @@
 
 import React, { useRef, useEffect, useState } from 'react';
-import { Send, CheckCircle, Linkedin, Github, Twitter } from 'lucide-react';
+import { Send, CheckCircle, Linkedin, Github, X } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
@@ -101,10 +101,10 @@ const Contact: React.FC = () => {
                   </a>
                   <a 
                     href="#" 
-                    className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-[#1DA1F2] text-white transition-colors"
-                    aria-label="Twitter"
+                    className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-black text-white transition-colors"
+                    aria-label="X (formerly Twitter)"
                   >
-                    <Twitter className="w-5 h-5" />
+                    <X className="w-5 h-5" />
                   </a>
                 </div>
               </div>
