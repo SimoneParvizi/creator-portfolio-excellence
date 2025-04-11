@@ -48,8 +48,12 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <Link to="/" className="text-xl font-display tracking-tight">
-              <span className="font-bold">Simone</span> Parvizi
+            <Link to="/" className="flex items-center">
+              <img 
+                src="/lovable-uploads/8c9a2e3b-8f7a-4bbe-abd3-fd1d086dcc51.png" 
+                alt="SP Logo" 
+                className="h-10 w-auto"
+              />
             </Link>
           </div>
 
