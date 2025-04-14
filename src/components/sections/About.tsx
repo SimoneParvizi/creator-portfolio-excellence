@@ -32,113 +32,72 @@ const About: React.FC = () => {
     }
 
     return () => {
-      if (titleRef.current) {
-        observer.unobserve(titleRef.current);
-      }
-      if (visionBoardRef.current) {
-        observer.unobserve(visionBoardRef.current);
-      }
+      observer.disconnect(); // This is more reliable than individually unobserving
     };
   }, []);
 
-  // Reduced number of images (removed 4) and adjusted sizes for better layout
+  // Reduced the number of images to 7 and made them larger
   const visionBoardImages = [
     {
       src: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=2128&auto=format&fit=crop",
       alt: "ML Infrastructure",
       caption: "Building scalable ML infrastructure",
-      size: "large",
+      size: "xl",
       position: "top-left"
     },
     {
       src: "https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=2069&auto=format&fit=crop",
       alt: "Team Collaboration",
       caption: "Fostering collaboration between teams",
-      size: "large",
+      size: "xl",
       position: "top-right"
     },
     {
       src: "https://images.unsplash.com/photo-1528901166007-3784c7dd3653?q=80&w=2070&auto=format&fit=crop",
       alt: "Cloud Solutions",
       caption: "Designing cloud-native solutions",
-      size: "large",
+      size: "xl",
       position: "bottom-left"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
-      alt: "Knowledge Sharing",
-      caption: "Sharing knowledge and mentoring",
-      size: "medium",
-      position: "center-right"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?q=80&w=2070&auto=format&fit=crop",
-      alt: "Technical Writing",
-      caption: "Documenting best practices",
-      size: "medium",
-      position: "bottom-right"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1581093199926-4ef5e4832bd1?q=80&w=2070&auto=format&fit=crop",
-      alt: "AI Solutions",
-      caption: "Exploring AI capabilities",
-      size: "large",
-      position: "center-left"
     },
     {
       src: "https://images.unsplash.com/photo-1594904351111-a072f80b1a71?q=80&w=2070&auto=format&fit=crop",
       alt: "Data Pipeline Architecture",
       caption: "Building robust data pipelines",
-      size: "large",
+      size: "xl",
       position: "center-top"
     },
     {
       src: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
       alt: "Data Science",
       caption: "Data science excellence",
-      size: "large",
+      size: "xl",
       position: "bottom-center"
     },
     {
       src: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=2070&auto=format&fit=crop",
       alt: "Code Quality",
       caption: "Maintaining high code quality",
-      size: "large",
+      size: "xl",
       position: "top-right-corner"
     },
     {
       src: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2070&auto=format&fit=crop",
       alt: "Productivity",
       caption: "Optimizing work environments",
-      size: "large",
+      size: "xl",
       position: "bottom-right-corner"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1581093199926-4ef5e4832bd1?q=80&w=2070&auto=format&fit=crop",
-      alt: "AI Research",
-      caption: "Advancing AI research",
-      size: "large",
-      position: "middle-center"
     }
   ];
 
   // Function to determine the classes based on image size and position
-  const getImageClasses = (size: string, position: string) => {
-    let sizeClass = "";
-    
-    // Size classes - Increased dimensions to make images larger
+  const getImageClasses = (size: string) => {
+    // Larger size classes for bigger images
     switch(size) {
-      case "medium":
-        sizeClass = "col-span-2 row-span-2";
-        break;
-      case "large":
-        sizeClass = "col-span-3 row-span-3";
-        break;
+      case "xl":
+        return "col-span-3 row-span-3 md:col-span-4 md:row-span-4";
       default:
-        sizeClass = "col-span-2 row-span-2";
+        return "col-span-3 row-span-3 md:col-span-4 md:row-span-4";
     }
-    
-    return `${sizeClass} overflow-hidden rounded-xl border border-border/40 hover:border-border/60 transition-all duration-300`;
   };
 
   return (
@@ -156,11 +115,11 @@ const About: React.FC = () => {
           ref={visionBoardRef} 
           className="slide-up"
         >
-          <div className="grid grid-cols-9 grid-rows-8 gap-4 h-[90vh]">
+          <div className="grid grid-cols-6 md:grid-cols-12 grid-rows-12 gap-4 h-[90vh]">
             {visionBoardImages.map((image, index) => (
               <div 
                 key={index} 
-                className={getImageClasses(image.size, image.position)}
+                className={`${getImageClasses(image.size)} overflow-hidden rounded-xl border border-border/40 hover:border-border/60 transition-all duration-300`}
                 style={{ 
                   transitionDelay: `${index * 100}ms`,
                   animation: `fade-in 0.8s ease-out ${index * 0.15}s both`
