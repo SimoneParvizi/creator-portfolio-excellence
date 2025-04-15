@@ -30,12 +30,7 @@ const About: React.FC = () => {
     }
 
     return () => {
-      if (titleRef.current) {
-        observer.unobserve(titleRef.current);
-      }
-      if (visionBoardRef.current) {
-        observer.unobserve(visionBoardRef.current);
-      }
+      observer.disconnect(); // Properly disconnect the observer
     };
   }, []);
 
@@ -110,41 +105,12 @@ const About: React.FC = () => {
       size: "small",
       position: "bottom-center"
     },
-    // Adding more images
     {
       src: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?q=80&w=2070&auto=format&fit=crop",
       alt: "Remote Work",
       caption: "Embracing remote collaboration",
       size: "medium",
       position: "middle-right"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=2070&auto=format&fit=crop",
-      alt: "Code Quality",
-      caption: "Maintaining high code quality",
-      size: "small",
-      position: "top-right-corner"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2070&auto=format&fit=crop",
-      alt: "Programming",
-      caption: "Coding best practices",
-      size: "small",
-      position: "middle-left"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2070&auto=format&fit=crop",
-      alt: "Productivity",
-      caption: "Optimizing work environments",
-      size: "medium",
-      position: "bottom-right-corner"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1581093199926-4ef5e4832bd1?q=80&w=2070&auto=format&fit=crop",
-      alt: "AI Research",
-      caption: "Advancing AI research",
-      size: "large",
-      position: "middle-center"
     }
   ];
 
@@ -158,10 +124,10 @@ const About: React.FC = () => {
         sizeClass = "col-span-1 row-span-1";
         break;
       case "medium":
-        sizeClass = "col-span-1 row-span-2";
+        sizeClass = "col-span-2 row-span-2";
         break;
       case "large":
-        sizeClass = "col-span-2 row-span-2";
+        sizeClass = "col-span-3 row-span-2";
         break;
       default:
         sizeClass = "col-span-1 row-span-1";
@@ -185,7 +151,7 @@ const About: React.FC = () => {
           ref={visionBoardRef} 
           className="slide-up"
         >
-          <div className="grid grid-cols-6 grid-rows-6 gap-4 h-[800px]">
+          <div className="grid grid-cols-6 grid-rows-6 gap-4 h-[90vh]">
             {visionBoardImages.map((image, index) => (
               <div 
                 key={index} 

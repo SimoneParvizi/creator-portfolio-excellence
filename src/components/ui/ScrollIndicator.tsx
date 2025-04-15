@@ -9,11 +9,6 @@ const ScrollIndicator: React.FC = () => {
   const exitTimeoutRef = useRef<NodeJS.Timeout>();
   const isMobile = useIsMobile();
 
-  // If on mobile, don't render anything
-  if (isMobile) {
-    return null;
-  }
-
   useEffect(() => {
     const handleScroll = () => {
       const heroSection = document.getElementById('hero');
@@ -56,6 +51,7 @@ const ScrollIndicator: React.FC = () => {
     }
   };
 
+  if (isMobile) return null;
   if (!isVisible) return null;
 
   return (
