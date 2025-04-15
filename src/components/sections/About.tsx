@@ -1,12 +1,10 @@
 
 import React, { useRef, useEffect } from 'react';
-import { useIsMobile } from '@/hooks/use-mobile';
 
 const About: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const visionBoardRef = useRef<HTMLDivElement>(null);
-  const isMobile = useIsMobile();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -41,13 +39,12 @@ const About: React.FC = () => {
     };
   }, []);
 
-  // Reduced number of images (removed 4) and adjusted sizes for better layout
   const visionBoardImages = [
     {
       src: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=2128&auto=format&fit=crop",
       alt: "ML Infrastructure",
       caption: "Building scalable ML infrastructure",
-      size: "large",
+      size: "medium",
       position: "top-left"
     },
     {
@@ -61,21 +58,21 @@ const About: React.FC = () => {
       src: "https://images.unsplash.com/photo-1528901166007-3784c7dd3653?q=80&w=2070&auto=format&fit=crop",
       alt: "Cloud Solutions",
       caption: "Designing cloud-native solutions",
-      size: "large",
+      size: "medium",
       position: "bottom-left"
     },
     {
       src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
       alt: "Knowledge Sharing",
       caption: "Sharing knowledge and mentoring",
-      size: "medium",
+      size: "small",
       position: "center-right"
     },
     {
       src: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?q=80&w=2070&auto=format&fit=crop",
       alt: "Technical Writing",
       caption: "Documenting best practices",
-      size: "medium",
+      size: "small",
       position: "bottom-right"
     },
     {
@@ -89,28 +86,57 @@ const About: React.FC = () => {
       src: "https://images.unsplash.com/photo-1594904351111-a072f80b1a71?q=80&w=2070&auto=format&fit=crop",
       alt: "Data Pipeline Architecture",
       caption: "Building robust data pipelines",
-      size: "large",
+      size: "medium",
       position: "center-top"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2070&auto=format&fit=crop",
+      alt: "Containerization",
+      caption: "Containerizing ML applications",
+      size: "medium",
+      position: "center-bottom"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?q=80&w=1974&auto=format&fit=crop",
+      alt: "DevOps Culture",
+      caption: "Promoting DevOps culture",
+      size: "small",
+      position: "top-center"
     },
     {
       src: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
       alt: "Data Science",
       caption: "Data science excellence",
-      size: "large",
+      size: "small",
       position: "bottom-center"
+    },
+    // Adding more images
+    {
+      src: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?q=80&w=2070&auto=format&fit=crop",
+      alt: "Remote Work",
+      caption: "Embracing remote collaboration",
+      size: "medium",
+      position: "middle-right"
     },
     {
       src: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=2070&auto=format&fit=crop",
       alt: "Code Quality",
       caption: "Maintaining high code quality",
-      size: "large",
+      size: "small",
       position: "top-right-corner"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2070&auto=format&fit=crop",
+      alt: "Programming",
+      caption: "Coding best practices",
+      size: "small",
+      position: "middle-left"
     },
     {
       src: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2070&auto=format&fit=crop",
       alt: "Productivity",
       caption: "Optimizing work environments",
-      size: "large",
+      size: "medium",
       position: "bottom-right-corner"
     },
     {
@@ -126,16 +152,19 @@ const About: React.FC = () => {
   const getImageClasses = (size: string, position: string) => {
     let sizeClass = "";
     
-    // Size classes - Increased dimensions to make images larger
+    // Size classes
     switch(size) {
+      case "small":
+        sizeClass = "col-span-1 row-span-1";
+        break;
       case "medium":
-        sizeClass = "col-span-2 row-span-2";
+        sizeClass = "col-span-1 row-span-2";
         break;
       case "large":
-        sizeClass = "col-span-3 row-span-3";
+        sizeClass = "col-span-2 row-span-2";
         break;
       default:
-        sizeClass = "col-span-2 row-span-2";
+        sizeClass = "col-span-1 row-span-1";
     }
     
     return `${sizeClass} overflow-hidden rounded-xl border border-border/40 hover:border-border/60 transition-all duration-300`;
@@ -151,12 +180,12 @@ const About: React.FC = () => {
           </p>
         </div>
 
-        {/* Vision Board - Redesigned layout with fewer, larger images */}
+        {/* Vision Board - Enhanced Mosaic Layout */}
         <div 
           ref={visionBoardRef} 
           className="slide-up"
         >
-          <div className="grid grid-cols-9 grid-rows-8 gap-4 h-[90vh]">
+          <div className="grid grid-cols-6 grid-rows-6 gap-4 h-[800px]">
             {visionBoardImages.map((image, index) => (
               <div 
                 key={index} 
