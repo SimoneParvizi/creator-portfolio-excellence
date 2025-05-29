@@ -1,12 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,14 +27,22 @@ const Navbar = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
-  // Helper function to determine if a link should go to a section on the homepage
-  const getLinkProps = (path: string) => {
-    if (location.pathname === '/' && path.startsWith('#')) {
-      return { href: path };
-    } else if (path.startsWith('#') && location.pathname !== '/') {
-      return { to: `/${path}`, as: Link };
+  const handleContactClick = () => {
+    if (location.pathname === '/') {
+      // If already on homepage, just scroll to contact
+      const contactElement = document.getElementById('contact');
+      if (contactElement) {
+        contactElement.scrollIntoView({ behavior: 'smooth' });
+      }
     } else {
-      return { to: path, as: Link };
+      // If on different page, navigate to homepage then scroll to contact
+      navigate('/', { replace: true });
+      setTimeout(() => {
+        const contactElement = document.getElementById('contact');
+        if (contactElement) {
+          contactElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
     }
   };
 
@@ -70,11 +79,9 @@ const Navbar = () => {
               <Link to="/#books" className="nav-link fancy-hover">Book</Link>
             )}
             <Link to="/booking" className="nav-link fancy-hover">Book My Time</Link>
-            {location.pathname === '/' ? (
-              <a href="#contact" className="nav-link fancy-hover">Contact</a>
-            ) : (
-              <Link to="/#contact" className="nav-link fancy-hover">Contact</Link>
-            )}
+            <button onClick={handleContactClick} className="nav-link fancy-hover">
+              Contact
+            </button>
             <Link to="/about" className="nav-link fancy-hover">About</Link>
           </nav>
 
@@ -140,23 +147,15 @@ const Navbar = () => {
           >
             Book My Time
           </Link>
-          {location.pathname === '/' ? (
-            <a 
-              href="#contact" 
-              className="block text-lg font-medium py-2 nav-link fancy-hover" 
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Contact
-            </a>
-          ) : (
-            <Link 
-              to="/#contact" 
-              className="block text-lg font-medium py-2 nav-link fancy-hover" 
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Contact
-            </Link>
-          )}
+          <button
+            onClick={() => {
+              handleContactClick();
+              setMobileMenuOpen(false);
+            }}
+            className="block text-lg font-medium py-2 nav-link fancy-hover text-left"
+          >
+            Contact
+          </button>
           <Link 
             to="/about" 
             className="block text-lg font-medium py-2 nav-link fancy-hover" 
