@@ -56,6 +56,22 @@ const Booking = () => {
     }
   };
 
+  const handleTimeSlotClick = (time: string) => {
+    if (selectedTimeSlot === time) {
+      setSelectedTimeSlot(null); // Unselect if clicking the same time
+    } else {
+      setSelectedTimeSlot(time);
+    }
+  };
+
+  const handleTypeClick = (typeId: string) => {
+    if (selectedType === typeId) {
+      setSelectedType(null); // Unselect if clicking the same type
+    } else {
+      setSelectedType(typeId);
+    }
+  };
+
   const onSubmit = (data: z.infer<typeof bookingSchema>) => {
     console.log("Booking submitted:", { date, timeSlot: selectedTimeSlot, consultationType: selectedType, ...data });
     setShowForm(false);
@@ -75,12 +91,6 @@ const Booking = () => {
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">Book a Session</h2>
-          <p className="text-lg text-muted-foreground mb-4">
-            Schedule a consultation to discuss your MLOps and DevOps needs
-          </p>
-          <p className="text-primary font-medium bg-primary/10 py-2 px-4 rounded-md inline-block">
-            First 30 minutes are free
-          </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 mb-8">
@@ -116,7 +126,7 @@ const Booking = () => {
                     key={time}
                     variant={selectedTimeSlot === time ? "default" : "outline"}
                     className="w-full justify-start"
-                    onClick={() => setSelectedTimeSlot(time)}
+                    onClick={() => handleTimeSlotClick(time)}
                     disabled={!date}
                   >
                     <Clock className="mr-2 h-4 w-4" />
@@ -139,7 +149,7 @@ const Booking = () => {
                     key={type.id}
                     variant={selectedType === type.id ? "default" : "outline"}
                     className="w-full"
-                    onClick={() => setSelectedType(type.id)}
+                    onClick={() => handleTypeClick(type.id)}
                   >
                     {type.title}
                   </Button>
@@ -162,9 +172,9 @@ const Booking = () => {
 
       {/* Booking Form Dialog */}
       <Dialog open={showForm} onOpenChange={setShowForm}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md bg-white border border-gray-200 shadow-xl">
           <DialogHeader>
-            <DialogTitle>Complete Your Booking</DialogTitle>
+            <DialogTitle className="text-gray-900">Complete Your Booking</DialogTitle>
           </DialogHeader>
           
           <Form {...form}>
@@ -174,9 +184,13 @@ const Booking = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel className="text-gray-700">Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your name" {...field} />
+                      <Input 
+                        placeholder="Your name" 
+                        {...field} 
+                        className="bg-white border-gray-300 text-gray-900 placeholder:text-gray-500"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -188,9 +202,13 @@ const Booking = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="text-gray-700">Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="your.email@example.com" {...field} />
+                      <Input 
+                        placeholder="your.email@example.com" 
+                        {...field} 
+                        className="bg-white border-gray-300 text-gray-900 placeholder:text-gray-500"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -202,11 +220,12 @@ const Booking = () => {
                 name="message"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Message (Optional)</FormLabel>
+                    <FormLabel className="text-gray-700">Message (Optional)</FormLabel>
                     <FormControl>
                       <Textarea 
                         placeholder="What would you like to discuss?" 
                         {...field} 
+                        className="bg-white border-gray-300 text-gray-900 placeholder:text-gray-500"
                       />
                     </FormControl>
                     <FormMessage />
@@ -229,16 +248,16 @@ const Booking = () => {
 
       {/* Confirmation Dialog */}
       <Dialog open={showConfirmation} onOpenChange={setShowConfirmation}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md bg-white border border-gray-200 shadow-xl">
           <div className="text-center py-4">
             <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <CheckCircle className="h-6 w-6 text-primary" />
             </div>
-            <DialogTitle className="text-xl mb-2">Booking Confirmed!</DialogTitle>
-            <p className="text-muted-foreground mb-4">
+            <DialogTitle className="text-xl mb-2 text-gray-900">Booking Confirmed!</DialogTitle>
+            <p className="text-gray-600 mb-4">
               {date && format(date, "MMMM d, yyyy")} at {selectedTimeSlot}
             </p>
-            <p className="text-sm text-muted-foreground mb-6">
+            <p className="text-sm text-gray-500 mb-6">
               Confirmation sent to your email.
             </p>
             <Button onClick={resetBooking}>Close</Button>
