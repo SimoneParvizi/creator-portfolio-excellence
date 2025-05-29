@@ -95,7 +95,7 @@ const Booking = () => {
 
         <div className="grid md:grid-cols-3 gap-6 mb-8">
           {/* Date Selection */}
-          <Card>
+          <Card className="bg-white/90 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>Select Date</CardTitle>
             </CardHeader>
@@ -115,7 +115,7 @@ const Booking = () => {
           </Card>
 
           {/* Time Selection */}
-          <Card>
+          <Card className="bg-white/90 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>Select Time</CardTitle>
             </CardHeader>
@@ -138,7 +138,7 @@ const Booking = () => {
           </Card>
 
           {/* Consultation Type */}
-          <Card>
+          <Card className="bg-white/90 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>Choose Type</CardTitle>
             </CardHeader>
