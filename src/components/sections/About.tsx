@@ -30,7 +30,7 @@ const About: React.FC = () => {
     }
 
     return () => {
-      observer.disconnect(); // Properly disconnect the observer
+      observer.disconnect();
     };
   }, []);
 
@@ -39,102 +39,94 @@ const About: React.FC = () => {
       src: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=2128&auto=format&fit=crop",
       alt: "ML Infrastructure",
       caption: "Building scalable ML infrastructure",
-      size: "medium",
-      position: "top-left"
+      size: "large",
+      gridPosition: "col-start-1 col-end-4 row-start-1 row-end-3"
     },
     {
       src: "https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=2069&auto=format&fit=crop",
       alt: "Team Collaboration",
       caption: "Fostering collaboration between teams",
-      size: "large",
-      position: "top-right"
+      size: "medium",
+      gridPosition: "col-start-4 col-end-6 row-start-1 row-end-3"
     },
     {
       src: "https://images.unsplash.com/photo-1528901166007-3784c7dd3653?q=80&w=2070&auto=format&fit=crop",
       alt: "Cloud Solutions",
       caption: "Designing cloud-native solutions",
-      size: "medium",
-      position: "bottom-left"
+      size: "small",
+      gridPosition: "col-start-6 col-end-7 row-start-1 row-end-2"
     },
     {
       src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
       alt: "Knowledge Sharing",
       caption: "Sharing knowledge and mentoring",
       size: "small",
-      position: "center-right"
+      gridPosition: "col-start-6 col-end-7 row-start-2 row-end-3"
     },
     {
       src: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?q=80&w=2070&auto=format&fit=crop",
       alt: "Technical Writing",
       caption: "Documenting best practices",
-      size: "small",
-      position: "bottom-right"
+      size: "medium",
+      gridPosition: "col-start-1 col-end-3 row-start-3 row-end-5"
     },
     {
       src: "https://images.unsplash.com/photo-1581093199926-4ef5e4832bd1?q=80&w=2070&auto=format&fit=crop",
       alt: "AI Solutions",
       caption: "Exploring AI capabilities",
-      size: "large",
-      position: "center-left"
+      size: "medium",
+      gridPosition: "col-start-3 col-end-5 row-start-3 row-end-5"
     },
     {
       src: "https://images.unsplash.com/photo-1594904351111-a072f80b1a71?q=80&w=2070&auto=format&fit=crop",
       alt: "Data Pipeline Architecture",
       caption: "Building robust data pipelines",
       size: "medium",
-      position: "center-top"
+      gridPosition: "col-start-5 col-end-7 row-start-3 row-end-5"
     },
     {
       src: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2070&auto=format&fit=crop",
       alt: "Containerization",
       caption: "Containerizing ML applications",
-      size: "medium",
-      position: "center-bottom"
+      size: "large",
+      gridPosition: "col-start-1 col-end-4 row-start-5 row-end-7"
     },
     {
       src: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?q=80&w=1974&auto=format&fit=crop",
       alt: "DevOps Culture",
       caption: "Promoting DevOps culture",
       size: "small",
-      position: "top-center"
+      gridPosition: "col-start-4 col-end-5 row-start-5 row-end-6"
     },
     {
       src: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
       alt: "Data Science",
       caption: "Data science excellence",
       size: "small",
-      position: "bottom-center"
+      gridPosition: "col-start-5 col-end-6 row-start-5 row-end-6"
     },
     {
       src: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?q=80&w=2070&auto=format&fit=crop",
       alt: "Remote Work",
       caption: "Embracing remote collaboration",
       size: "medium",
-      position: "middle-right"
+      gridPosition: "col-start-4 col-end-6 row-start-6 row-end-7"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=2070&auto=format&fit=crop",
+      alt: "Code Quality",
+      caption: "Maintaining high code quality",
+      size: "small",
+      gridPosition: "col-start-6 col-end-7 row-start-5 row-end-6"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2070&auto=format&fit=crop",
+      alt: "Programming",
+      caption: "Coding best practices",
+      size: "small",
+      gridPosition: "col-start-6 col-end-7 row-start-6 row-end-7"
     }
   ];
-
-  // Function to determine the classes based on image size and position
-  const getImageClasses = (size: string, position: string) => {
-    let sizeClass = "";
-    
-    // Size classes
-    switch(size) {
-      case "small":
-        sizeClass = "col-span-1 row-span-1";
-        break;
-      case "medium":
-        sizeClass = "col-span-2 row-span-2";
-        break;
-      case "large":
-        sizeClass = "col-span-3 row-span-2";
-        break;
-      default:
-        sizeClass = "col-span-1 row-span-1";
-    }
-    
-    return `${sizeClass} overflow-hidden rounded-xl border border-border/40 hover:border-border/60 transition-all duration-300`;
-  };
 
   return (
     <section id="about" ref={sectionRef} className="py-24 bg-gradient-to-b from-background via-secondary/5 to-background">
@@ -155,7 +147,7 @@ const About: React.FC = () => {
             {visionBoardImages.map((image, index) => (
               <div 
                 key={index} 
-                className={getImageClasses(image.size, image.position)}
+                className={`${image.gridPosition} overflow-hidden rounded-xl border border-border/40 hover:border-border/60 transition-all duration-300`}
                 style={{ 
                   transitionDelay: `${index * 100}ms`,
                   animation: `fade-in 0.8s ease-out ${index * 0.15}s both`
