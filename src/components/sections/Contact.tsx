@@ -1,9 +1,7 @@
-
 import React, { useRef, useEffect, useState } from 'react';
-import { Send, CheckCircle, Linkedin, Github, Twitter } from 'lucide-react';
+import { Send, CheckCircle } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
-import { Button } from '../ui/button';
 
 const Contact: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -74,41 +72,7 @@ const Contact: React.FC = () => {
         </div>
 
         <div className="max-w-3xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="slide-up flex flex-col justify-center">
-              <div className="space-y-6">                
-                <a href="mailto:parvizi.simone@gmail.com" className="text-foreground/80 hover:text-foreground transition-colors block">
-                  parvizi.simone@gmail.com
-                </a>
-                
-                <div className="text-foreground/80">Amsterdam, NL</div>
-                
-                <div className="pt-4 flex space-x-4">
-                  <a 
-                    href="#" 
-                    className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-[#0077B5] text-white transition-colors"
-                    aria-label="LinkedIn"
-                  >
-                    <Linkedin className="w-5 h-5" />
-                  </a>
-                  <a 
-                    href="#" 
-                    className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-[#333333] text-white transition-colors"
-                    aria-label="GitHub"
-                  >
-                    <Github className="w-5 h-5" />
-                  </a>
-                  <a 
-                    href="#" 
-                    className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-[#1DA1F2] text-white transition-colors"
-                    aria-label="Twitter"
-                  >
-                    <Twitter className="w-5 h-5" />
-                  </a>
-                </div>
-              </div>
-            </div>
-            
+          <div className="max-w-xl mx-auto">
             <div className="slide-up">
               {isSubmitted ? (
                 <div className="h-full flex flex-col items-center justify-center text-center p-6 rounded-2xl border border-green-500/30 bg-green-500/5">
