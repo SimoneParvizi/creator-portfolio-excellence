@@ -7,6 +7,7 @@ import Projects from '../components/sections/Projects';
 import Books from '../components/sections/Books';
 import Contact from '../components/sections/Contact';
 import P5aBackground from '../components/ui/P5aBackground';
+import FixedSocialSidebar from '../components/ui/FixedSocialSidebar';
 
 const Index = () => {
   useEffect(() => {
@@ -42,6 +43,7 @@ const Index = () => {
     <div className="min-h-screen relative overflow-x-hidden bg-white">
       <P5aBackground />
       <Navbar />
+      <FixedSocialSidebar />
       <main>
         <Hero />
         <Skills />
