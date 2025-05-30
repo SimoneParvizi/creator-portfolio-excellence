@@ -58,7 +58,7 @@ const Booking = () => {
 
   const handleTimeSlotClick = (time: string) => {
     if (selectedTimeSlot === time) {
-      setSelectedTimeSlot(null); // Unselect if clicking the same time
+      setSelectedTimeSlot(null);
     } else {
       setSelectedTimeSlot(time);
     }
@@ -66,7 +66,7 @@ const Booking = () => {
 
   const handleTypeClick = (typeId: string) => {
     if (selectedType === typeId) {
-      setSelectedType(null); // Unselect if clicking the same type
+      setSelectedType(null);
     } else {
       setSelectedType(typeId);
     }
@@ -95,7 +95,7 @@ const Booking = () => {
 
         <div className="grid md:grid-cols-3 gap-6 mb-8">
           {/* Date Selection */}
-          <Card className="bg-white/90 backdrop-blur-sm">
+          <Card className="bg-white/60 backdrop-blur-sm border border-white/20">
             <CardHeader>
               <CardTitle>Select Date</CardTitle>
             </CardHeader>
@@ -115,7 +115,7 @@ const Booking = () => {
           </Card>
 
           {/* Time Selection */}
-          <Card className="bg-white/90 backdrop-blur-sm">
+          <Card className="bg-white/60 backdrop-blur-sm border border-white/20">
             <CardHeader>
               <CardTitle>Select Time</CardTitle>
             </CardHeader>
@@ -138,7 +138,7 @@ const Booking = () => {
           </Card>
 
           {/* Consultation Type */}
-          <Card className="bg-white/90 backdrop-blur-sm">
+          <Card className="bg-white/60 backdrop-blur-sm border border-white/20">
             <CardHeader>
               <CardTitle>Choose Type</CardTitle>
             </CardHeader>
