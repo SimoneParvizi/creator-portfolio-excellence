@@ -12,7 +12,7 @@ const FixedSocialSidebar = () => {
     },
     {
       icon: Linkedin,
-      href: 'https://linkedin.com',
+      href: 'https://www.linkedin.com/in/simone-parvizi/',
       label: 'LinkedIn',
       color: 'hover:text-blue-600'
     },
@@ -54,7 +54,7 @@ const FixedSocialSidebar = () => {
       <div className="fixed right-6 bottom-6 z-30 hidden md:flex flex-col items-center space-y-4 group">
         {/* Email Icon - Above the line */}
         <a
-          href="mailto:contact@example.com"
+          href="mailto:parvizi.simone@gmail.com"
           className="p-2 text-foreground/60 hover:text-red-500 transition-all duration-300 hover:scale-110 transform"
           aria-label="Email"
         >
