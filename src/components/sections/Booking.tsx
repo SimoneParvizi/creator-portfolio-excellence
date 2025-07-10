@@ -17,9 +17,10 @@ import { toast } from "@/hooks/use-toast";
 const timeSlots = ["09:00 AM", "11:00 AM", "02:00 PM", "04:00 PM"];
 
 const consultationTypes = [
+  { id: "website", title: "Website Design" },
   { id: "mlops", title: "MLOps Consultation" },
   { id: "devops", title: "DevOps Consultation" },
-  { id: "coaching", title: "Career Coaching" }
+  { id: "else", title: "Else" }
 ];
 
 const bookingSchema = z.object({

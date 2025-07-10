@@ -6,7 +6,7 @@ const FixedSocialSidebar = () => {
   const socialLinks = [
     {
       icon: Github,
-      href: 'https://github.com',
+      href: 'https://github.com/SimoneParvizi',
       label: 'GitHub',
       color: 'hover:text-gray-800'
     },

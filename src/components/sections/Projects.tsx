@@ -91,14 +91,6 @@ const Projects: React.FC = () => {
           ))}
         </div>
 
-        <div className="mt-16 text-center slide-up">
-          <a
-            href="#"
-            className="inline-flex h-11 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent"
-          >
-            View All Projects
-          </a>
-        </div>
       </div>
     </section>
   );

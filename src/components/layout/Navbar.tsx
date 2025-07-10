@@ -69,16 +69,16 @@ const Navbar = () => {
           {/* Desktop Navigation - Updated Order */}
           <nav className="hidden md:flex space-x-6">
             {location.pathname === '/' ? (
-              <a href="#projects" className="nav-link fancy-hover">Projects</a>
-            ) : (
-              <Link to="/#projects" className="nav-link fancy-hover">Projects</Link>
-            )}
-            {location.pathname === '/' ? (
               <a href="#books" className="nav-link fancy-hover">Book</a>
             ) : (
               <Link to="/#books" className="nav-link fancy-hover">Book</Link>
             )}
-            <Link to="/booking" className="nav-link fancy-hover">Book My Time</Link>
+            {location.pathname === '/' ? (
+              <a href="#projects" className="nav-link fancy-hover">Projects</a>
+            ) : (
+              <Link to="/#projects" className="nav-link fancy-hover">Projects</Link>
+            )}
+            <Link to="/booking" className="nav-link fancy-hover">Start the Conversation</Link>
             <button onClick={handleContactClick} className="nav-link fancy-hover">
               Contact
             </button>
@@ -108,23 +108,6 @@ const Navbar = () => {
         <div className="px-4 pt-6 pb-8 space-y-6 bg-background/90 backdrop-blur-md">
           {location.pathname === '/' ? (
             <a 
-              href="#projects" 
-              className="block text-lg font-medium py-2 nav-link fancy-hover" 
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Projects
-            </a>
-          ) : (
-            <Link
-              to="/#projects" 
-              className="block text-lg font-medium py-2 nav-link fancy-hover" 
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Projects
-            </Link>
-          )}
-          {location.pathname === '/' ? (
-            <a 
               href="#books" 
               className="block text-lg font-medium py-2 nav-link fancy-hover" 
               onClick={() => setMobileMenuOpen(false)}
@@ -140,12 +123,29 @@ const Navbar = () => {
               Book
             </Link>
           )}
+          {location.pathname === '/' ? (
+            <a 
+              href="#projects" 
+              className="block text-lg font-medium py-2 nav-link fancy-hover" 
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Projects
+            </a>
+          ) : (
+            <Link
+              to="/#projects" 
+              className="block text-lg font-medium py-2 nav-link fancy-hover" 
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Projects
+            </Link>
+          )}
           <Link
             to="/booking" 
             className="block text-lg font-medium py-2 nav-link fancy-hover" 
             onClick={() => setMobileMenuOpen(false)}
           >
-            Book My Time
+            Start the Conversation
           </Link>
           <button
             onClick={() => {
