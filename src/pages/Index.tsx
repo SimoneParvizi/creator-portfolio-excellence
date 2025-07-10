@@ -51,7 +51,7 @@ const Index = () => {
         <Projects />
         <Contact />
       </main>
-      <footer className="py-8 text-center text-muted-foreground text-sm relative z-10 bg-white shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+      <footer className="py-8 text-center text-muted-foreground text-sm relative z-40 bg-white shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
         <div className="container mx-auto">
           <p>&copy; {new Date().getFullYear()} Simone Parvizi. All rights reserved.</p>
         </div>
