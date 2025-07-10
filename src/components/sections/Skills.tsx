@@ -1,6 +1,6 @@
 
 import React, { useRef, useEffect } from 'react';
-import { Code, Globe, Server, Database, Cloud, BookOpen } from 'lucide-react';
+import { Code, Globe, Server, Database, Cloud, BookOpen, Palette } from 'lucide-react';
 
 interface SkillCardProps {
   icon: React.ReactNode;
@@ -109,10 +109,10 @@ const Skills: React.FC = () => {
       items: ["Model Training", "Model Serving", "Feature Engineering", "Data Processing", "ML Monitoring", "Experiment Tracking"],
     },
     {
-      icon: <Code size={24} />,
-      title: "Software Development",
-      description: "Creating responsive applications with modern technologies.",
-      items: ["Python", "TypeScript", "React", "Cloud Services", "API Development", "Microservices"],
+      icon: <Palette size={24} />,
+      title: "Website Design",
+      description: "Creating modern, responsive websites with beautiful UI/UX and smooth animations.",
+      items: ["React & TypeScript", "Tailwind CSS", "Responsive Design", "Modern Animations", "Component Libraries", "Interactive UI Elements"],
     },
   ];
 
