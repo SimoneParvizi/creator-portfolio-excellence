@@ -46,6 +46,25 @@ const Navbar = () => {
     }
   };
 
+  const handleSectionClick = (sectionId: string) => {
+    if (location.pathname === '/') {
+      // If already on homepage, just scroll to section
+      const sectionElement = document.getElementById(sectionId);
+      if (sectionElement) {
+        sectionElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // If on different page, navigate to homepage then scroll to section
+      navigate('/', { replace: true });
+      setTimeout(() => {
+        const sectionElement = document.getElementById(sectionId);
+        if (sectionElement) {
+          sectionElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  };
+
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -68,16 +87,12 @@ const Navbar = () => {
 
           {/* Desktop Navigation - Updated Order */}
           <nav className="hidden md:flex space-x-3">
-            {location.pathname === '/' ? (
-              <a href="#books" className="nav-link fancy-hover">Book</a>
-            ) : (
-              <Link to="/#books" className="nav-link fancy-hover">Book</Link>
-            )}
-            {location.pathname === '/' ? (
-              <a href="#projects" className="nav-link fancy-hover">Projects</a>
-            ) : (
-              <Link to="/#projects" className="nav-link fancy-hover">Projects</Link>
-            )}
+            <button onClick={() => handleSectionClick('books')} className="nav-link fancy-hover">
+              Book
+            </button>
+            <button onClick={() => handleSectionClick('projects')} className="nav-link fancy-hover">
+              Projects
+            </button>
             <Link to="/booking" className="nav-link fancy-hover">Start the Conversation</Link>
             <button onClick={handleContactClick} className="nav-link fancy-hover">
               Contact
@@ -106,40 +121,24 @@ const Navbar = () => {
         }`}
       >
         <div className="px-4 pt-6 pb-8 space-y-3 bg-background/90 backdrop-blur-md">
-          {location.pathname === '/' ? (
-            <a 
-              href="#books" 
-              className="block text-lg font-medium py-2 nav-link fancy-hover" 
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Book
-            </a>
-          ) : (
-            <Link 
-              to="/#books" 
-              className="block text-lg font-medium py-2 nav-link fancy-hover" 
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Book
-            </Link>
-          )}
-          {location.pathname === '/' ? (
-            <a 
-              href="#projects" 
-              className="block text-lg font-medium py-2 nav-link fancy-hover" 
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Projects
-            </a>
-          ) : (
-            <Link
-              to="/#projects" 
-              className="block text-lg font-medium py-2 nav-link fancy-hover" 
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Projects
-            </Link>
-          )}
+          <button
+            onClick={() => {
+              handleSectionClick('books');
+              setMobileMenuOpen(false);
+            }}
+            className="block text-lg font-medium py-2 nav-link fancy-hover text-left"
+          >
+            Book
+          </button>
+          <button
+            onClick={() => {
+              handleSectionClick('projects');
+              setMobileMenuOpen(false);
+            }}
+            className="block text-lg font-medium py-2 nav-link fancy-hover text-left"
+          >
+            Projects
+          </button>
           <Link
             to="/booking" 
             className="block text-lg font-medium py-2 nav-link fancy-hover" 
