@@ -52,8 +52,8 @@ const Hero: React.FC = () => {
             style={{ transitionDelay: '1000ms' }}
           >
             <p className="text-lg md:text-xl max-w-2xl mb-12 text-balance">
-              I create elegant solution with meticulous attention to detail.
-              I will not waste mine and your time.
+              I create elegant solutions with meticulous attention to detail.
+              I build without wasting time nor budget.
             </p>
 
             <div className="flex flex-wrap gap-4">

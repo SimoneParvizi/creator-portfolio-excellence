@@ -99,19 +99,19 @@ const Skills: React.FC = () => {
     {
       icon: <Cloud size={24} />,
       title: "MLOps & DevOps",
-      description: "Building robust, scalable infrastructure and CI/CD pipelines for ML systems.",
+      description: "Scalable systems to keep your machine learning running smoothly.",
       items: ["CI/CD Pipelines", "Kubernetes", "Docker", "Infrastructure as Code", "Cloud Architecture", "ML Model Deployment"],
     },
     {
       icon: <Database size={24} />,
       title: "Machine Learning",
-      description: "Developing and deploying machine learning models at scale.",
+      description: "Building and launching ML models that solve real problems. Your problems.",
       items: ["Model Training", "Model Serving", "Feature Engineering", "Data Processing", "ML Monitoring", "Experiment Tracking"],
     },
     {
       icon: <Palette size={24} />,
-      title: "Website Design",
-      description: "Creating modern, responsive websites with beautiful UI/UX and smooth animations.",
+      title: "Website Development",
+      description: "Creating modern, intuitive websites that engage your audience.",
       items: ["React & TypeScript", "Tailwind CSS", "Responsive Design", "Modern Animations", "Component Libraries", "Interactive UI Elements"],
     },
   ];
@@ -122,8 +122,7 @@ const Skills: React.FC = () => {
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">My Expertise</h2>
           <p className="section-subtitle slide-up">
-            I specialize in building scalable MLOps systems and infrastructure that will make
-            your product robust and reliable.
+            I build Websites, MLOps systems and Infrastructure that help you succeed.
           </p>
         </div>
 
