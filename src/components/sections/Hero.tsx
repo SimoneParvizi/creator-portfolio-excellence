@@ -25,7 +25,7 @@ const Hero: React.FC = () => {
             style={{ transitionDelay: '200ms' }}
           >
             <div className="inline-block py-1 px-3 rounded-full text-sm font-medium text-foreground/80 bg-foreground/5 border border-foreground/10 backdrop-blur-sm mb-4">
-              Software Developer
+              Solo Developer
             </div>
           </div>
           

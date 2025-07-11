@@ -67,7 +67,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Navigation - Updated Order */}
-          <nav className="hidden md:flex space-x-6">
+          <nav className="hidden md:flex space-x-3">
             {location.pathname === '/' ? (
               <a href="#books" className="nav-link fancy-hover">Book</a>
             ) : (
@@ -105,7 +105,7 @@ const Navbar = () => {
             : 'opacity-0 h-0 pointer-events-none'
         }`}
       >
-        <div className="px-4 pt-6 pb-8 space-y-6 bg-background/90 backdrop-blur-md">
+        <div className="px-4 pt-6 pb-8 space-y-3 bg-background/90 backdrop-blur-md">
           {location.pathname === '/' ? (
             <a 
               href="#books" 
