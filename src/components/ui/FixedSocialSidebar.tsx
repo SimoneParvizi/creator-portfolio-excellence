@@ -1,15 +1,9 @@
 
 import React from 'react';
-import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { Github, Linkedin, X, Mail } from 'lucide-react';
 
 const FixedSocialSidebar = () => {
   const socialLinks = [
-    {
-      icon: Github,
-      href: 'https://github.com/SimoneParvizi',
-      label: 'GitHub',
-      color: 'hover:text-gray-800'
-    },
     {
       icon: Linkedin,
       href: 'https://www.linkedin.com/in/simone-parvizi/',
@@ -17,9 +11,15 @@ const FixedSocialSidebar = () => {
       color: 'hover:text-blue-600'
     },
     {
-      icon: Twitter,
+      icon: Github,
+      href: 'https://github.com/SimoneParvizi',
+      label: 'GitHub',
+      color: 'hover:text-gray-800'
+    },
+    {
+      icon: X,
       href: 'https://twitter.com',
-      label: 'Twitter',
+      label: 'X',
       color: 'hover:text-blue-400'
     }
   ];
