@@ -56,7 +56,7 @@ const Books = () => {
           </div>
           
           <div className="slide-up">
-            <h3 className="text-2xl font-semibold mb-4">MLOps in Practice</h3>
+            <h3 className="text-2xl font-semibold mb-4 italic">MLOps in Practice (Coming soon)</h3>
             <p className="text-muted-foreground mb-6 font-antonia">
               A comprehensive guide to implementing MLOps in your organization. Learn how to build 
               scalable ML pipelines, automate deployment, monitor models in production, and 
