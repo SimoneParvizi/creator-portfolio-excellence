@@ -51,7 +51,7 @@ const Hero: React.FC = () => {
             className={`transition-all duration-1000 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
             style={{ transitionDelay: '1000ms' }}
           >
-            <p className="text-lg md:text-xl max-w-2xl mb-12 text-balance font-display">
+            <p className="text-lg md:text-xl max-w-2xl mb-12 text-balance">
               I create elegant solutions with meticulous attention to detail.
               I build without wasting time nor budget.
             </p>
