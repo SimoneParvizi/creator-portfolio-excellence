@@ -39,7 +39,7 @@ const Books = () => {
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-12 text-center">
           <h2 ref={titleRef} className="section-title slide-up">My Book</h2>
-          <p className="section-subtitle slide-up font-antonia">
+          <p className="section-subtitle slide-up font-display">
             Sharing knowledge and experience through practical, actionable insights
           </p>
         </div>
