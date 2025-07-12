@@ -66,10 +66,10 @@ const Contact: React.FC = () => {
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">Let's start working together</h2>
-          <p className="section-subtitle slide-up mb-6">
+          <p className="section-subtitle slide-up mb-6 font-elegant">
             Got a concept or partnership in mind? Let's have a conversation about it.
           </p>
-          <p className="section-subtitle slide-up">
+          <p className="section-subtitle slide-up font-elegant">
             I believe in honest work for honest pay. My goal is to build systems that make you happy to pay for them, because they work, and they're built with care. I'm not here to overcharge or underdeliver. My process is open and practical, committed to your success. You get clear communication and a partner who values your trust and your time.
           </p>
         </div>
