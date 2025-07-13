@@ -146,7 +146,7 @@ export default {
 				display: ['Cardo', 'serif'],
 				mono: ['JetBrains Mono', 'monospace'],
 				antonia: ['Antonia H2', 'serif'],
-				elegant: ['Source Sans 3', 'sans-serif'],
+				elegant: ['Bodoni Moda', 'serif'],
 			},
 		}
 	},
