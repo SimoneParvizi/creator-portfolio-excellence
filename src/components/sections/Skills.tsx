@@ -52,7 +52,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, 
         {icon}
       </div>
       <h3 className="text-lg font-semibold mb-2">{title}</h3>
-      <p className="text-muted-foreground text-sm mb-4">{description}</p>
+      <p className="text-muted-foreground text-sm mb-4 font-cordia">{description}</p>
       <ul className="space-y-2">
         {items.map((item, i) => (
           <li key={i} className="text-sm flex items-start">
@@ -121,7 +121,7 @@ const Skills: React.FC = () => {
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">My Expertise</h2>
-          <p className="section-subtitle slide-up font-elegant">
+          <p className="section-subtitle slide-up font-cordia">
             I build Websites, MLOps systems and Infrastructure that help you succeed.
           </p>
         </div>
