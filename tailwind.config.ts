@@ -148,6 +148,7 @@ export default {
 				antonia: ['Antonia H2', 'serif'],
 				elegant: ['CordiaUPC', 'serif'],
 				beiruti: ['Beiruti', 'sans-serif'],
+				palatino: ['Palatino', 'Palatino Linotype', 'serif'],
 			},
 		}
 	},
