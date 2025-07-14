@@ -147,6 +147,7 @@ export default {
 				mono: ['JetBrains Mono', 'monospace'],
 				antonia: ['Antonia H2', 'serif'],
 				elegant: ['CordiaUPC', 'serif'],
+				beiruti: ['Beiruti', 'sans-serif'],
 			},
 		}
 	},
