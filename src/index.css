@@ -192,4 +192,52 @@
   @keyframes cursor {
     50% { opacity: 0; }
   }
+  
+  .dot-border-expand {
+    position: relative;
+    overflow: visible;
+  }
+  
+  .dot-border-expand::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid transparent;
+    border-radius: inherit;
+    background: linear-gradient(45deg, hsl(var(--foreground)), transparent, hsl(var(--foreground))) border-box;
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask-composite: xor;
+    opacity: 0;
+    transform: scale(1);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .dot-border-expand:hover::before {
+    opacity: 1;
+    transform: scale(1.1);
+    border-style: dotted;
+    border-width: 3px;
+    animation: border-dot-expand 0.8s ease-out forwards;
+  }
+  
+  @keyframes border-dot-expand {
+    0% {
+      border-style: solid;
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      border-style: dashed;
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+    100% {
+      border-style: dotted;
+      opacity: 0.3;
+      transform: scale(1.15);
+    }
+  }
 }

@@ -60,7 +60,7 @@ const Hero: React.FC = () => {
               <Button 
                 asChild
                 variant="outline" 
-                className="h-11 px-8 bg-white/50 backdrop-blur-sm hover:bg-white/70"
+                className="h-11 px-8 bg-white/50 backdrop-blur-sm hover:bg-white/70 dot-border-expand transition-all duration-300"
               >
                 <a href="#projects">View My Work</a>
               </Button>
