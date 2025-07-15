@@ -149,7 +149,6 @@ export default {
 				elegant: ['CordiaUPC', 'serif'],
 				beiruti: ['Beiruti', 'sans-serif'],
 				palatino: ['Palatino', 'Palatino Linotype', 'serif'],
-				lora: ['Lora', 'serif'],
 			},
 		}
 	},
