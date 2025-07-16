@@ -391,8 +391,21 @@ const P5aBackground: React.FC = () => {
     }
   };
 
+  const lastFrameRef = useRef<number>(0);
+
   const animate = (timestamp: number) => {
     if (!contextRef.current || !canvasRef.current) return;
+    
+    // Mobile frame rate limiter to prevent spinning bug
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      const timeSinceLastFrame = timestamp - lastFrameRef.current;
+      if (timeSinceLastFrame < 33) { // Limit to ~30fps on mobile
+        rafRef.current = requestAnimationFrame(animate);
+        return;
+      }
+      lastFrameRef.current = timestamp;
+    }
     
     // Update time for organic movement patterns
     timeRef.current = timestamp;
