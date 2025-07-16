@@ -1,6 +1,7 @@
 
 import React, { useEffect } from 'react';
 import Navbar from '../components/layout/Navbar';
+import HeroSimple from '../components/sections/HeroSimple';
 import Hero from '../components/sections/Hero';
 import Skills from '../components/sections/Skills';
 import Projects from '../components/sections/Projects';
@@ -44,10 +45,11 @@ const Index = () => {
   return (
     <div className="min-h-screen relative overflow-x-hidden bg-background">
       <Navbar />
-      <Hero />
+      {/* Testing simplified Hero */}
+      <HeroSimple />
       <div className="p-8">
-        <h1 className="text-4xl font-bold text-foreground">Hello World + Navbar + Hero</h1>
-        <p className="text-muted-foreground">If you can see this, Hero is working too.</p>
+        <h1 className="text-4xl font-bold text-foreground">Testing HeroSimple</h1>
+        <p className="text-muted-foreground">If you see hero content above, HeroSimple works.</p>
       </div>
     </div>
   );
