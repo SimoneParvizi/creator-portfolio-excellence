@@ -401,11 +401,9 @@ const P5aBackground: React.FC = () => {
   const animate = (timestamp: number) => {
     if (!contextRef.current || !canvasRef.current) return;
     
-    // Only throttle animation on mobile devices - keep full speed on desktop
+    // Only throttle on mobile - desktop runs at full speed
     if (isMobileRef.current) {
-      const targetFPS = 30;
-      const fpsInterval = 1000 / targetFPS;
-      
+      const fpsInterval = 1000 / 30; // 30 FPS for mobile
       if (timestamp - lastFrameTimeRef.current < fpsInterval) {
         rafRef.current = requestAnimationFrame(animate);
         return;
@@ -422,7 +420,7 @@ const P5aBackground: React.FC = () => {
     // Clear canvas with full opacity
     ctx.clearRect(0, 0, width, height);
     
-    // Update special dot state (disable only on mobile)
+    // Update special dot state (desktop only)
     if (!isMobileRef.current) {
       updateSpecialDot(timestamp);
     }
@@ -433,7 +431,7 @@ const P5aBackground: React.FC = () => {
       dot.draw(ctx);
     });
     
-    // Draw minimal connecting lines (keep original behavior on desktop)
+    // Draw connecting lines
     drawLines(ctx, dotsRef.current);
     
     rafRef.current = requestAnimationFrame(animate);
