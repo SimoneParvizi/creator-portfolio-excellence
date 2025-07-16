@@ -43,11 +43,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative overflow-x-hidden bg-background">
-      {/* Testing components one by one */}
       <Navbar />
+      <Hero />
       <div className="p-8">
-        <h1 className="text-4xl font-bold text-foreground">Hello World + Navbar</h1>
-        <p className="text-muted-foreground">If you can see this, Navbar is working.</p>
+        <h1 className="text-4xl font-bold text-foreground">Hello World + Navbar + Hero</h1>
+        <p className="text-muted-foreground">If you can see this, Hero is working too.</p>
       </div>
     </div>
   );
