@@ -43,10 +43,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative overflow-x-hidden bg-background">
-      {/* Minimal test - just a simple div first */}
+      {/* Testing components one by one */}
+      <Navbar />
       <div className="p-8">
-        <h1 className="text-4xl font-bold text-foreground">Hello World</h1>
-        <p className="text-muted-foreground">If you can see this, the basic app is working.</p>
+        <h1 className="text-4xl font-bold text-foreground">Hello World + Navbar</h1>
+        <p className="text-muted-foreground">If you can see this, Navbar is working.</p>
       </div>
     </div>
   );
