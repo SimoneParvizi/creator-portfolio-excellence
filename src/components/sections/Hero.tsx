@@ -5,9 +5,11 @@ import MouseScrollIndicator from '../ui/MouseScrollIndicator';
 import { Button } from '@/components/ui/button';
 
 const Hero: React.FC = () => {
+  console.log('Hero component rendering...');
   const [loaded, setLoaded] = useState(false);
   
   useEffect(() => {
+    console.log('Hero useEffect running...');
     // Force loaded state to be true after component mounts
     setLoaded(true);
   }, []);
@@ -60,14 +62,14 @@ const Hero: React.FC = () => {
               <Button 
                 asChild
                 variant="outline" 
-                className="h-11 px-8 bg-white/50 backdrop-blur-sm hover:bg-white/70"
+                className="h-11 px-8"
               >
                 <a href="#projects">View My Work</a>
               </Button>
               <Button 
                 asChild
                 variant="default" 
-                className="h-11 px-8 bg-black text-white hover:bg-black/90"
+                className="h-11 px-8"
               >
                 <a href="#contact">Contact Me</a>
               </Button>

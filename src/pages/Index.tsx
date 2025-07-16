@@ -43,22 +43,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative overflow-x-hidden bg-background">
-      {/* Temporarily comment out P5aBackground to test if it's causing the crash */}
-      {/* <P5aBackground /> */}
-      <Navbar />
-      <FixedSocialSidebar />
-      <main>
-        <Hero />
-        <Skills />
-        <Books />
-        <Projects />
-        <Contact />
-      </main>
-      <footer className="py-8 text-center text-muted-foreground text-sm relative z-40 bg-background shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
-        <div className="container mx-auto">
-          <p>&copy; {new Date().getFullYear()} Simone Parvizi. All rights reserved.</p>
-        </div>
-      </footer>
+      {/* Minimal test - just a simple div first */}
+      <div className="p-8">
+        <h1 className="text-4xl font-bold text-foreground">Hello World</h1>
+        <p className="text-muted-foreground">If you can see this, the basic app is working.</p>
+      </div>
     </div>
   );
 };
