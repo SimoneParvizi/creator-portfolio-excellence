@@ -120,13 +120,13 @@ const Navbar = () => {
             : 'opacity-0 h-0 pointer-events-none'
         }`}
       >
-        <div className="px-4 pt-6 pb-8 space-y-3 bg-black/95 backdrop-blur-md h-full text-white">
+        <div className="px-4 pt-6 pb-8 space-y-3 bg-background/95 backdrop-blur-md h-full">
           <button
             onClick={() => {
               handleSectionClick('books');
               setMobileMenuOpen(false);
             }}
-            className="block text-lg font-medium py-2 nav-link fancy-hover text-left text-white hover:text-gray-300"
+            className="block text-lg font-medium py-2 nav-link fancy-hover text-left"
           >
             Book
           </button>
@@ -135,13 +135,13 @@ const Navbar = () => {
               handleSectionClick('projects');
               setMobileMenuOpen(false);
             }}
-            className="block text-lg font-medium py-2 nav-link fancy-hover text-left text-white hover:text-gray-300"
+            className="block text-lg font-medium py-2 nav-link fancy-hover text-left"
           >
             Projects
           </button>
           <Link
             to="/booking" 
-            className="block text-lg font-medium py-2 nav-link fancy-hover text-white hover:text-gray-300"
+            className="block text-lg font-medium py-2 nav-link fancy-hover" 
             onClick={() => setMobileMenuOpen(false)}
           >
             Start the Conversation
@@ -151,26 +151,26 @@ const Navbar = () => {
               handleContactClick();
               setMobileMenuOpen(false);
             }}
-            className="block text-lg font-medium py-2 nav-link fancy-hover text-left text-white hover:text-gray-300"
+            className="block text-lg font-medium py-2 nav-link fancy-hover text-left"
           >
             Contact
           </button>
           <Link 
             to="/about" 
-            className="block text-lg font-medium py-2 nav-link fancy-hover text-white hover:text-gray-300" 
+            className="block text-lg font-medium py-2 nav-link fancy-hover" 
             onClick={() => setMobileMenuOpen(false)}
           >
             About
           </Link>
           
           {/* Social Media Icons - Mobile Only */}
-          <div className="pt-6 mt-4 border-t border-white/40">
+          <div className="pt-6 mt-4 border-t border-border/40">
             <div className="flex space-x-6 justify-center">
               <a 
                 href="https://instagram.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-white/70 hover:text-white transition-colors duration-200"
+                className="text-muted-foreground hover:text-primary transition-colors duration-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Instagram size={24} />
@@ -179,7 +179,7 @@ const Navbar = () => {
                 href="https://linkedin.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-white/70 hover:text-white transition-colors duration-200"
+                className="text-muted-foreground hover:text-primary transition-colors duration-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Linkedin size={24} />
@@ -188,14 +188,14 @@ const Navbar = () => {
                 href="https://twitter.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-white/70 hover:text-white transition-colors duration-200"
+                className="text-muted-foreground hover:text-primary transition-colors duration-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <img src="/lovable-uploads/9dfef179-60d5-4651-9754-2372045ac5c8.png" alt="X" className="w-6 h-6" />
               </a>
               <a 
                 href="mailto:contact@example.com" 
-                className="text-white/70 hover:text-white transition-colors duration-200"
+                className="text-muted-foreground hover:text-primary transition-colors duration-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Mail size={24} />

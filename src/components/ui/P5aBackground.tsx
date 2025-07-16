@@ -10,50 +10,14 @@ const P5aBackground: React.FC = () => {
   const timeRef = useRef<number>(0);
   const specialDotIndexRef = useRef<number>(-1);
   const specialDotTimerRef = useRef<number>(0);
-  const mobileMenuOpenRef = useRef<boolean>(false);
 
-  // Check if mobile menu is open by looking for the black mobile menu background
-  useEffect(() => {
-    const checkMobileMenu = () => {
-      const isMobile = window.innerWidth <= 768;
-      if (isMobile) {
-        const mobileMenu = document.querySelector('[class*="bg-black/95"]');
-        mobileMenuOpenRef.current = !!mobileMenu && !mobileMenu.classList.contains('opacity-0');
-      } else {
-        mobileMenuOpenRef.current = false;
-      }
-    };
-
-    // Check initially and on DOM changes
-    checkMobileMenu();
-    const observer = new MutationObserver(checkMobileMenu);
-    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
-    
-    const handleResize = () => checkMobileMenu();
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  // Expanded color palette with darker gray options for normal mode
-  const normalColors = [
+  // Expanded color palette with darker gray options
+  const colors = [
     'rgba(200, 200, 200, 0.4)',
     'rgba(180, 180, 180, 0.3)',
     'rgba(160, 160, 160, 0.2)',
     'rgba(120, 120, 120, 0.5)', // Darker option
     'rgba(100, 100, 100, 0.6)', // Even darker option
-  ];
-
-  // White color palette for mobile menu mode
-  const whiteColors = [
-    'rgba(255, 255, 255, 0.7)',
-    'rgba(240, 240, 240, 0.6)',
-    'rgba(220, 220, 220, 0.5)',
-    'rgba(200, 200, 200, 0.8)',
-    'rgba(180, 180, 180, 0.7)',
   ];
 
   class Dot {
@@ -88,7 +52,6 @@ const P5aBackground: React.FC = () => {
       this.originalSize = this.size;
       
       // Extract color values for opacity manipulation
-      const colors = mobileMenuOpenRef.current ? whiteColors : normalColors;
       const colorIndex = Math.floor(Math.random() * colors.length);
       this.color = colors[colorIndex];
       this.originalColor = this.color;
@@ -116,9 +79,6 @@ const P5aBackground: React.FC = () => {
     }
     
     draw(ctx: CanvasRenderingContext2D) {
-      // Update colors based on mobile menu state
-      const colors = mobileMenuOpenRef.current ? whiteColors : normalColors;
-      
       // Determine color based on special status
       let displayColor;
       
@@ -138,17 +98,9 @@ const P5aBackground: React.FC = () => {
           displayColor = baseColor;
         }
       } else {
-        // Regular dot with current opacity - use appropriate color palette
-        if (mobileMenuOpenRef.current) {
-          // For mobile menu, ensure we're using white colors
-          const colorIndex = Math.floor(Math.random() * whiteColors.length);
-          const whiteColor = whiteColors[colorIndex];
-          displayColor = whiteColor.replace(/[\d.]+(?=\))/, this.currentOpacity.toString());
-        } else {
-          // Normal mode
-          const baseColor = this.color.replace(/[\d.]+(?=\))/, this.currentOpacity.toString());
-          displayColor = baseColor;
-        }
+        // Regular dot with current opacity
+        const baseColor = this.color.replace(/[\d.]+(?=\))/, this.currentOpacity.toString());
+        displayColor = baseColor;
       }
       
       if (this.isSquare) {
@@ -376,16 +328,11 @@ const P5aBackground: React.FC = () => {
       for (const { dot, distance } of nearest) {
         // Only draw if both dots haven't exceeded connection limit
         if (!dots[i].connected || !dot.connected) {
-          // Modify line opacity based on current dot opacities and mobile menu state
+          // Modify line opacity based on current dot opacities
           const avgOpacity = (dots[i].currentOpacity + dot.currentOpacity) / 2;
           const opacity = (1 - (distance / maxDistance)) * avgOpacity;
           
-          // Use white lines for mobile menu, gray for normal
-          const lineColor = mobileMenuOpenRef.current ? 
-            `rgba(255, 255, 255, ${opacity * 0.4})` : 
-            `rgba(180, 180, 180, ${opacity * 0.3})`;
-          
-          ctx.strokeStyle = lineColor;
+          ctx.strokeStyle = `rgba(180, 180, 180, ${opacity * 0.3})`; // Lines get darker too
           ctx.lineWidth = 0.2; // Keep extremely thin lines
           
           ctx.beginPath();
