@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Instagram, Linkedin, Twitter, Mail } from 'lucide-react';
+import { Menu, X, Instagram, Linkedin, Mail } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
@@ -120,7 +120,7 @@ const Navbar = () => {
             : 'opacity-0 h-0 pointer-events-none'
         }`}
       >
-        <div className="px-4 pt-6 pb-8 space-y-3 bg-background/90 backdrop-blur-md">
+        <div className="px-4 pt-6 pb-8 space-y-3 bg-background/95 backdrop-blur-md h-full">
           <button
             onClick={() => {
               handleSectionClick('books');
@@ -164,7 +164,7 @@ const Navbar = () => {
           </Link>
           
           {/* Social Media Icons - Mobile Only */}
-          <div className="pt-4 border-t border-border/20">
+          <div className="pt-6 mt-4 border-t border-border/40">
             <div className="flex space-x-6 justify-center">
               <a 
                 href="https://instagram.com" 
@@ -191,7 +191,7 @@ const Navbar = () => {
                 className="text-muted-foreground hover:text-primary transition-colors duration-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <Twitter size={24} />
+                <img src="/lovable-uploads/9dfef179-60d5-4651-9754-2372045ac5c8.png" alt="X" className="w-6 h-6" />
               </a>
               <a 
                 href="mailto:contact@example.com" 
