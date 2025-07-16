@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Instagram, Linkedin, Twitter, Mail } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
@@ -162,6 +162,46 @@ const Navbar = () => {
           >
             About
           </Link>
+          
+          {/* Social Media Icons - Mobile Only */}
+          <div className="pt-4 border-t border-border/20">
+            <div className="flex space-x-6 justify-center">
+              <a 
+                href="https://instagram.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary transition-colors duration-200"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Instagram size={24} />
+              </a>
+              <a 
+                href="https://linkedin.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary transition-colors duration-200"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Linkedin size={24} />
+              </a>
+              <a 
+                href="https://twitter.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary transition-colors duration-200"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Twitter size={24} />
+              </a>
+              <a 
+                href="mailto:contact@example.com" 
+                className="text-muted-foreground hover:text-primary transition-colors duration-200"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Mail size={24} />
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </header>
