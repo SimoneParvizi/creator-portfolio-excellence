@@ -10,6 +10,8 @@ const P5aBackground: React.FC = () => {
   const timeRef = useRef<number>(0);
   const specialDotIndexRef = useRef<number>(-1);
   const specialDotTimerRef = useRef<number>(0);
+  const isMobileRef = useRef<boolean>(false);
+  const lastFrameTimeRef = useRef<number>(0);
 
   // Expanded color palette with darker gray options
   const colors = [
@@ -256,7 +258,8 @@ const P5aBackground: React.FC = () => {
     const dots: Dot[] = [];
     
     // Create a grid of dots with more space between them (sparse)
-    const gridSize = 30; // Grid cell size (larger = more sparse)
+    // Use larger grid size on mobile for better performance
+    const gridSize = isMobileRef.current ? 45 : 30;
     
     for (let x = 0; x < width; x += gridSize) {
       for (let y = 0; y < height; y += gridSize) {
@@ -276,12 +279,16 @@ const P5aBackground: React.FC = () => {
     const canvas = canvasRef.current;
     const ctx = contextRef.current;
     
+    // Check if mobile device
+    isMobileRef.current = window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
     // Set display size (css pixels)
     canvas.style.width = '100%';
     canvas.style.height = '100%';
     
     // Set actual size in memory (scaled to account for extra pixel density)
-    const dpr = window.devicePixelRatio || 1;
+    // Limit device pixel ratio on mobile to prevent performance issues
+    const dpr = isMobileRef.current ? Math.min(window.devicePixelRatio || 1, 2) : (window.devicePixelRatio || 1);
     const rect = canvas.getBoundingClientRect();
     
     // Update size refs
@@ -394,6 +401,17 @@ const P5aBackground: React.FC = () => {
   const animate = (timestamp: number) => {
     if (!contextRef.current || !canvasRef.current) return;
     
+    // Throttle animation on mobile devices to prevent rapid spinning
+    const targetFPS = isMobileRef.current ? 30 : 60;
+    const fpsInterval = 1000 / targetFPS;
+    
+    if (timestamp - lastFrameTimeRef.current < fpsInterval) {
+      rafRef.current = requestAnimationFrame(animate);
+      return;
+    }
+    
+    lastFrameTimeRef.current = timestamp;
+    
     // Update time for organic movement patterns
     timeRef.current = timestamp;
     
@@ -403,8 +421,10 @@ const P5aBackground: React.FC = () => {
     // Clear canvas with full opacity
     ctx.clearRect(0, 0, width, height);
     
-    // Update special dot state
-    updateSpecialDot(timestamp);
+    // Update special dot state (disable on mobile to prevent issues)
+    if (!isMobileRef.current) {
+      updateSpecialDot(timestamp);
+    }
     
     // Update and draw dots
     dotsRef.current.forEach(dot => {
@@ -412,8 +432,10 @@ const P5aBackground: React.FC = () => {
       dot.draw(ctx);
     });
     
-    // Draw minimal connecting lines
-    drawLines(ctx, dotsRef.current);
+    // Draw minimal connecting lines (reduce on mobile)
+    if (!isMobileRef.current || dotsRef.current.length < 200) {
+      drawLines(ctx, dotsRef.current);
+    }
     
     rafRef.current = requestAnimationFrame(animate);
   };
