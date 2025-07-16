@@ -22,8 +22,7 @@ const HeroSimple: React.FC = () => {
           
           <div className="mb-12">
             <p className="text-lg md:text-xl max-w-2xl mb-12 text-balance font-lora">
-              I create elegant solutions with meticulous attention to detail.
-              I build without wasting time nor budget.
+              I build Websites, MLOps systems and Infrastructure that help you succeed.
             </p>
 
             <div className="flex flex-wrap gap-4">
