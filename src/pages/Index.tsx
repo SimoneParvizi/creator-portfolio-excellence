@@ -39,9 +39,12 @@ const Index = () => {
     };
   }, []);
 
+  console.log('Index component rendering...');
+
   return (
     <div className="min-h-screen relative overflow-x-hidden bg-background">
-      <P5aBackground />
+      {/* Temporarily comment out P5aBackground to test if it's causing the crash */}
+      {/* <P5aBackground /> */}
       <Navbar />
       <FixedSocialSidebar />
       <main>
