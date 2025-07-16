@@ -1,4 +1,5 @@
 
+console.log('App.tsx loading...');
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,6 +10,7 @@ import About from "./pages/About";
 import Booking from "./pages/Booking";
 import NotFound from "./pages/NotFound";
 
+console.log('App.tsx imports loaded, creating QueryClient...');
 const queryClient = new QueryClient();
 
 const App = () => (
