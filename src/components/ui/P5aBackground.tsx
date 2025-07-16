@@ -258,7 +258,7 @@ const P5aBackground: React.FC = () => {
     const dots: Dot[] = [];
     
     // Create a grid of dots with more space between them (sparse)
-    // Use larger grid size on mobile for better performance
+    // Only use larger grid size on mobile - keep original for desktop
     const gridSize = isMobileRef.current ? 45 : 30;
     
     for (let x = 0; x < width; x += gridSize) {
@@ -401,16 +401,17 @@ const P5aBackground: React.FC = () => {
   const animate = (timestamp: number) => {
     if (!contextRef.current || !canvasRef.current) return;
     
-    // Throttle animation on mobile devices to prevent rapid spinning
-    const targetFPS = isMobileRef.current ? 30 : 60;
-    const fpsInterval = 1000 / targetFPS;
-    
-    if (timestamp - lastFrameTimeRef.current < fpsInterval) {
-      rafRef.current = requestAnimationFrame(animate);
-      return;
+    // Only throttle animation on mobile devices - keep full speed on desktop
+    if (isMobileRef.current) {
+      const targetFPS = 30;
+      const fpsInterval = 1000 / targetFPS;
+      
+      if (timestamp - lastFrameTimeRef.current < fpsInterval) {
+        rafRef.current = requestAnimationFrame(animate);
+        return;
+      }
+      lastFrameTimeRef.current = timestamp;
     }
-    
-    lastFrameTimeRef.current = timestamp;
     
     // Update time for organic movement patterns
     timeRef.current = timestamp;
@@ -421,7 +422,7 @@ const P5aBackground: React.FC = () => {
     // Clear canvas with full opacity
     ctx.clearRect(0, 0, width, height);
     
-    // Update special dot state (disable on mobile to prevent issues)
+    // Update special dot state (disable only on mobile)
     if (!isMobileRef.current) {
       updateSpecialDot(timestamp);
     }
@@ -432,10 +433,8 @@ const P5aBackground: React.FC = () => {
       dot.draw(ctx);
     });
     
-    // Draw minimal connecting lines (reduce on mobile)
-    if (!isMobileRef.current || dotsRef.current.length < 200) {
-      drawLines(ctx, dotsRef.current);
-    }
+    // Draw minimal connecting lines (keep original behavior on desktop)
+    drawLines(ctx, dotsRef.current);
     
     rafRef.current = requestAnimationFrame(animate);
   };
