@@ -51,11 +51,11 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, 
       <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-primary/10 mb-5 text-foreground">
         {icon}
       </div>
-      <h3 className="text-lg font-semibold mb-2">{title}</h3>
-      <p className="text-muted-foreground text-sm mb-4 font-cordia">{description}</p>
+      <h3 className="text-lg font-semibold mb-2 font-lora">{title}</h3>
+      <p className="text-muted-foreground text-sm mb-4 font-lora">{description}</p>
       <ul className="space-y-2">
         {items.map((item, i) => (
-          <li key={i} className="text-sm flex items-start">
+          <li key={i} className="text-sm flex items-start font-lora">
             <span className="mr-2 text-foreground/60">•</span>
             <span>{item}</span>
           </li>
