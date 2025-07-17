@@ -29,14 +29,14 @@ const HeroSimple: React.FC = () => {
               <Button 
                 asChild
                 variant="outline" 
-                className="h-11 px-8 font-lora"
+                className="h-11 px-8"
               >
                 <a href="#projects">View My Work</a>
               </Button>
               <Button 
                 asChild
                 variant="default" 
-                className="h-11 px-8 font-lora"
+                className="h-11 px-8"
               >
                 <a href="#contact">Contact Me</a>
               </Button>
