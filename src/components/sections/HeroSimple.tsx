@@ -5,7 +5,7 @@ const HeroSimple: React.FC = () => {
   console.log('HeroSimple component rendering...');
   
   return (
-    <section id="hero" className="relative min-h-screen flex items-start md:items-center pt-12 md:pt-0 bg-transparent">
+    <section id="hero" className="relative min-h-screen flex items-start md:items-center pt-8 md:pt-0 bg-transparent">
       <div className="section-container">
         <div className="max-w-4xl mx-auto">
           <div className="mb-3">
