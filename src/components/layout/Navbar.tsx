@@ -87,17 +87,17 @@ const Navbar = () => {
 
           {/* Desktop Navigation - Updated Order */}
           <nav className="hidden md:flex space-x-3">
-            <button onClick={() => handleSectionClick('books')} className="nav-link fancy-hover">
+            <button onClick={() => handleSectionClick('books')} className="nav-link fancy-hover font-lora">
               Book
             </button>
-            <button onClick={() => handleSectionClick('projects')} className="nav-link fancy-hover">
+            <button onClick={() => handleSectionClick('projects')} className="nav-link fancy-hover font-lora">
               Projects
             </button>
-            <Link to="/booking" className="nav-link fancy-hover">Start the Conversation</Link>
-            <button onClick={handleContactClick} className="nav-link fancy-hover">
+            <Link to="/booking" className="nav-link fancy-hover font-lora">Start the Conversation</Link>
+            <button onClick={handleContactClick} className="nav-link fancy-hover font-lora">
               Contact
             </button>
-            <Link to="/about" className="nav-link fancy-hover">About</Link>
+            <Link to="/about" className="nav-link fancy-hover font-lora">About</Link>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -126,7 +126,7 @@ const Navbar = () => {
               handleSectionClick('books');
               setMobileMenuOpen(false);
             }}
-            className="block text-lg font-medium py-2 nav-link fancy-hover text-left"
+            className="block text-lg font-medium py-2 nav-link fancy-hover text-left font-lora"
           >
             Book
           </button>
@@ -135,13 +135,13 @@ const Navbar = () => {
               handleSectionClick('projects');
               setMobileMenuOpen(false);
             }}
-            className="block text-lg font-medium py-2 nav-link fancy-hover text-left"
+            className="block text-lg font-medium py-2 nav-link fancy-hover text-left font-lora"
           >
             Projects
           </button>
           <Link
             to="/booking" 
-            className="block text-lg font-medium py-2 nav-link fancy-hover" 
+            className="block text-lg font-medium py-2 nav-link fancy-hover font-lora" 
             onClick={() => setMobileMenuOpen(false)}
           >
             Start the Conversation
@@ -151,13 +151,13 @@ const Navbar = () => {
               handleContactClick();
               setMobileMenuOpen(false);
             }}
-            className="block text-lg font-medium py-2 nav-link fancy-hover text-left"
+            className="block text-lg font-medium py-2 nav-link fancy-hover text-left font-lora"
           >
             Contact
           </button>
           <Link 
             to="/about" 
-            className="block text-lg font-medium py-2 nav-link fancy-hover" 
+            className="block text-lg font-medium py-2 nav-link fancy-hover font-lora" 
             onClick={() => setMobileMenuOpen(false)}
           >
             About
