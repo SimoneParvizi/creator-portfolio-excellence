@@ -1,6 +1,6 @@
 
 import React, { useRef, useEffect } from 'react';
-import { ExternalLink, Twitter } from 'lucide-react';
+import { ExternalLink, X } from 'lucide-react';
 
 interface ProjectCardProps {
   title: string;
@@ -66,20 +66,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         />
       </div>
       
-      <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
-        <div className="flex flex-wrap gap-2 mb-3">
+      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 z-20">
+        <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 max-h-16 overflow-y-auto">
           {tags.map((tag, i) => (
             <span
               key={i}
-              className="px-2 py-1 text-xs font-medium rounded-full bg-black/30 backdrop-blur-sm text-white/90"
+              className="px-2 py-1 text-xs font-medium rounded-full bg-black/30 backdrop-blur-sm text-white/90 whitespace-nowrap"
             >
               {tag}
             </span>
           ))}
         </div>
         
-        <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
-        <p className="text-white/80 text-sm line-clamp-2 mb-4">{description}</p>
+        <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{title}</h3>
+        <p className="text-white/80 text-xs sm:text-sm line-clamp-3 mb-4">{description}</p>
         
         <div className="flex space-x-3">
           {githubUrl && (
@@ -89,7 +89,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               rel="noopener noreferrer"
               className="p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors"
             >
-              <Twitter size={18} className="text-white" />
+              <X size={18} className="text-white" />
             </a>
           )}
           
