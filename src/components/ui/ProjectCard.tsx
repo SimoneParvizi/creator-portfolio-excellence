@@ -1,6 +1,6 @@
 
 import React, { useRef, useEffect } from 'react';
-import { ExternalLink, X } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 
 interface ProjectCardProps {
   title: string;
@@ -89,7 +89,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               rel="noopener noreferrer"
               className="p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors"
             >
-              <X size={18} className="text-white" />
+              <img src="/favicon-inverted.png" alt="X" className="w-[18px] h-[18px]" />
             </a>
           )}
           
