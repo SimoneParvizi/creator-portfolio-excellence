@@ -69,9 +69,6 @@ const Contact: React.FC = () => {
           <p className="section-subtitle slide-up mb-6 font-lora">
             Got a concept or partnership in mind? Let's have a conversation about it.
           </p>
-          <p className="section-subtitle slide-up font-lora">
-            I believe in honest work for honest pay. My goal is to build systems that make you happy to pay for them, because they work, and they're built with care. I'm not here to overcharge or underdeliver. My process is open and practical, committed to your success. You get clear communication and a partner who values your trust and your time.
-          </p>
         </div>
 
         <div className="max-w-3xl mx-auto">
