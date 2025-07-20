@@ -97,6 +97,12 @@ const Skills: React.FC = () => {
 
   const skills = [
     {
+      icon: <Palette size={24} />,
+      title: "Website Development",
+      description: "Creating modern, intuitive websites that engage your audience.",
+      items: ["React & TypeScript", "Tailwind CSS", "Responsive Design", "Modern Animations", "Component Libraries", "Interactive UI Elements"],
+    },
+    {
       icon: <Cloud size={24} />,
       title: "MLOps & DevOps",
       description: "Scalable systems to keep your machine learning running smoothly.",
@@ -107,12 +113,6 @@ const Skills: React.FC = () => {
       title: "Machine Learning",
       description: "Building and launching ML models that solve real problems. Your problems.",
       items: ["Model Training", "Model Serving", "Feature Engineering", "Data Processing", "ML Monitoring", "Experiment Tracking"],
-    },
-    {
-      icon: <Palette size={24} />,
-      title: "Website Development",
-      description: "Creating modern, intuitive websites that engage your audience.",
-      items: ["React & TypeScript", "Tailwind CSS", "Responsive Design", "Modern Animations", "Component Libraries", "Interactive UI Elements"],
     },
   ];
 
