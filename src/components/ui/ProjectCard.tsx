@@ -89,7 +89,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               rel="noopener noreferrer"
               className="p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors"
             >
-              <img src="/favicon-inverted.png" alt="X" className="w-[18px] h-[18px]" />
+              <img src="/lovable-uploads/inverted-x.png" alt="X" className="w-[18px] h-[18px]" />
             </a>
           )}
           
