@@ -31,7 +31,7 @@ const MinimalistDotBackground: React.FC = () => {
     
     // Particles array
     const particles: Particle[] = [];
-    const PARTICLE_COUNT = 350; // Keeping 350 dots
+    const PARTICLE_COUNT = 450; // Increased from 350 to 450 dots
     
     // Particle class
     class Particle {
