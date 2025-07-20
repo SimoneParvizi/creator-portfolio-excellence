@@ -33,11 +33,11 @@ const Projects: React.FC = () => {
 
   const projects = [
     {
-      title: "E-commerce Platform",
-      description: "A fully featured e-commerce platform with product management, cart functionality, and payment processing.",
-      tags: ["Next.js", "TypeScript", "Stripe", "Tailwind CSS"],
-      imageUrl: "https://placehold.co/1200x800/111/333?text=E-commerce",
-      liveUrl: "#",
+      title: "AI Q&A Generation Platform",
+      description: "An intelligent document processing system that generates study material from documents and videos.",
+      tags: ["Python", "FastAPI", "OpenAI", "HuggingFace", "AsyncIO"],
+      imageUrl: "https://placehold.co/1200x800/111/333?text=AI+Q%26A",
+      liveUrl: "https://kiokify.com",
       githubUrl: "#",
     },
     {

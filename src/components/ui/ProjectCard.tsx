@@ -1,6 +1,6 @@
 
 import React, { useRef, useEffect } from 'react';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink, Twitter } from 'lucide-react';
 
 interface ProjectCardProps {
   title: string;
@@ -89,7 +89,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               rel="noopener noreferrer"
               className="p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors"
             >
-              <Github size={18} className="text-white" />
+              <Twitter size={18} className="text-white" />
             </a>
           )}
           
