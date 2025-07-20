@@ -6,6 +6,8 @@ const MinimalistDotBackground: React.FC = () => {
   const mousePositionRef = useRef({ x: 0, y: 0 });
   const rafRef = useRef<number | null>(null);
   const timeRef = useRef<number>(0);
+  const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const lastResizeRef = useRef({ width: 0, height: 0 });
   
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -14,11 +16,33 @@ const MinimalistDotBackground: React.FC = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     
-    // Set canvas size
+    // Set canvas size with throttling to prevent mobile scroll issues
     const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      initializeParticles();
+      const newWidth = window.innerWidth;
+      const newHeight = window.innerHeight;
+      
+      // Only resize if there's a significant change to prevent mobile scroll glitches
+      const widthDiff = Math.abs(newWidth - lastResizeRef.current.width);
+      const heightDiff = Math.abs(newHeight - lastResizeRef.current.height);
+      
+      // Throttle resize to prevent particles jumping during mobile scrolling
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
+      
+      resizeTimeoutRef.current = setTimeout(() => {
+        // Only reinitialize particles if there's a significant size change (not just mobile scroll)
+        if (widthDiff > 50 || heightDiff > 100) {
+          canvas.width = newWidth;
+          canvas.height = newHeight;
+          lastResizeRef.current = { width: newWidth, height: newHeight };
+          initializeParticles();
+        } else {
+          // Just update canvas size without recreating particles
+          canvas.width = newWidth;
+          canvas.height = newHeight;
+        }
+      }, 150); // Debounce resize events
     };
     
     // Track mouse position
@@ -166,6 +190,7 @@ const MinimalistDotBackground: React.FC = () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      if (resizeTimeoutRef.current) clearTimeout(resizeTimeoutRef.current);
     };
   }, []);
   
