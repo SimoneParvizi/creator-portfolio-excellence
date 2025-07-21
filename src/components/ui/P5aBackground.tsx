@@ -261,8 +261,8 @@ const P5aBackground: React.FC = () => {
     const { width, height } = sizeRef.current;
     const dots: Dot[] = [];
     
-    // Create a denser grid of dots
-    const gridSize = 20; // Smaller grid size for more dots
+    // Create a balanced grid of dots
+    const gridSize = 25; // Balanced density - not too many, not too few
     
     for (let x = 0; x < width; x += gridSize) {
       for (let y = 0; y < height; y += gridSize) {
