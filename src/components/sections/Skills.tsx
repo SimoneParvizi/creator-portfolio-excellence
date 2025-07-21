@@ -46,7 +46,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, 
   return (
     <div
       ref={cardRef}
-      className="slide-up p-6 rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm hover:border-border/60 transition-all duration-300"
+      className="slide-up p-6 rounded-2xl border border-border/40 bg-card/40 backdrop-blur-md hover:border-border/60 transition-all duration-300"
     >
       <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-primary/10 mb-5 text-foreground">
         {icon}
