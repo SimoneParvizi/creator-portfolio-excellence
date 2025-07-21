@@ -190,44 +190,50 @@ const P5aBackground: React.FC = () => {
     }
     
     updateRegular(mouse: { x: number, y: number }, time: number, width: number, height: number) {
-      // Enhanced mouse interaction
+      // Much more dramatic mouse interaction
       const dx = mouse.x - this.x;
       const dy = mouse.y - this.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
-      const maxDistance = 120; // Increased influence radius for more noticeable effect
+      const maxDistance = 180; // Larger influence radius
       
       if (distance < maxDistance) {
         const angle = Math.atan2(dy, dx);
         const force = (maxDistance - distance) / maxDistance;
         
-        // Even stronger movement away from mouse (4x stronger)
-        this.vx -= Math.cos(angle) * force * 0.4;
-        this.vy -= Math.sin(angle) * force * 0.4;
+        // Much stronger movement away from mouse (8x stronger)
+        this.vx -= Math.cos(angle) * force * 0.8;
+        this.vy -= Math.sin(angle) * force * 0.8;
         
-        // Dots near the mouse get darker but not bigger
-        if (distance < 50) {
-          this.currentOpacity = Math.min(0.9, this.currentOpacity + 0.08);
-          // Size remains constant - no size change on mouse interaction
+        // Dots near the mouse get much more visible
+        if (distance < 80) {
+          this.currentOpacity = Math.min(1.0, this.currentOpacity + 0.15);
+          // Also make them slightly bigger for more visibility
+          this.size = Math.min(this.originalSize * 1.8, this.size + 0.1);
         }
       }
       
       // Add subtle time-based movement (gentle organic motion)
       // Figure 8 / infinity pattern movement
-      const xMovement = Math.sin(time * this.speed + this.angle) * 0.5;
-      const yMovement = Math.sin(time * this.speed * 2 + this.angle) * Math.cos(time * this.speed + this.angle) * 0.5;
+      const xMovement = Math.sin(time * this.speed + this.angle) * 0.8;
+      const yMovement = Math.sin(time * this.speed * 2 + this.angle) * Math.cos(time * this.speed + this.angle) * 0.8;
       
       // Blend time-based movement with mouse interaction
       this.x += this.vx + xMovement;
       this.y += this.vy + yMovement;
       
       // Slow return to original position
-      const returnSpeed = 0.01;
+      const returnSpeed = 0.015;
       this.x += (this.baseX - this.x) * returnSpeed;
       this.y += (this.baseY - this.y) * returnSpeed;
       
-      // Apply velocity with even less damping for more noticeable movement
-      this.vx *= 0.8; // Was 0.85, now 0.8 for more persistence in movement
-      this.vy *= 0.8; // Was 0.85, now 0.8
+      // Apply velocity with less damping for more dramatic movement
+      this.vx *= 0.75; // Even less damping for more persistence
+      this.vy *= 0.75;
+      
+      // Return size to original when not near mouse
+      if (distance > 80) {
+        this.size = Math.max(this.originalSize, this.size - 0.05);
+      }
       
       // Random opacity transitions
       if (Math.random() < 0.002) { // Small chance to toggle darkening state
@@ -255,14 +261,14 @@ const P5aBackground: React.FC = () => {
     const { width, height } = sizeRef.current;
     const dots: Dot[] = [];
     
-    // Create a grid of dots with more space between them (sparse)
-    const gridSize = 30; // Grid cell size (larger = more sparse)
+    // Create a denser grid of dots
+    const gridSize = 20; // Smaller grid size for more dots
     
     for (let x = 0; x < width; x += gridSize) {
       for (let y = 0; y < height; y += gridSize) {
         // Add some randomness to positions
-        const randX = x + (Math.random() * 10 - 5);
-        const randY = y + (Math.random() * 10 - 5);
+        const randX = x + (Math.random() * 8 - 4);
+        const randY = y + (Math.random() * 8 - 4);
         dots.push(new Dot(randX, randY));
       }
     }
