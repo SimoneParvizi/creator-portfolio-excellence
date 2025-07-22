@@ -429,11 +429,17 @@ const P5aBackground: React.FC = () => {
   const animate = (timestamp: number) => {
     if (!contextRef.current || !canvasRef.current) return;
     
-    // Mobile frame rate limiter with smooth time progression
+    // Mobile frame rate limiter with enhanced scroll handling
     const isMobile = window.innerWidth <= 768;
+    
     if (isMobile) {
       const timeSinceLastFrame = timestamp - lastFrameRef.current;
-      if (timeSinceLastFrame < 33) { // Limit to ~30fps on mobile
+      
+      // During scroll, limit to 15fps to prevent jumping
+      // Normal operation at 30fps
+      const frameLimit = isScrollingRef.current ? 66 : 33;
+      
+      if (timeSinceLastFrame < frameLimit) {
         rafRef.current = requestAnimationFrame(animate);
         return;
       }
