@@ -422,6 +422,7 @@ const P5aBackground: React.FC = () => {
   };
 
   const lastFrameRef = useRef<number>(0);
+  const lastScrollFrameRef = useRef<number>(0);
   const isScrollingRef = useRef<boolean>(false);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -510,11 +511,24 @@ const P5aBackground: React.FC = () => {
     
     // Handle scroll events to prevent dot jumping on mobile
     const handleScroll = () => {
+      // Apply frame rate limiter during scroll on mobile only
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        const now = performance.now();
+        const timeSinceLastScrollFrame = now - lastScrollFrameRef.current;
+        
+        // Limit scroll processing to 15fps on mobile to prevent jumping
+        if (timeSinceLastScrollFrame < 66) {
+          return;
+        }
+        lastScrollFrameRef.current = now;
+      }
+      
       const wasScrolling = isScrollingRef.current;
       isScrollingRef.current = true;
       
       // On mobile, reset velocities when scroll starts to prevent accumulated forces
-      if (!wasScrolling && window.innerWidth <= 768) {
+      if (!wasScrolling && isMobile) {
         dotsRef.current.forEach(dot => {
           dot.vx *= 0.1; // Dramatically reduce existing velocities
           dot.vy *= 0.1;
