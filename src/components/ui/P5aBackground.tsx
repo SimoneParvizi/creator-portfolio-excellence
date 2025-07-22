@@ -231,8 +231,23 @@ const P5aBackground: React.FC = () => {
       const yMovement = Math.sin(time * this.speed * 2 + this.angle) * Math.cos(time * this.speed + this.angle) * 0.8;
       
       // Blend time-based movement with mouse interaction
-      this.x += this.vx + xMovement;
-      this.y += this.vy + yMovement;
+      const newX = this.x + this.vx + xMovement;
+      const newY = this.y + this.vy + yMovement;
+      
+      // Cap maximum movement per frame to prevent teleporting
+      const maxMovement = 5; // Maximum pixels per frame
+      const deltaX = newX - this.x;
+      const deltaY = newY - this.y;
+      const movementDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      
+      if (movementDistance > maxMovement) {
+        const ratio = maxMovement / movementDistance;
+        this.x += deltaX * ratio;
+        this.y += deltaY * ratio;
+      } else {
+        this.x = newX;
+        this.y = newY;
+      }
       
       // Slow return to original position
       const returnSpeed = 0.015;
@@ -412,14 +427,8 @@ const P5aBackground: React.FC = () => {
   const animate = (timestamp: number) => {
     if (!contextRef.current || !canvasRef.current) return;
     
-    // Skip animation entirely during mobile scroll
-    const isMobile = window.innerWidth <= 768;
-    if (isMobile && isScrollingRef.current) {
-      rafRef.current = requestAnimationFrame(animate);
-      return;
-    }
-    
     // Mobile frame rate limiter with smooth time progression
+    const isMobile = window.innerWidth <= 768;
     if (isMobile) {
       const timeSinceLastFrame = timestamp - lastFrameRef.current;
       if (timeSinceLastFrame < 33) { // Limit to ~30fps on mobile
