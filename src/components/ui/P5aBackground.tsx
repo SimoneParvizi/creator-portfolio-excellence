@@ -402,7 +402,7 @@ const P5aBackground: React.FC = () => {
   const animate = (timestamp: number) => {
     if (!contextRef.current || !canvasRef.current) return;
     
-    // Mobile frame rate limiter to prevent spinning bug
+    // Mobile frame rate limiter with smooth time progression
     const isMobile = window.innerWidth <= 768;
     if (isMobile) {
       const timeSinceLastFrame = timestamp - lastFrameRef.current;
@@ -411,10 +411,13 @@ const P5aBackground: React.FC = () => {
         return;
       }
       lastFrameRef.current = timestamp;
+      
+      // On mobile, use smoother time progression to prevent jumpy movement
+      timeRef.current += 16.67; // Consistent 60fps time progression
+    } else {
+      // Update time for organic movement patterns
+      timeRef.current = timestamp;
     }
-    
-    // Update time for organic movement patterns
-    timeRef.current = timestamp;
     
     const ctx = contextRef.current;
     const { width, height } = sizeRef.current;
