@@ -190,25 +190,38 @@ const P5aBackground: React.FC = () => {
     }
     
     updateRegular(mouse: { x: number, y: number }, time: number, width: number, height: number) {
-      // Much more dramatic mouse interaction
-      const dx = mouse.x - this.x;
-      const dy = mouse.y - this.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      const maxDistance = 180; // Larger influence radius
+      // Skip mouse interaction during scrolling on mobile
+      const isMobile = window.innerWidth <= 768;
+      const skipMouseInteraction = isMobile && isScrollingRef.current;
       
-      if (distance < maxDistance) {
-        const angle = Math.atan2(dy, dx);
-        const force = (maxDistance - distance) / maxDistance;
+      let distance = 0;
+      
+      // Much more dramatic mouse interaction (but skip during mobile scroll)
+      if (!skipMouseInteraction) {
+        const dx = mouse.x - this.x;
+        const dy = mouse.y - this.y;
+        distance = Math.sqrt(dx * dx + dy * dy);
+        const maxDistance = 180; // Larger influence radius
         
-        // Much stronger movement away from mouse (8x stronger)
-        this.vx -= Math.cos(angle) * force * 0.8;
-        this.vy -= Math.sin(angle) * force * 0.8;
+        if (distance < maxDistance) {
+          const angle = Math.atan2(dy, dx);
+          const force = (maxDistance - distance) / maxDistance;
+          
+          // Much stronger movement away from mouse (8x stronger)
+          this.vx -= Math.cos(angle) * force * 0.8;
+          this.vy -= Math.sin(angle) * force * 0.8;
+          
+          // Dots near the mouse get much more visible
+          if (distance < 80) {
+            this.currentOpacity = Math.min(1.0, this.currentOpacity + 0.15);
+            // Also make them slightly bigger for more visibility
+            this.size = Math.min(this.originalSize * 1.8, this.size + 0.1);
+          }
+        }
         
-        // Dots near the mouse get much more visible
-        if (distance < 80) {
-          this.currentOpacity = Math.min(1.0, this.currentOpacity + 0.15);
-          // Also make them slightly bigger for more visibility
-          this.size = Math.min(this.originalSize * 1.8, this.size + 0.1);
+        // Return size to original when not near mouse
+        if (distance > 80) {
+          this.size = Math.max(this.originalSize, this.size - 0.05);
         }
       }
       
@@ -229,11 +242,6 @@ const P5aBackground: React.FC = () => {
       // Apply velocity with less damping for more dramatic movement
       this.vx *= 0.75; // Even less damping for more persistence
       this.vy *= 0.75;
-      
-      // Return size to original when not near mouse
-      if (distance > 80) {
-        this.size = Math.max(this.originalSize, this.size - 0.05);
-      }
       
       // Random opacity transitions
       if (Math.random() < 0.002) { // Small chance to toggle darkening state
@@ -398,6 +406,8 @@ const P5aBackground: React.FC = () => {
   };
 
   const lastFrameRef = useRef<number>(0);
+  const isScrollingRef = useRef<boolean>(false);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const animate = (timestamp: number) => {
     if (!contextRef.current || !canvasRef.current) return;
@@ -458,10 +468,26 @@ const P5aBackground: React.FC = () => {
       };
     };
     
+    // Handle scroll events to prevent dot jumping on mobile
+    const handleScroll = () => {
+      isScrollingRef.current = true;
+      
+      // Clear existing timeout
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      
+      // Set scrolling to false after scroll ends
+      scrollTimeoutRef.current = setTimeout(() => {
+        isScrollingRef.current = false;
+      }, 150);
+    };
+    
     // Initialize
     handleResize();
     window.addEventListener('resize', handleResize);
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     
     // Start animation
     rafRef.current = requestAnimationFrame(animate);
@@ -470,6 +496,8 @@ const P5aBackground: React.FC = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);
