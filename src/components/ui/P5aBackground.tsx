@@ -4,6 +4,7 @@ const P5aBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
+  const prevMouseRef = useRef({ x: 0, y: 0 });
   const dotsRef = useRef<Dot[]>([]);
   const rafRef = useRef<number | null>(null);
   const sizeRef = useRef({ width: 0, height: 0 });
@@ -472,15 +473,39 @@ const P5aBackground: React.FC = () => {
     
     if (!contextRef.current) return;
     
-    // Track mouse position
+    // Track mouse position with smoothing on mobile
     const handleMouseMove = (e: MouseEvent) => {
       const rect = canvasRef.current?.getBoundingClientRect();
       if (!rect) return;
       
-      mouseRef.current = {
+      const newMousePos = {
         x: e.clientX - rect.left,
         y: e.clientY - rect.top
       };
+      
+      // Smooth mouse position changes on mobile during scroll
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile && isScrollingRef.current) {
+        // During scroll, prevent sudden mouse position jumps
+        const deltaX = Math.abs(newMousePos.x - prevMouseRef.current.x);
+        const deltaY = Math.abs(newMousePos.y - prevMouseRef.current.y);
+        
+        // If mouse position changed too much during scroll, ignore it
+        if (deltaX > 50 || deltaY > 50) {
+          return;
+        }
+        
+        // Smooth the mouse position change
+        mouseRef.current = {
+          x: prevMouseRef.current.x + (newMousePos.x - prevMouseRef.current.x) * 0.1,
+          y: prevMouseRef.current.y + (newMousePos.y - prevMouseRef.current.y) * 0.1
+        };
+      } else {
+        mouseRef.current = newMousePos;
+      }
+      
+      // Store previous position
+      prevMouseRef.current = { ...mouseRef.current };
     };
     
     // Handle scroll events to prevent dot jumping on mobile
