@@ -510,7 +510,16 @@ const P5aBackground: React.FC = () => {
     
     // Handle scroll events to prevent dot jumping on mobile
     const handleScroll = () => {
+      const wasScrolling = isScrollingRef.current;
       isScrollingRef.current = true;
+      
+      // On mobile, reset velocities when scroll starts to prevent accumulated forces
+      if (!wasScrolling && window.innerWidth <= 768) {
+        dotsRef.current.forEach(dot => {
+          dot.vx *= 0.1; // Dramatically reduce existing velocities
+          dot.vy *= 0.1;
+        });
+      }
       
       // Clear existing timeout
       if (scrollTimeoutRef.current) {
