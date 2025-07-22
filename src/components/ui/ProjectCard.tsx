@@ -78,8 +78,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           ))}
         </div>
         
-        <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{title}</h3>
-        <p className="text-white/80 text-xs sm:text-sm line-clamp-3 mb-4">{description}</p>
+        <h3 className="text-lg sm:text-xl font-bold text-white mb-2 font-lora">{title}</h3>
+        <p className="text-white/80 text-xs sm:text-sm line-clamp-3 mb-4 font-lora">{description}</p>
         
         <div className="flex space-x-3">
           {githubUrl && (
