@@ -111,7 +111,7 @@ const TestimonialCarousel: React.FC = () => {
   
   return (
     <div className="slide-up">
-      <h3 className="text-2xl font-semibold mb-6 text-center">What People Are Saying</h3>
+      <h3 className="text-2xl font-display font-semibold mb-6 text-center">What People Are Saying</h3>
       <div 
         className="relative" 
         onMouseEnter={handleMouseEnter}
