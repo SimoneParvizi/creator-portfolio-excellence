@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import AnimatedText from '@/components/ui/AnimatedText';
 
 const HeroSimple: React.FC = () => {
   console.log('HeroSimple component rendering...');
@@ -15,9 +16,21 @@ const HeroSimple: React.FC = () => {
           </div>
           
           <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold tracking-tight mb-8">
-            <span className="block mb-2">Creating digital</span>
-            <span className="block mb-2">experiences that</span>
-            <span className="block">perform & inspire</span>
+            <AnimatedText 
+              text="Creating digital" 
+              className="block mb-2" 
+              delay={200} 
+            />
+            <AnimatedText 
+              text="experiences that" 
+              className="block mb-2" 
+              delay={600} 
+            />
+            <AnimatedText 
+              text="perform & inspire" 
+              className="block" 
+              delay={1000} 
+            />
           </h1>
           
           <div className="mb-12">
