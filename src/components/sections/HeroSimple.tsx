@@ -10,9 +10,11 @@ const HeroSimple: React.FC = () => {
       <div className="section-container">
         <div className="max-w-4xl mx-auto">
           <div className="mb-3">
-            <div className="inline-block py-1 px-3 rounded-full text-sm font-medium text-foreground/80 bg-foreground/5 border border-foreground/10 backdrop-blur-sm mb-4">
-              Solo Developer
-            </div>
+            <AnimatedText delay={1800} className="inline-block">
+              <div className="inline-block py-1 px-3 rounded-full text-sm font-medium text-foreground/80 bg-foreground/5 border border-foreground/10 backdrop-blur-sm mb-4">
+                Solo Developer
+              </div>
+            </AnimatedText>
           </div>
           
           <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold tracking-tight mb-8">
@@ -34,26 +36,30 @@ const HeroSimple: React.FC = () => {
           </h1>
           
           <div className="mb-12">
-            <p className="text-lg md:text-xl max-w-2xl mb-12 text-balance font-lora">
-              I build Websites, MLOps systems and Infrastructure that help you succeed.
-            </p>
+            <AnimatedText delay={1800}>
+              <p className="text-lg md:text-xl max-w-2xl mb-12 text-balance font-lora">
+                I build Websites, MLOps systems and Infrastructure that help you succeed.
+              </p>
+            </AnimatedText>
 
-            <div className="flex flex-wrap gap-4">
-              <Button 
-                asChild
-                variant="outline" 
-                className="h-11 px-8"
-              >
-                <a href="#projects">View My Work</a>
-              </Button>
-              <Button 
-                asChild
-                variant="default" 
-                className="h-11 px-8"
-              >
-                <a href="#contact">Contact Me</a>
-              </Button>
-            </div>
+            <AnimatedText delay={2000}>
+              <div className="flex flex-wrap gap-4">
+                <Button 
+                  asChild
+                  variant="outline" 
+                  className="h-11 px-8"
+                >
+                  <a href="#projects">View My Work</a>
+                </Button>
+                <Button 
+                  asChild
+                  variant="default" 
+                  className="h-11 px-8"
+                >
+                  <a href="#contact">Contact Me</a>
+                </Button>
+              </div>
+            </AnimatedText>
           </div>
         </div>
       </div>
