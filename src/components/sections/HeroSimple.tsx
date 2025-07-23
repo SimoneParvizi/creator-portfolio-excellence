@@ -19,17 +19,17 @@ const HeroSimple: React.FC = () => {
             <AnimatedText 
               text="Creating digital" 
               className="block mb-2" 
-              delay={200} 
+              delay={1200} 
             />
             <AnimatedText 
               text="experiences that" 
               className="block mb-2" 
-              delay={600} 
+              delay={1400} 
             />
             <AnimatedText 
               text="perform & inspire" 
               className="block" 
-              delay={1000} 
+              delay={1600} 
             />
           </h1>
           
