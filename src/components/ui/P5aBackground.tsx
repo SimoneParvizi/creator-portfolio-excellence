@@ -480,14 +480,14 @@ const P5aBackground: React.FC = () => {
     
     if (!contextRef.current) return;
     
-    // Track mouse position with smoothing on mobile
-    const handleMouseMove = (e: MouseEvent) => {
+    // Track mouse/touch position with smoothing on mobile
+    const updateMousePosition = (clientX: number, clientY: number) => {
       const rect = canvasRef.current?.getBoundingClientRect();
       if (!rect) return;
       
       const newMousePos = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
+        x: clientX - rect.left,
+        y: clientY - rect.top
       };
       
       // Smooth mouse position changes on mobile during scroll
@@ -513,6 +513,17 @@ const P5aBackground: React.FC = () => {
       
       // Store previous position
       prevMouseRef.current = { ...mouseRef.current };
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      updateMousePosition(e.clientX, e.clientY);
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        updateMousePosition(touch.clientX, touch.clientY);
+      }
     };
     
     // Handle scroll events to prevent dot jumping on mobile
@@ -556,6 +567,7 @@ const P5aBackground: React.FC = () => {
     handleResize();
     window.addEventListener('resize', handleResize);
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('scroll', handleScroll, { passive: true });
     
     // Start animation
@@ -565,6 +577,7 @@ const P5aBackground: React.FC = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('scroll', handleScroll);
       if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
