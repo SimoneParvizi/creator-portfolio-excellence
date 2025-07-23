@@ -480,8 +480,8 @@ const P5aBackground: React.FC = () => {
     
     if (!contextRef.current) return;
     
-    // Track mouse/touch position with smoothing on mobile
-    const updateMousePosition = (clientX: number, clientY: number) => {
+    // Track mouse/touch position with different handling for mouse vs touch
+    const updateMousePosition = (clientX: number, clientY: number, isTouch: boolean = false) => {
       const rect = canvasRef.current?.getBoundingClientRect();
       if (!rect) return;
       
@@ -490,7 +490,14 @@ const P5aBackground: React.FC = () => {
         y: clientY - rect.top
       };
       
-      // Smooth mouse position changes on mobile during scroll
+      // For touch events, always update position immediately to follow finger
+      if (isTouch) {
+        mouseRef.current = newMousePos;
+        prevMouseRef.current = { ...mouseRef.current };
+        return;
+      }
+      
+      // For mouse events, apply smoothing during scroll on mobile
       const isMobile = window.innerWidth <= 768;
       if (isMobile && isScrollingRef.current) {
         // During scroll, prevent sudden mouse position jumps
@@ -504,8 +511,8 @@ const P5aBackground: React.FC = () => {
         
         // Smooth the mouse position change
         mouseRef.current = {
-          x: prevMouseRef.current.x + (newMousePos.x - prevMouseRef.current.x) * 0.1,
-          y: prevMouseRef.current.y + (newMousePos.y - prevMouseRef.current.y) * 0.1
+          x: prevMouseRef.current.x + (newMousePos.x - prevMouseRef.current.x) * 0.3,
+          y: prevMouseRef.current.y + (newMousePos.y - prevMouseRef.current.y) * 0.3
         };
       } else {
         mouseRef.current = newMousePos;
@@ -522,7 +529,7 @@ const P5aBackground: React.FC = () => {
     const handleTouchMove = (e: TouchEvent) => {
       if (e.touches.length > 0) {
         const touch = e.touches[0];
-        updateMousePosition(touch.clientX, touch.clientY);
+        updateMousePosition(touch.clientX, touch.clientY, true);
       }
     };
     
