@@ -45,16 +45,30 @@ const Index = () => {
   return (
     <div className="min-h-screen relative overflow-x-hidden bg-background">
       <P5aBackground />
-      <Navbar />
-      <FixedSocialSidebar />
+      <div className="navbar-animate">
+        <Navbar />
+      </div>
+      <div className="page-load-animation">
+        <FixedSocialSidebar />
+      </div>
       <main>
-        <HeroSimple />
-        <Skills />
-        <Books />
-        <Projects />
-        <Contact />
+        <div className="hero-animate">
+          <HeroSimple />
+        </div>
+        <div className="page-load-animation page-load-delayed">
+          <Skills />
+        </div>
+        <div className="page-load-animation page-load-delayed-2">
+          <Books />
+        </div>
+        <div className="page-load-animation page-load-delayed-3">
+          <Projects />
+        </div>
+        <div className="page-load-animation page-load-delayed-4">
+          <Contact />
+        </div>
       </main>
-      <footer className="py-8 text-center text-muted-foreground text-sm relative z-40 bg-background shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+      <footer className="py-8 text-center text-muted-foreground text-sm relative z-40 bg-background shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] page-load-animation page-load-delayed-4">
         <div className="container mx-auto">
           <p>&copy; {new Date().getFullYear()} Simone Parvizi. All rights reserved.</p>
         </div>
