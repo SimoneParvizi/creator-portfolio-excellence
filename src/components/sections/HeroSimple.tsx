@@ -6,7 +6,19 @@ const HeroSimple: React.FC = () => {
   console.log('HeroSimple component rendering...');
   
   useEffect(() => {
-    const timer = setTimeout(() => {
+    // First phase: Move elements to make space
+    const timer1 = setTimeout(() => {
+      const badgeElement = document.getElementById('solo-badge');
+      const contentElement = document.getElementById('hero-content');
+      
+      if (badgeElement && contentElement) {
+        badgeElement.style.transform = 'translateY(-100px)';
+        contentElement.style.transform = 'translateY(100px)';
+      }
+    }, 800);
+    
+    // Second phase: Show main title
+    const timer2 = setTimeout(() => {
       const titleElement = document.getElementById('hero-title');
       if (titleElement) {
         titleElement.style.opacity = '1';
@@ -14,15 +26,18 @@ const HeroSimple: React.FC = () => {
       }
     }, 1200);
     
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
   }, []);
   
   return (
     <section id="hero" className="relative min-h-screen flex items-start md:items-center pt-8 md:pt-0 bg-transparent">
       <div className="section-container">
         <div className="max-w-4xl mx-auto">
-          <div className="mb-3">
-            <AnimatedText delay={800} className="inline-block">
+          <div className="mb-3 transition-transform duration-700 ease-out" id="solo-badge">
+            <AnimatedText delay={200} className="inline-block">
               <div className="inline-block py-1 px-3 rounded-full text-sm font-medium text-foreground/80 bg-foreground/5 border border-foreground/10 backdrop-blur-sm mb-4">
                 Solo Developer
               </div>
@@ -47,14 +62,14 @@ const HeroSimple: React.FC = () => {
             />
           </h1>
           
-          <div className="mb-12">
-            <AnimatedText delay={900}>
+          <div className="mb-12 transition-transform duration-700 ease-out" id="hero-content">
+            <AnimatedText delay={400}>
               <p className="text-lg md:text-xl max-w-2xl mb-12 text-balance font-lora">
                 I build Websites, MLOps systems and Infrastructure that help you succeed.
               </p>
             </AnimatedText>
 
-            <AnimatedText delay={1000}>
+            <AnimatedText delay={600}>
               <div className="flex flex-wrap gap-4">
                 <Button 
                   asChild
