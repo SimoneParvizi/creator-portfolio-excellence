@@ -36,9 +36,9 @@ const HeroSimple: React.FC = () => {
     <section id="hero" className="relative min-h-screen flex items-start md:items-center pt-8 md:pt-0 bg-transparent">
       <div className="section-container">
         <div className="max-w-4xl mx-auto">
-          <div className="mb-3 transition-transform duration-700 ease-out" id="solo-badge">
+          <div className="mb-1 transition-transform duration-700 ease-out" id="solo-badge">
             <AnimatedText delay={200} className="inline-block">
-              <div className="inline-block py-1 px-3 rounded-full text-sm font-medium text-foreground/80 bg-foreground/5 border border-foreground/10 backdrop-blur-sm mb-4">
+              <div className="inline-block py-1 px-3 rounded-full text-sm font-medium text-foreground/80 bg-foreground/5 border border-foreground/10 backdrop-blur-sm mb-2">
                 Solo Developer
               </div>
             </AnimatedText>
@@ -62,7 +62,7 @@ const HeroSimple: React.FC = () => {
             />
           </h1>
           
-          <div className="mb-12 transition-transform duration-700 ease-out" id="hero-content">
+          <div className="mt-1 mb-12 transition-transform duration-700 ease-out" id="hero-content">
             <AnimatedText delay={400}>
               <p className="text-lg md:text-xl max-w-2xl mb-12 text-balance font-lora">
                 I build Websites, MLOps systems and Infrastructure that help you succeed.
