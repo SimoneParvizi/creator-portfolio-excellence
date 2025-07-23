@@ -237,21 +237,21 @@
     }
   }
   
-  /* Hero section - slide from left with slight delay */
+  /* Hero section - original fade in animation */
   .hero-animate {
     opacity: 0;
-    transform: translateX(-40px);
-    animation: heroSlideIn 0.9s ease-out 0.2s forwards;
+    transform: translateY(40px);
+    animation: heroFadeIn 1s ease-out 0.3s forwards;
   }
   
-  @keyframes heroSlideIn {
+  @keyframes heroFadeIn {
     0% {
       opacity: 0;
-      transform: translateX(-40px);
+      transform: translateY(40px);
     }
     100% {
       opacity: 1;
-      transform: translateX(0);
+      transform: translateY(0);
     }
   }
   
