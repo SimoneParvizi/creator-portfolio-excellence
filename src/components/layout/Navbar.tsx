@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Instagram, Linkedin, Mail } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import AnimatedText from '@/components/ui/AnimatedText';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -96,17 +97,27 @@ const Navbar = () => {
 
           {/* Desktop Navigation - Updated Order */}
           <nav className="hidden md:flex space-x-3">
-            <button onClick={() => handleSectionClick('books')} className="nav-link fancy-hover font-lora">
-              Book
-            </button>
-            <button onClick={() => handleSectionClick('projects')} className="nav-link fancy-hover font-lora">
-              Projects
-            </button>
-            <Link to="/booking" className="nav-link fancy-hover font-lora">Start the Conversation</Link>
-            <button onClick={handleContactClick} className="nav-link fancy-hover font-lora">
-              Contact
-            </button>
-            <Link to="/about" className="nav-link fancy-hover font-lora">About</Link>
+            <AnimatedText delay={200} className="inline-block">
+              <button onClick={() => handleSectionClick('books')} className="nav-link fancy-hover font-lora">
+                Book
+              </button>
+            </AnimatedText>
+            <AnimatedText delay={400} className="inline-block">
+              <button onClick={() => handleSectionClick('projects')} className="nav-link fancy-hover font-lora">
+                Projects
+              </button>
+            </AnimatedText>
+            <AnimatedText delay={600} className="inline-block">
+              <Link to="/booking" className="nav-link fancy-hover font-lora">Start the Conversation</Link>
+            </AnimatedText>
+            <AnimatedText delay={800} className="inline-block">
+              <button onClick={handleContactClick} className="nav-link fancy-hover font-lora">
+                Contact
+              </button>
+            </AnimatedText>
+            <AnimatedText delay={1000} className="inline-block">
+              <Link to="/about" className="nav-link fancy-hover font-lora">About</Link>
+            </AnimatedText>
           </nav>
 
           {/* Mobile Menu Button */}
