@@ -12,8 +12,8 @@ const HeroSimple: React.FC = () => {
       const contentElement = document.getElementById('hero-content');
       
       if (badgeElement && contentElement) {
-        badgeElement.style.transform = 'translateY(-100px)';
-        contentElement.style.transform = 'translateY(100px)';
+        badgeElement.style.transform = 'translateY(-20px)';
+        contentElement.style.transform = 'translateY(20px)';
       }
     }, 800);
     
