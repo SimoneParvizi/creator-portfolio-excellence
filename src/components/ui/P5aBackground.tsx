@@ -445,8 +445,12 @@ const P5aBackground: React.FC = () => {
       }
       lastFrameRef.current = timestamp;
       
-      // On mobile, use smoother time progression to prevent jumpy movement
-      timeRef.current += 16.67; // Consistent 60fps time progression
+      // On mobile, maintain consistent time progression without jumps
+      if (timeRef.current === 0) {
+        timeRef.current = timestamp;
+      } else {
+        timeRef.current += timeSinceLastFrame;
+      }
     } else {
       // Update time for organic movement patterns
       timeRef.current = timestamp;
