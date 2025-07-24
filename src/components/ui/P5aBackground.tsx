@@ -560,6 +560,7 @@ const P5aBackground: React.FC = () => {
       }
       
       const wasScrolling = isScrollingRef.current;
+      console.log('Scroll event - wasScrolling:', wasScrolling, 'isMobile:', isMobile);
       isScrollingRef.current = true;
       
       
