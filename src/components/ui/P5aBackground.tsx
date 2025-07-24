@@ -558,11 +558,11 @@ const P5aBackground: React.FC = () => {
       const wasScrolling = isScrollingRef.current;
       isScrollingRef.current = true;
       
-      // On mobile, reset velocities when scroll starts to prevent accumulated forces
+      // Smoothly reduce velocities when scroll starts to prevent jarring movement
       if (!wasScrolling && isMobile) {
         dotsRef.current.forEach(dot => {
-          dot.vx *= 0.1; // Dramatically reduce existing velocities
-          dot.vy *= 0.1;
+          dot.vx *= 0.7; // Gradually reduce existing velocities instead of dramatic reset
+          dot.vy *= 0.7;
         });
       }
       
