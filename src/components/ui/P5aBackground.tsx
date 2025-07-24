@@ -501,27 +501,8 @@ const P5aBackground: React.FC = () => {
         return;
       }
       
-      // For mouse events, maintain consistent position during scroll transitions
-      const isMobile = window.innerWidth <= 768;
-      if (isMobile && isScrollingRef.current) {
-        // During scroll, prevent sudden mouse position jumps
-        const deltaX = Math.abs(newMousePos.x - prevMouseRef.current.x);
-        const deltaY = Math.abs(newMousePos.y - prevMouseRef.current.y);
-        
-        // If mouse position changed too much during scroll, keep previous position
-        if (deltaX > 50 || deltaY > 50) {
-          return;
-        }
-        
-        // Apply gentle smoothing during scroll
-        mouseRef.current = {
-          x: prevMouseRef.current.x + (newMousePos.x - prevMouseRef.current.x) * 0.1,
-          y: prevMouseRef.current.y + (newMousePos.y - prevMouseRef.current.y) * 0.1
-        };
-      } else {
-        // Normal update when not scrolling or on desktop
-        mouseRef.current = newMousePos;
-      }
+      // Always update mouse position immediately for consistent behavior
+      mouseRef.current = newMousePos;
       
       // Store previous position
       prevMouseRef.current = { ...mouseRef.current };
