@@ -558,13 +558,6 @@ const P5aBackground: React.FC = () => {
       const wasScrolling = isScrollingRef.current;
       isScrollingRef.current = true;
       
-      // Smoothly reduce velocities when scroll starts to prevent jarring movement
-      if (!wasScrolling && isMobile) {
-        dotsRef.current.forEach(dot => {
-          dot.vx *= 0.7; // Gradually reduce existing velocities instead of dramatic reset
-          dot.vy *= 0.7;
-        });
-      }
       
       // Clear existing timeout
       if (scrollTimeoutRef.current) {
