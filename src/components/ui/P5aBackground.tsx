@@ -435,9 +435,8 @@ const P5aBackground: React.FC = () => {
     if (isMobile) {
       const timeSinceLastFrame = timestamp - lastFrameRef.current;
       
-      // During scroll, limit to 15fps to prevent jumping
-      // Normal operation at 30fps
-      const frameLimit = isScrollingRef.current ? 66 : 33;
+      // Use consistent frame rate to prevent time jumps that cause position resets
+      const frameLimit = 33; // Always 30fps on mobile
       
       if (timeSinceLastFrame < frameLimit) {
         rafRef.current = requestAnimationFrame(animate);
@@ -449,7 +448,9 @@ const P5aBackground: React.FC = () => {
       if (timeRef.current === 0) {
         timeRef.current = timestamp;
       } else {
-        timeRef.current += timeSinceLastFrame;
+        // Cap time delta to prevent large jumps that cause position resets
+        const cappedTimeDelta = Math.min(timeSinceLastFrame, 33);
+        timeRef.current += cappedTimeDelta;
       }
     } else {
       // Update time for organic movement patterns
