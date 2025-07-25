@@ -3,8 +3,22 @@ import { Send, CheckCircle } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 
+// Global state for form field focus - dots can access this
+declare global {
+  interface Window {
+    activeFormField: {
+      id: string | null;
+      rect: DOMRect | null;
+    };
+  }
+}
+
 const Contact: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+  
   const [formState, setFormState] = useState({
     name: '',
     email: '',
@@ -12,6 +26,16 @@ const Contact: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // Initialize global state
+  useEffect(() => {
+    if (!window.activeFormField) {
+      window.activeFormField = {
+        id: null,
+        rect: null
+      };
+    }
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -42,6 +66,21 @@ const Contact: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormState(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleFieldFocus = (fieldId: string, element: HTMLElement) => {
+    const rect = element.getBoundingClientRect();
+    window.activeFormField = {
+      id: fieldId,
+      rect: rect
+    };
+  };
+
+  const handleFieldBlur = () => {
+    window.activeFormField = {
+      id: null,
+      rect: null
+    };
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -86,40 +125,49 @@ const Contact: React.FC = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <Input
+                      ref={nameRef}
                       type="text"
                       id="name"
                       name="name"
                       placeholder="Name"
                       value={formState.name}
                       onChange={handleChange}
+                      onFocus={(e) => handleFieldFocus('name', e.target)}
+                      onBlur={handleFieldBlur}
                       required
-                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring placeholder:text-foreground/40"
+                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring placeholder:text-foreground/40 transition-all duration-300"
                     />
                   </div>
                   
                   <div>
                     <Input
+                      ref={emailRef}
                       type="email"
                       id="email"
                       name="email"
                       placeholder="Email"
                       value={formState.email}
                       onChange={handleChange}
+                      onFocus={(e) => handleFieldFocus('email', e.target)}
+                      onBlur={handleFieldBlur}
                       required
-                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring placeholder:text-foreground/40"
+                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring placeholder:text-foreground/40 transition-all duration-300"
                     />
                   </div>
                   
                   <div>
                     <Textarea
+                      ref={messageRef}
                       id="message"
                       name="message"
                       placeholder="Message"
                       value={formState.message}
                       onChange={handleChange}
+                      onFocus={(e) => handleFieldFocus('message', e.target)}
+                      onBlur={handleFieldBlur}
                       required
                       rows={5}
-                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring resize-none placeholder:text-foreground/40"
+                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring resize-none placeholder:text-foreground/40 transition-all duration-300"
                     />
                   </div>
                   

@@ -194,6 +194,54 @@ const P5aBackground: React.FC = () => {
     updateRegular(mouse: { x: number, y: number }, time: number, width: number, height: number) {
       let distance = 0;
       
+      // Check for active form field avoidance - avoid entire rectangular area
+      const activeField = (window as any).activeFormField;
+      if (activeField?.rect) {
+        const fieldRect = activeField.rect;
+        const avoidancePadding = 8; // Very tight padding around the form field
+        
+        // Convert screen coordinates to canvas coordinates
+        const canvasRect = canvasRectRef.current;
+        if (canvasRect) {
+          const fieldLeft = fieldRect.left - canvasRect.left - avoidancePadding;
+          const fieldRight = fieldRect.right - canvasRect.left + avoidancePadding;
+          const fieldTop = fieldRect.top - canvasRect.top - avoidancePadding;
+          const fieldBottom = fieldRect.bottom - canvasRect.top + avoidancePadding;
+          
+          // Check if dot is inside the expanded rectangle
+          if (this.x >= fieldLeft && this.x <= fieldRight && this.y >= fieldTop && this.y <= fieldBottom) {
+            // Calculate distance to nearest edge of rectangle
+            const distanceToLeft = this.x - fieldLeft;
+            const distanceToRight = fieldRight - this.x;
+            const distanceToTop = this.y - fieldTop;
+            const distanceToBottom = fieldBottom - this.y;
+            
+            // Find the closest edge
+            const minDistance = Math.min(distanceToLeft, distanceToRight, distanceToTop, distanceToBottom);
+            const pushStrength = 1.5; // How strong the avoidance is
+            
+            // Push towards the closest edge
+            if (minDistance === distanceToLeft) {
+              // Push left
+              this.vx -= pushStrength;
+            } else if (minDistance === distanceToRight) {
+              // Push right
+              this.vx += pushStrength;
+            } else if (minDistance === distanceToTop) {
+              // Push up
+              this.vy -= pushStrength;
+            } else {
+              // Push down
+              this.vy += pushStrength;
+            }
+            
+            // Add some randomness to prevent dots from getting stuck
+            this.vx += (Math.random() - 0.5) * 0.5;
+            this.vy += (Math.random() - 0.5) * 0.5;
+          }
+        }
+      }
+      
       const dx = mouse.x - this.x;
       const dy = mouse.y - this.y;
       distance = Math.sqrt(dx * dx + dy * dy);
