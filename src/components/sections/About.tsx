@@ -129,9 +129,9 @@ const About: React.FC = () => {
   ];
 
   return (
-    <section id="about" ref={sectionRef} className="pt-8 pb-24 relative z-10">
+    <section id="about" ref={sectionRef} className="pt-2 pb-24 relative z-10">
       <div className="section-container">
-        <div className="max-w-3xl mx-auto mb-16 text-center">
+        <div className="max-w-3xl mx-auto mb-8 text-center">
           <h2 ref={titleRef} className="section-title slide-up">About Me</h2>
           <p className="section-subtitle slide-up">
             What a better way than to show it
