@@ -132,7 +132,7 @@ const About: React.FC = () => {
     <section id="about" ref={sectionRef} className="pt-2 pb-24 relative z-10">
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-8 text-center">
-          <h2 ref={titleRef} className="section-title slide-up">About Me</h2>
+          <h2 ref={titleRef} className="section-title slide-up animate-fade-in" style={{ animation: 'fade-in 1.2s ease-out 0.3s both, scale-in 0.8s ease-out 0.5s both' }}>About Me</h2>
           <p className="section-subtitle slide-up">
             What a better way than to show it
           </p>
