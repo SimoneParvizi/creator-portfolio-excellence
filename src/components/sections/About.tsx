@@ -1,10 +1,12 @@
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 const About: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const visionBoardRef = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState<boolean[]>(new Array(13).fill(false));
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -12,12 +14,15 @@ const About: React.FC = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('in-view');
+            if (entry.target === visionBoardRef.current) {
+              setIsInView(true);
+            }
             observer.unobserve(entry.target);
           }
         });
       },
       {
-        threshold: 0.1,
+        threshold: 0.2,
       }
     );
 
@@ -33,6 +38,14 @@ const About: React.FC = () => {
       observer.disconnect();
     };
   }, []);
+
+  const handleImageLoad = (index: number) => {
+    setImageLoaded(prev => {
+      const newState = [...prev];
+      newState[index] = true;
+      return newState;
+    });
+  };
 
   const visionBoardImages = [
     {
@@ -132,33 +145,38 @@ const About: React.FC = () => {
     <section id="about" ref={sectionRef} className="pt-2 pb-24 relative z-10">
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-8 text-center">
-          <h2 ref={titleRef} className="section-title slide-up animate-fade-in" style={{ animation: 'fade-in 2s ease-out 0.2s both, scale-in 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.8) 0.4s both', transform: 'scale(0.5)', opacity: '0' }}>About Me</h2>
+          <h2 ref={titleRef} className="section-title slide-up">
+            About Me
+          </h2>
           <p className="section-subtitle slide-up">
             What a better way than to show it
           </p>
         </div>
 
-        {/* Vision Board - Enhanced Mosaic Layout */}
+        {/* Vision Board - Ultra Dynamic Mosaic */}
         <div 
           ref={visionBoardRef} 
-          className="slide-up"
+          className="slide-up perspective-1000"
         >
-          <div className="grid grid-cols-6 grid-rows-6 gap-4 h-[90vh]">
+          <div className="grid grid-cols-6 grid-rows-6 gap-4 h-[90vh] relative">
             {visionBoardImages.map((image, index) => (
               <div 
                 key={index} 
                 className={`${image.gridPosition} overflow-hidden rounded-xl border border-border/40 hover:border-border/60 transition-all duration-300`}
                 style={{ 
-                  transitionDelay: `${index * 50}ms`,
-                  animation: `fade-in 0.6s ease-out ${index * 0.08}s both`
+                  transitionDelay: `${index * 80}ms`,
+                  animation: `${isInView ? `slideInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1) ${index * 0.08}s both` : 'none'}`
                 }}
               >
                 <div className="relative h-full w-full group">
                   <img 
                     src={image.src} 
                     alt={image.alt}
-                    className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
+                    onLoad={() => handleImageLoad(index)}
                   />
+                  
+                  {/* Clean gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                     <p className="text-white text-sm font-medium">{image.caption}</p>
                   </div>
