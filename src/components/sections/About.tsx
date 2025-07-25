@@ -36,44 +36,44 @@ const About: React.FC = () => {
 
   const visionBoardImages = [
     {
-      src: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=2128&auto=format&fit=crop",
-      alt: "ML Infrastructure",
-      caption: "Building scalable ML infrastructure",
+      src: "/lovable-uploads/i_came_from_abruzzo.png",
+      alt: "Abruzzo Heritage",
+      caption: "I came from Abruzzo",
       size: "large",
       gridPosition: "col-start-1 col-end-4 row-start-1 row-end-3"
     },
     {
-      src: "https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=2069&auto=format&fit=crop",
-      alt: "Team Collaboration",
-      caption: "Fostering collaboration between teams",
+      src: "/lovable-uploads/fav_place_is_petralia.png",
+      alt: "Favorite Place",
+      caption: "My favorite place is Petralia",
       size: "medium",
       gridPosition: "col-start-4 col-end-6 row-start-1 row-end-3"
     },
     {
-      src: "https://images.unsplash.com/photo-1528901166007-3784c7dd3653?q=80&w=2070&auto=format&fit=crop",
-      alt: "Cloud Solutions",
-      caption: "Designing cloud-native solutions",
+      src: "/lovable-uploads/i_love_kickbox.png",
+      alt: "Kickboxing",
+      caption: "I love kickboxing",
       size: "small",
       gridPosition: "col-start-6 col-end-7 row-start-1 row-end-2"
     },
     {
-      src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
-      alt: "Knowledge Sharing",
-      caption: "Sharing knowledge and mentoring",
+      src: "/lovable-uploads/i_am_an_uncle.png",
+      alt: "Uncle",
+      caption: "I am an uncle",
       size: "small",
       gridPosition: "col-start-6 col-end-7 row-start-2 row-end-3"
     },
     {
-      src: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?q=80&w=2070&auto=format&fit=crop",
-      alt: "Technical Writing",
-      caption: "Documenting best practices",
+      src: "/lovable-uploads/love_for_ancient_civilization.png",
+      alt: "Ancient Civilizations",
+      caption: "Love for ancient civilizations",
       size: "medium",
       gridPosition: "col-start-1 col-end-3 row-start-3 row-end-5"
     },
     {
-      src: "https://images.unsplash.com/photo-1581093199926-4ef5e4832bd1?q=80&w=2070&auto=format&fit=crop",
-      alt: "AI Solutions",
-      caption: "Exploring AI capabilities",
+      src: "/lovable-uploads/fav_city.png",
+      alt: "Favorite City",
+      caption: "My favorite city",
       size: "medium",
       gridPosition: "col-start-3 col-end-5 row-start-3 row-end-5"
     },
