@@ -8,6 +8,7 @@ const P5aBackground: React.FC = () => {
   const dotsRef = useRef<Dot[]>([]);
   const rafRef = useRef<number | null>(null);
   const sizeRef = useRef({ width: 0, height: 0 });
+  const canvasRectRef = useRef<DOMRect | null>(null);
   const timeRef = useRef<number>(0);
   const specialDotIndexRef = useRef<number>(-1);
   const specialDotTimerRef = useRef<number>(0);
@@ -191,39 +192,32 @@ const P5aBackground: React.FC = () => {
     }
     
     updateRegular(mouse: { x: number, y: number }, time: number, width: number, height: number) {
-      // Skip mouse interaction during scrolling on mobile
-      const isMobile = window.innerWidth <= 768;
-      const skipMouseInteraction = isMobile && isScrollingRef.current;
-      
       let distance = 0;
       
-      // Much more dramatic mouse interaction (but skip during mobile scroll)
-      if (!skipMouseInteraction) {
-        const dx = mouse.x - this.x;
-        const dy = mouse.y - this.y;
-        distance = Math.sqrt(dx * dx + dy * dy);
-        const maxDistance = 180; // Larger influence radius
+      const dx = mouse.x - this.x;
+      const dy = mouse.y - this.y;
+      distance = Math.sqrt(dx * dx + dy * dy);
+      const maxDistance = 180; // Larger influence radius
+      
+      if (distance < maxDistance) {
+        const angle = Math.atan2(dy, dx);
+        const force = (maxDistance - distance) / maxDistance;
         
-        if (distance < maxDistance) {
-          const angle = Math.atan2(dy, dx);
-          const force = (maxDistance - distance) / maxDistance;
-          
-          // Much stronger movement away from mouse (8x stronger)
-          this.vx -= Math.cos(angle) * force * 0.8;
-          this.vy -= Math.sin(angle) * force * 0.8;
-          
-          // Dots near the mouse get much more visible
-          if (distance < 80) {
-            this.currentOpacity = Math.min(1.0, this.currentOpacity + 0.15);
-            // Also make them slightly bigger for more visibility
-            this.size = Math.min(this.originalSize * 1.8, this.size + 0.1);
-          }
-        }
+        // Normal mouse interaction (scroll protection handled by using previous mouse position)
+        this.vx -= Math.cos(angle) * force * 0.4;
+        this.vy -= Math.sin(angle) * force * 0.4;
         
-        // Return size to original when not near mouse
-        if (distance > 80) {
-          this.size = Math.max(this.originalSize, this.size - 0.05);
+        // Dots near the mouse get much more visible
+        if (distance < 80) {
+          this.currentOpacity = Math.min(1.0, this.currentOpacity + 0.15);
+          // Also make them slightly bigger for more visibility
+          this.size = Math.min(this.originalSize * 1.8, this.size + 0.1);
         }
+      }
+      
+      // Return size to original when not near mouse
+      if (distance > 80) {
+        this.size = Math.max(this.originalSize, this.size - 0.05);
       }
       
       // Add subtle time-based movement (gentle organic motion)
@@ -303,8 +297,20 @@ const P5aBackground: React.FC = () => {
   const handleResize = () => {
     if (!canvasRef.current || !contextRef.current) return;
     
+    // Prevent resize during scroll OR touch interaction
+    if (isScrollingRef.current || isTouchingRef.current) return;
+    
     const canvas = canvasRef.current;
     const ctx = contextRef.current;
+    
+    // Check if size actually changed to prevent unnecessary recreations
+    const rect = canvas.getBoundingClientRect();
+    const currentSize = sizeRef.current;
+    
+    // Only proceed if size actually changed (with small tolerance for floating point)
+    if (Math.abs(rect.width - currentSize.width) < 1 && Math.abs(rect.height - currentSize.height) < 1) {
+      return;
+    }
     
     // Set display size (css pixels)
     canvas.style.width = '100%';
@@ -312,7 +318,9 @@ const P5aBackground: React.FC = () => {
     
     // Set actual size in memory (scaled to account for extra pixel density)
     const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
+    
+    // Cache the canvas rect to prevent repeated getBoundingClientRect calls
+    canvasRectRef.current = rect;
     
     // Update size refs
     sizeRef.current = {
@@ -422,40 +430,25 @@ const P5aBackground: React.FC = () => {
   };
 
   const lastFrameRef = useRef<number>(0);
-  const lastScrollFrameRef = useRef<number>(0);
   const isScrollingRef = useRef<boolean>(false);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const scrollStartFramesRef = useRef<number>(0);
+  const isTouchingRef = useRef<boolean>(false);
 
   const animate = (timestamp: number) => {
     if (!contextRef.current || !canvasRef.current) return;
     
-    // Mobile frame rate limiter with enhanced scroll handling
     const isMobile = window.innerWidth <= 768;
     
-    if (isMobile) {
-      const timeSinceLastFrame = timestamp - lastFrameRef.current;
-      
-      // Use consistent frame rate to prevent time jumps that cause position resets
-      const frameLimit = 33; // Always 30fps on mobile
-      
-      if (timeSinceLastFrame < frameLimit) {
-        rafRef.current = requestAnimationFrame(animate);
-        return;
-      }
-      lastFrameRef.current = timestamp;
-      
-      // On mobile, maintain consistent time progression without jumps
-      if (timeRef.current === 0) {
-        timeRef.current = timestamp;
-      } else {
-        // Cap time delta to prevent large jumps that cause position resets
-        const cappedTimeDelta = Math.min(timeSinceLastFrame, 33);
-        timeRef.current += cappedTimeDelta;
-      }
-    } else {
-      // Update time for organic movement patterns
-      timeRef.current = timestamp;
+    // Skip first 2 animation frames when scroll starts on mobile
+    if (isMobile && isScrollingRef.current && scrollStartFramesRef.current < 2) {
+      scrollStartFramesRef.current++;
+      rafRef.current = requestAnimationFrame(animate);
+      return;
     }
+    
+    // Update time for organic movement patterns
+    timeRef.current = timestamp;
     
     const ctx = contextRef.current;
     const { width, height } = sizeRef.current;
@@ -485,28 +478,58 @@ const P5aBackground: React.FC = () => {
     
     if (!contextRef.current) return;
     
-    // Track mouse/touch position with different handling for mouse vs touch
+    // Track mouse/touch position using cached rect with mobile stability
     const updateMousePosition = (clientX: number, clientY: number, isTouch: boolean = false) => {
-      const rect = canvasRef.current?.getBoundingClientRect();
-      if (!rect) return;
+      // Use cached rect instead of calling getBoundingClientRect every time
+      let rect = canvasRectRef.current;
       
+      // Only update rect if we don't have one cached
+      if (!rect) {
+        const canvas = canvasRef.current;
+        if (canvas) {
+          rect = canvas.getBoundingClientRect();
+          canvasRectRef.current = rect;
+        } else {
+          return;
+        }
+      }
+      
+      const isMobile = window.innerWidth <= 768;
+      const isAtTop = window.scrollY <= 10; // Small buffer for floating point precision
+      
+      // For mobile at the top of page, completely freeze mouse position during small movements
+      if (isMobile && isAtTop && isTouch) {
+        // Calculate potential new position
+        const potentialMousePos = {
+          x: Math.round(clientX - rect.left),
+          y: Math.round(clientY - rect.top)
+        };
+        
+        // Calculate movement distance
+        const dx = Math.abs(potentialMousePos.x - mouseRef.current.x);
+        const dy = Math.abs(potentialMousePos.y - mouseRef.current.y);
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        // Only update if movement is > 5 pixels (more aggressive threshold)
+        if (distance > 5) {
+          prevMouseRef.current = { ...mouseRef.current };
+          mouseRef.current = potentialMousePos;
+        }
+        // Otherwise, completely ignore the touch movement
+        return;
+      }
+      
+      // Normal behavior for other cases
       const newMousePos = {
         x: clientX - rect.left,
         y: clientY - rect.top
       };
       
-      // For touch events, always update position immediately to follow finger
-      if (isTouch) {
-        mouseRef.current = newMousePos;
-        prevMouseRef.current = { ...mouseRef.current };
-        return;
-      }
-      
-      // Always update mouse position immediately for consistent behavior
-      mouseRef.current = newMousePos;
-      
-      // Store previous position
+      // Store previous position before updating
       prevMouseRef.current = { ...mouseRef.current };
+      
+      // Update mouse position
+      mouseRef.current = newMousePos;
     };
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -514,6 +537,7 @@ const P5aBackground: React.FC = () => {
     };
 
     const handleTouchStart = (e: TouchEvent) => {
+      isTouchingRef.current = true;
       if (e.touches.length > 0) {
         const touch = e.touches[0];
         updateMousePosition(touch.clientX, touch.clientY, true);
@@ -526,34 +550,26 @@ const P5aBackground: React.FC = () => {
         updateMousePosition(touch.clientX, touch.clientY, true);
       }
     };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      isTouchingRef.current = false;
+    };
     
-    // Handle scroll events to prevent dot jumping on mobile
+    // Simple scroll state tracking with frame skipping
     const handleScroll = () => {
-      // Apply frame rate limiter during scroll on mobile only
       const isMobile = window.innerWidth <= 768;
-      if (isMobile) {
-        const now = performance.now();
-        const timeSinceLastScrollFrame = now - lastScrollFrameRef.current;
-        
-        // Limit scroll processing to 15fps on mobile to prevent jumping
-        if (timeSinceLastScrollFrame < 66) {
-          return;
-        }
-        lastScrollFrameRef.current = now;
+      
+      // Reset frame counter when new scroll starts
+      if (!isScrollingRef.current && isMobile) {
+        scrollStartFramesRef.current = 0;
       }
       
-      const wasScrolling = isScrollingRef.current;
       isScrollingRef.current = true;
       
-      
-      // Clear existing timeout
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      
-      // Set scrolling to false after scroll ends
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
       scrollTimeoutRef.current = setTimeout(() => {
         isScrollingRef.current = false;
+        scrollStartFramesRef.current = 0; // Reset for next scroll
       }, 150);
     };
     
@@ -563,6 +579,7 @@ const P5aBackground: React.FC = () => {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
     window.addEventListener('scroll', handleScroll, { passive: true });
     
     // Start animation
@@ -574,6 +591,7 @@ const P5aBackground: React.FC = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
       window.removeEventListener('scroll', handleScroll);
       if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
