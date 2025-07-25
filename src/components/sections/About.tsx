@@ -132,7 +132,7 @@ const About: React.FC = () => {
     <section id="about" ref={sectionRef} className="pt-2 pb-24 relative z-10">
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-8 text-center">
-          <h2 ref={titleRef} className="section-title slide-up animate-fade-in" style={{ animation: 'fade-in 1.2s ease-out 0.3s both, scale-in 0.8s ease-out 0.5s both' }}>About Me</h2>
+          <h2 ref={titleRef} className="section-title slide-up animate-fade-in" style={{ animation: 'fade-in 1.5s ease-out 0.2s both, scale-in 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s both' }}>About Me</h2>
           <p className="section-subtitle slide-up">
             What a better way than to show it
           </p>
@@ -149,8 +149,8 @@ const About: React.FC = () => {
                 key={index} 
                 className={`${image.gridPosition} overflow-hidden rounded-xl border border-border/40 hover:border-border/60 transition-all duration-300`}
                 style={{ 
-                  transitionDelay: `${index * 100}ms`,
-                  animation: `fade-in 0.8s ease-out ${index * 0.15}s both`
+                  transitionDelay: `${index * 50}ms`,
+                  animation: `fade-in 0.6s ease-out ${index * 0.08}s both`
                 }}
               >
                 <div className="relative h-full w-full group">
