@@ -503,9 +503,9 @@ const P5aBackground: React.FC = () => {
     
     // Calculate book area relative to viewport
     const bookAreaCenterX = width * 0.3; // Book is in left column, moved slightly right
-    const bookAreaCenterY = rect.top + (rect.height * 0.4); // Adjust based on book position in section
+    const bookAreaCenterY = rect.top + (rect.height * 0.42); // Moved up slightly to reduce bottom space
     const bookAreaWidth = 450; // Reduced width from 500 to 450
-    const bookAreaHeight = 650;
+    const bookAreaHeight = 580; // Reduced height from 650 to 580
     
     return (
       x >= bookAreaCenterX - bookAreaWidth / 2 &&
