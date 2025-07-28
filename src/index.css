@@ -533,13 +533,29 @@
     width: 400px;
     height: 550px;
     cursor: pointer;
-    z-index: 51;
+    z-index: 101;
+    background: hsl(var(--background));
   }
+
+
 
   .book-container {
     position: relative;
     width: 100%;
     height: 100%;
+    background: hsl(var(--background)) !important;
+    z-index: 10;
+  }
+
+  .book-container::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    background: hsl(var(--background)) !important;
+    z-index: -1;
   }
 
   .book-cover {
@@ -547,30 +563,33 @@
     width: 100%;
     height: 100%;
     will-change: transform;
+    background: hsl(var(--background)) !important;
+    z-index: 5;
   }
 
   /* Back Cover */
   .book-back-cover {
     position: absolute;
-    width: 96%;
-    height: 96%;
-    top: 2%;
-    left: 2%;
-    background: hsl(var(--foreground)) !important;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #1f1f1f !important;
     border-radius: 0 6px 6px 0;
     box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3),
                 2px 2px 8px rgba(0, 0, 0, 0.2);
-    z-index: -10;
+    z-index: 1;
   }
 
   /* Paper Container */
   .book-inside {
     position: absolute;
-    width: 90%;
-    height: 94%;
-    top: 3%;
-    left: 5%;
-    z-index: 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background: #ffffff !important;
   }
 
   /* Paper Pages */
@@ -578,7 +597,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 98%;
+    width: 100%;
     height: 100%;
     background: #ffffff !important;
     border: 1px solid rgba(0, 0, 0, 0.15);
@@ -586,7 +605,7 @@
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2),
                 0 1px 3px rgba(0, 0, 0, 0.1);
     transform-origin: right center;
-    z-index: -5;
+    z-index: 3;
   }
 
   /* Front Cover Image */
@@ -603,17 +622,32 @@
     cursor: pointer;
     will-change: transform, box-shadow;
     z-index: 10;
-    background: #ffffff;
+    background: #ffffff !important;
   }
+
+  .book-image::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff !important;
+    z-index: -1;
+    border-radius: 2px 6px 6px 2px;
+  }
+
 
   .book-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 2px 6px 6px 2px;
-    background: #ffffff;
+    background: #ffffff !important;
     position: relative;
-    z-index: 12;
+    z-index: 5;
+    opacity: 1 !important;
+    display: block;
   }
 
   /* Book Effect (Spine highlight) */

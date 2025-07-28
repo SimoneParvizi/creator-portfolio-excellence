@@ -412,6 +412,11 @@ const P5aBackground: React.FC = () => {
       
       // Draw lines to nearest dots
       for (const { dot, distance } of nearest) {
+        // Skip lines if either dot is in the book area
+        if (isInBookArea(dots[i].x, dots[i].y) || isInBookArea(dot.x, dot.y)) {
+          continue;
+        }
+        
         // Only draw if both dots haven't exceeded connection limit
         if (!dots[i].connected || !dot.connected) {
           // Modify line opacity based on current dot opacities
@@ -483,6 +488,33 @@ const P5aBackground: React.FC = () => {
   const scrollStartFramesRef = useRef<number>(0);
   const isTouchingRef = useRef<boolean>(false);
 
+  // Function to check if a dot is in the book area
+  const isInBookArea = (x: number, y: number) => {
+    // Only create hole when Books section is visible
+    const booksSection = document.getElementById('books');
+    if (!booksSection) return false;
+    
+    const rect = booksSection.getBoundingClientRect();
+    const { width } = sizeRef.current;
+    
+    // Check if Books section is visible on screen
+    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!isVisible) return false;
+    
+    // Calculate book area relative to viewport
+    const bookAreaCenterX = width * 0.25; // Book is in left column
+    const bookAreaCenterY = rect.top + (rect.height * 0.4); // Adjust based on book position in section
+    const bookAreaWidth = 500;
+    const bookAreaHeight = 650;
+    
+    return (
+      x >= bookAreaCenterX - bookAreaWidth / 2 &&
+      x <= bookAreaCenterX + bookAreaWidth / 2 &&
+      y >= bookAreaCenterY - bookAreaHeight / 2 &&
+      y <= bookAreaCenterY + bookAreaHeight / 2
+    );
+  };
+
   const animate = (timestamp: number) => {
     if (!contextRef.current || !canvasRef.current) return;
     
@@ -507,10 +539,14 @@ const P5aBackground: React.FC = () => {
     // Update special dot state
     updateSpecialDot(timestamp);
     
-    // Update and draw dots
+    // Update and draw dots (skip dots in book area)
     dotsRef.current.forEach(dot => {
       dot.update(mouseRef.current, timeRef.current, width, height);
-      dot.draw(ctx);
+      
+      // Only draw dot if it's not in the book area
+      if (!isInBookArea(dot.x, dot.y)) {
+        dot.draw(ctx);
+      }
     });
     
     // Draw minimal connecting lines
