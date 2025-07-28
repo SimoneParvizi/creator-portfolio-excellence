@@ -299,4 +299,408 @@
     }
   }
 
+  /* Glass Button Properties */
+  @property --angle-1 {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: -75deg;
+  }
+
+  @property --angle-2 {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: -45deg;
+  }
+
+  /* Glass Button Styles */
+  .glass-button-wrap {
+    position: relative;
+    z-index: 2;
+    border-radius: 999vw;
+    background: transparent;
+    pointer-events: none;
+    transition: all 400ms cubic-bezier(0.25, 1, 0.5, 1);
+    display: inline-block;
+  }
+
+  .glass-button-shadow {
+    --shadow-cuttoff-fix: 2em;
+    position: absolute;
+    width: calc(100% + var(--shadow-cuttoff-fix));
+    height: calc(100% + var(--shadow-cuttoff-fix));
+    top: calc(0% - var(--shadow-cuttoff-fix) / 2);
+    left: calc(0% - var(--shadow-cuttoff-fix) / 2);
+    filter: blur(clamp(2px, 0.125em, 12px));
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .glass-button-shadow::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    border-radius: 999vw;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
+    width: calc(100% - var(--shadow-cuttoff-fix) - 0.25em);
+    height: calc(100% - var(--shadow-cuttoff-fix) - 0.25em);
+    top: calc(var(--shadow-cuttoff-fix) - 0.5em);
+    left: calc(var(--shadow-cuttoff-fix) - 0.875em);
+    padding: 0.125em;
+    box-sizing: border-box;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    transition: all 400ms cubic-bezier(0.25, 1, 0.5, 1);
+    overflow: visible;
+    opacity: 1;
+  }
+
+  .glass-button {
+    --border-width: clamp(1px, 0.0625em, 4px);
+    all: unset;
+    cursor: pointer;
+    position: relative;
+    pointer-events: auto;
+    z-index: 3;
+    background: linear-gradient(
+      -75deg,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.05)
+    );
+    border-radius: 999vw;
+    box-shadow: inset 0 0.125em 0.125em rgba(0, 0, 0, 0.05),
+      inset 0 -0.125em 0.125em rgba(255, 255, 255, 0.5),
+      0 0.25em 0.125em -0.125em rgba(0, 0, 0, 0.2),
+      0 0 0.1em 0.25em inset rgba(255, 255, 255, 0.2),
+      0 0 0 0 rgba(255, 255, 255, 1);
+    backdrop-filter: blur(clamp(1px, 0.125em, 4px));
+    transition: all 400ms cubic-bezier(0.25, 1, 0.5, 1);
+    font-size: 0.875rem;
+  }
+
+  .glass-button:hover {
+    transform: scale(0.975);
+    backdrop-filter: blur(0.01em);
+    box-shadow: inset 0 0.125em 0.125em rgba(0, 0, 0, 0.05),
+      inset 0 -0.125em 0.125em rgba(255, 255, 255, 0.5),
+      0 0.15em 0.05em -0.1em rgba(0, 0, 0, 0.25),
+      0 0 0.05em 0.1em inset rgba(255, 255, 255, 0.5),
+      0 0 0 0 rgba(255, 255, 255, 1);
+  }
+
+  .glass-button-text {
+    position: relative;
+    display: block;
+    user-select: none;
+    font-family: inherit;
+    letter-spacing: -0.025em;
+    font-weight: 500;
+    color: hsl(var(--foreground));
+    transition: all 400ms cubic-bezier(0.25, 1, 0.5, 1);
+    padding-inline: 0.6em;
+    padding-block: 0.3em;
+    text-shadow: 0em 0.25em 0.05em rgba(0, 0, 0, 0.1);
+  }
+
+  .glass-button:hover .glass-button-text {
+    text-shadow: 0.025em 0.025em 0.025em rgba(0, 0, 0, 0.12);
+  }
+
+  .glass-button-text::after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    width: calc(100% - var(--border-width));
+    height: calc(100% - var(--border-width));
+    top: calc(0% + var(--border-width) / 2);
+    left: calc(0% + var(--border-width) / 2);
+    box-sizing: border-box;
+    border-radius: 999vw;
+    overflow: clip;
+    background: linear-gradient(
+      var(--angle-2),
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.5) 40% 50%,
+      rgba(255, 255, 255, 0) 55%
+    );
+    z-index: 3;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    background-size: 200% 200%;
+    background-position: 0% 50%;
+    background-repeat: no-repeat;
+    transition: background-position 500ms cubic-bezier(0.25, 1, 0.5, 1),
+      --angle-2 500ms cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .glass-button:hover .glass-button-text::after {
+    background-position: 25% 50%;
+  }
+
+  .glass-button:active .glass-button-text::after {
+    background-position: 50% 15%;
+    --angle-2: -15deg;
+  }
+
+  .glass-button::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    border-radius: 999vw;
+    width: calc(100% + var(--border-width));
+    height: calc(100% + var(--border-width));
+    top: calc(0% - var(--border-width) / 2);
+    left: calc(0% - var(--border-width) / 2);
+    padding: var(--border-width);
+    box-sizing: border-box;
+    background: conic-gradient(
+        from var(--angle-1) at 50% 50%,
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0) 5% 40%,
+        rgba(0, 0, 0, 0.5) 50%,
+        rgba(0, 0, 0, 0) 60% 95%,
+        rgba(0, 0, 0, 0.5)
+      ),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5));
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    transition: all 400ms cubic-bezier(0.25, 1, 0.5, 1),
+      --angle-1 500ms ease;
+    box-shadow: inset 0 0 0 calc(var(--border-width) / 2) rgba(255, 255, 255, 0.5);
+  }
+
+  .glass-button:hover::after {
+    --angle-1: -125deg;
+  }
+
+  .glass-button:active::after {
+    --angle-1: -75deg;
+  }
+
+  .glass-button-wrap:has(.glass-button:hover) .glass-button-shadow {
+    filter: blur(clamp(2px, 0.0625em, 6px));
+    transition: filter 400ms cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .glass-button-wrap:has(.glass-button:hover) .glass-button-shadow::after {
+    top: calc(var(--shadow-cuttoff-fix) - 0.875em);
+    opacity: 1;
+  }
+
+  .glass-button-wrap:has(.glass-button:active) {
+    transform: rotate3d(1, 0, 0, 25deg);
+  }
+
+  .glass-button-wrap:has(.glass-button:active) .glass-button {
+    box-shadow: inset 0 0.125em 0.125em rgba(0, 0, 0, 0.05),
+      inset 0 -0.125em 0.125em rgba(255, 255, 255, 0.5),
+      0 0.125em 0.125em -0.125em rgba(0, 0, 0, 0.2),
+      0 0 0.1em 0.25em inset rgba(255, 255, 255, 0.2),
+      0 0.225em 0.05em 0 rgba(0, 0, 0, 0.05),
+      0 0.25em 0 0 rgba(255, 255, 255, 0.75),
+      inset 0 0.25em 0.05em 0 rgba(0, 0, 0, 0.15);
+  }
+
+  .glass-button-wrap:has(.glass-button:active) .glass-button-shadow {
+    filter: blur(clamp(2px, 0.125em, 12px));
+  }
+
+  .glass-button-wrap:has(.glass-button:active) .glass-button-shadow::after {
+    top: calc(var(--shadow-cuttoff-fix) - 0.5em);
+    opacity: 0.75;
+  }
+
+  .glass-button-wrap:has(.glass-button:active) .glass-button-text {
+    text-shadow: 0.025em 0.25em 0.05em rgba(0, 0, 0, 0.12);
+  }
+
+  /* Animated Book Styles */
+  .animated-book-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    max-width: 600px;
+    position: relative;
+    z-index: 50;
+  }
+
+  .book-item {
+    position: relative;
+    width: 400px;
+    height: 550px;
+    cursor: pointer;
+    z-index: 51;
+  }
+
+  .book-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .book-cover {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+  }
+
+  /* Back Cover */
+  .book-back-cover {
+    position: absolute;
+    width: 96%;
+    height: 96%;
+    top: 2%;
+    left: 2%;
+    background: hsl(var(--foreground)) !important;
+    border-radius: 0 6px 6px 0;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3),
+                2px 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: -10;
+  }
+
+  /* Paper Container */
+  .book-inside {
+    position: absolute;
+    width: 90%;
+    height: 94%;
+    top: 3%;
+    left: 5%;
+    z-index: 0;
+  }
+
+  /* Paper Pages */
+  .book-page {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 98%;
+    height: 100%;
+    background: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0 6px 6px 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2),
+                0 1px 3px rgba(0, 0, 0, 0.1);
+    transform-origin: right center;
+    z-index: -5;
+  }
+
+  /* Front Cover Image */
+  .book-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 2px 6px 6px 2px;
+    box-shadow: rgba(0,0,0,0.25) 15px -8px 25px, 
+                rgba(0,0,0,0.2) 25px 0px 35px,
+                rgba(0,0,0,0.1) 5px 5px 15px,
+                inset 0 0 0 1px rgba(0,0,0,0.1);
+    transform-origin: left center;
+    cursor: pointer;
+    will-change: transform, box-shadow;
+    z-index: 10;
+    background: #ffffff;
+  }
+
+  .book-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2px 6px 6px 2px;
+    background: #ffffff;
+    position: relative;
+    z-index: 12;
+  }
+
+  /* Book Effect (Spine highlight) */
+  .book-effect {
+    position: absolute;
+    width: 24px;
+    height: 100%;
+    margin-left: 12px;
+    top: 0;
+    border-left: 2px solid rgba(0, 0, 0, 0.08);
+    background-image: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform-origin: left center;
+    z-index: 5;
+    pointer-events: none;
+    will-change: margin-left;
+  }
+
+  /* Book Light Effect */
+  .book-light {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 2px 6px 6px 2px;
+    background-image: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.5) 100%
+    );
+    top: 0;
+    left: 0;
+    opacity: 0.15;
+    transform-origin: left center;
+    z-index: 4;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    will-change: opacity;
+  }
+
+  /* Book Shadow */
+  .book-shadow {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 2px;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(0, 0, 0, 0.15) 0%,
+      rgba(0, 0, 0, 0) 70%
+    );
+    border-radius: 50%;
+    z-index: -1;
+    will-change: width, opacity;
+  }
+
+  /* Book Information */
+  .book-info {
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .book-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: hsl(var(--foreground));
+    line-height: 1.2;
+  }
+
+  .book-subtitle {
+    font-size: 0.875rem;
+    font-style: italic;
+    opacity: 0.8;
+    margin-bottom: 0.75rem;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .book-description {
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: hsl(var(--muted-foreground));
+    margin: 0;
+  }
+
 }

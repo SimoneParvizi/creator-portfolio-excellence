@@ -10,8 +10,11 @@ const HeroSimple: React.FC = () => {
       <div className="section-container">
         <div className="max-w-4xl mx-auto">
           <div className="mb-3">
-            <div className="inline-block py-1 px-3 rounded-full text-sm font-medium text-foreground/80 bg-foreground/5 border border-foreground/10 backdrop-blur-sm mb-4">
-              Solo Developer
+            <div className="glass-button-wrap mb-4">
+              <div className="glass-button-shadow"></div>
+              <button className="glass-button" disabled>
+                <span className="glass-button-text">Solo Developer</span>
+              </button>
             </div>
           </div>
           

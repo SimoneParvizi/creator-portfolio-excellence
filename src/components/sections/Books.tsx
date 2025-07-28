@@ -3,6 +3,7 @@ import React, { useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from 'lucide-react';
 import TestimonialCarousel from '../ui/TestimonialCarousel';
+import AnimatedBook from '../ui/AnimatedBook';
 
 const Books = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -44,47 +45,45 @@ const Books = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-10 items-center mb-16">
-          <div className="slide-up">
-            <div className="aspect-[3/4] bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl overflow-hidden shadow-xl border border-border/40">
-              <img 
-                src="https://placehold.co/600x800/f5f5f5/222?text=Book+Cover" 
-                alt="MLOps in Practice" 
-                className="w-full h-full object-cover"
-              />
-            </div>
+        <div className="grid md:grid-cols-2 gap-10 items-stretch mb-16">
+          <div className="slide-up flex justify-center">
+            <AnimatedBook 
+              bookCover="/lovable-uploads/book_cover.png"
+            />
           </div>
           
-          <div className="slide-up">
-            <h3 className="text-2xl font-display font-semibold mb-4">MLOps in Practice <span className="italic">(Coming soon)</span></h3>
-            <p className="text-muted-foreground mb-6 font-lora">
-              A comprehensive guide to implementing MLOps in your organization. Learn how to build 
-              scalable ML pipelines, automate deployment, monitor models in production, and 
-              foster collaboration between data scientists and operations teams.
-            </p>
-            
-            <div className="space-y-4 mb-6 font-lora">
-              <div className="flex items-start">
-                <span className="mr-2 text-foreground/60">•</span>
-                <span>Real-world case studies and practical examples</span>
+          <div className="slide-up flex flex-col justify-center">
+            <div>
+              <h3 className="text-3xl md:text-4xl font-display font-semibold mb-6">The Junior MLE Playbook</h3>
+              <p className="text-muted-foreground mb-8 font-lora text-lg leading-relaxed">
+                No one told you what junior machine learning engineers do. This practical guide bridges 
+                the gap between university theory and real-world ML engineering, providing the essential 
+                knowledge you need to succeed in your first ML engineering role.
+              </p>
+              
+              <div className="space-y-5 mb-8 font-lora text-base">
+                <div className="flex items-start">
+                  <span className="mr-3 text-foreground/60 text-lg">•</span>
+                  <span>Real-world ML engineering workflows and processes</span>
+                </div>
+                <div className="flex items-start">
+                  <span className="mr-3 text-foreground/60 text-lg">•</span>
+                  <span>Production ML systems and deployment strategies</span>
+                </div>
+                <div className="flex items-start">
+                  <span className="mr-3 text-foreground/60 text-lg">•</span>
+                  <span>Career transition guide from university to industry</span>
+                </div>
+                <div className="flex items-start">
+                  <span className="mr-3 text-foreground/60 text-lg">•</span>
+                  <span>Practical tools and technologies used in the field</span>
+                </div>
               </div>
-              <div className="flex items-start">
-                <span className="mr-2 text-foreground/60">•</span>
-                <span>Infrastructure design patterns for ML systems</span>
-              </div>
-              <div className="flex items-start">
-                <span className="mr-2 text-foreground/60">•</span>
-                <span>CI/CD pipelines for ML models</span>
-              </div>
-              <div className="flex items-start">
-                <span className="mr-2 text-foreground/60">•</span>
-                <span>Monitoring and observability strategies</span>
-              </div>
+              
+              <Button className="gap-2 text-base px-6 py-3">
+                Get the Book <ExternalLink size={18} />
+              </Button>
             </div>
-            
-            <Button className="gap-2">
-              Get the Book <ExternalLink size={16} />
-            </Button>
           </div>
         </div>
         
