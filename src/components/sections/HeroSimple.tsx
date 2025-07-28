@@ -16,26 +16,17 @@ const HeroSimple: React.FC = () => {
           </div>
           
           <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold tracking-tight mb-8">
-            <AnimatedText 
-              text="Creating digital" 
-              className="block mb-2" 
-              delay={1200} 
-            />
-            <AnimatedText 
-              text="experiences that" 
-              className="block mb-2" 
-              delay={1400} 
-            />
-            <AnimatedText 
-              text="perform & inspire" 
-              className="block" 
-              delay={1600} 
-            />
+            <span className="gentle-reveal delay-1 block mb-2">
+              Built to work
+            </span>
+            <span className="gentle-reveal delay-2 block">
+              Built to last
+            </span>
           </h1>
           
           <div className="mb-12">
             <p className="text-lg md:text-xl max-w-2xl mb-12 text-balance font-lora">
-              I build Websites, MLOps systems and Infrastructure that help you succeed.
+              I create Websites, MLOps systems and Infrastructure so you don't have to worry about it.
             </p>
 
             <div className="flex flex-wrap gap-4">

@@ -1,8 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Instagram, Linkedin, Mail } from 'lucide-react';
+import { Instagram, Linkedin, Mail } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import AnimatedText from '@/components/ui/AnimatedText';
+import AnimatedHamburger from '@/components/ui/AnimatedHamburger';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -74,7 +75,7 @@ const Navbar = () => {
           : 'bg-transparent py-6'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <button 
@@ -85,7 +86,7 @@ const Navbar = () => {
                   navigate('/');
                 }
               }}
-              className="flex items-center"
+              className="flex items-center -ml-2"
             >
               <img 
                 src="/lovable-uploads/8c9a2e3b-8f7a-4bbe-abd3-fd1d086dcc51.png" 
@@ -121,14 +122,10 @@ const Navbar = () => {
           </nav>
 
           {/* Mobile Menu Button */}
-          <button 
-            className="md:hidden text-foreground p-2 rounded-md" 
+          <AnimatedHamburger 
+            isOpen={mobileMenuOpen}
             onClick={toggleMobileMenu}
-            aria-expanded={mobileMenuOpen}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          />
         </div>
       </div>
 

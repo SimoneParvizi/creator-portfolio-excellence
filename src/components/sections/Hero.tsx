@@ -32,21 +32,12 @@ const Hero: React.FC = () => {
           </div>
           
           <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold tracking-tight mb-8">
-            <AnimatedText 
-              text="Creating digital" 
-              className="block mb-2"
-              delay={300}  
-            />
-            <AnimatedText 
-              text="experiences that" 
-              className="block mb-2"
-              delay={600}
-            />
-            <AnimatedText 
-              text="perform & inspire" 
-              className="block"
-              delay={900}
-            />
+            <span className="reveal-text block mb-2">
+              Built to work
+            </span>
+            <span className="reveal-text burgundy block">
+              Built to last
+            </span>
           </h1>
           
           <div 
@@ -54,7 +45,7 @@ const Hero: React.FC = () => {
             style={{ transitionDelay: '1000ms' }}
           >
             <p className="text-lg md:text-xl max-w-2xl mb-12 text-balance font-lora">
-              I build Websites, MLOps systems and Infrastructure that help you succeed.
+              I create Websites, MLOps systems and Infrastructure so you don't have to worry about it.
             </p>
 
             <div className="flex flex-wrap gap-4">
