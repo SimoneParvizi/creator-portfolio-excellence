@@ -751,6 +751,26 @@
     display: flex;
     align-items: flex-start;
     margin-bottom: 2rem;
+    padding-left: 0;
+  }
+
+  @media (max-width: 767px) {
+    .intro-section {
+      padding-left: 0;
+      margin-left: 0;
+    }
+    
+    .intro-section .wrapper {
+      width: 100%;
+      padding-left: 0;
+      margin-left: 0;
+    }
+    
+    .intro-section h1 {
+      margin-left: 0;
+      padding-left: 0;
+      text-align: left;
+    }
   }
 
   .intro-section h1 {
@@ -793,6 +813,121 @@
     position: relative;
     display: flex;
     align-items: flex-end;
+  }
+
+  /* Radial gradient utility for white aura effect */
+  .bg-gradient-radial {
+    background-image: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+
+  /* 3D Gallery Styles */
+  .gallery-3d-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    padding: 1rem 0;
+    margin-top: -4rem;
+  }
+
+  .gallery-3d-items {
+    display: flex;
+    gap: 0.4rem;
+    perspective: calc(var(--gallery-index, 1vw + 1vh) * 35);
+  }
+
+  .gallery-3d-item {
+    width: calc(var(--gallery-index, 1vw + 1vh) * 3);
+    height: calc(var(--gallery-index, 1vw + 1vh) * 12);
+    background-color: #222;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    filter: grayscale(1) brightness(.5);
+    transition: transform 1.25s cubic-bezier(.1, .7, 0, 1), 
+                filter 3s cubic-bezier(.1, .7, 0, 1), 
+                width 1.25s cubic-bezier(.1, .7, 0, 1);
+    will-change: transform, filter, width;
+    position: relative;
+  }
+
+  .gallery-3d-item::before, .gallery-3d-item::after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 20px;
+    right: calc(var(--gallery-index, 1vw + 1vh) * -1);
+  }
+
+  .gallery-3d-item::after {
+    left: calc(var(--gallery-index, 1vw + 1vh) * -1);
+  }
+
+  .gallery-3d-items .gallery-3d-item:hover {
+    filter: inherit;
+    transform: translateZ(calc(var(--gallery-index, 1vw + 1vh) * 10));
+  }
+
+  /* Right side effects */
+  .gallery-3d-items .gallery-3d-item:hover + * {
+    filter: inherit;
+    transform: translateZ(calc(var(--gallery-index, 1vw + 1vh) * 8.5)) rotateY(35deg);
+    z-index: -1;
+  }
+
+  .gallery-3d-items .gallery-3d-item:hover + * + * {
+    filter: inherit;
+    transform: translateZ(calc(var(--gallery-index, 1vw + 1vh) * 5.6)) rotateY(40deg);
+    z-index: -2;
+  }
+
+  .gallery-3d-items .gallery-3d-item:hover + * + * + * {
+    filter: inherit;
+    transform: translateZ(calc(var(--gallery-index, 1vw + 1vh) * 2.5)) rotateY(30deg);
+    z-index: -3;
+  }
+
+  .gallery-3d-items .gallery-3d-item:hover + * + * + * + * {
+    filter: inherit;
+    transform: translateZ(calc(var(--gallery-index, 1vw + 1vh) * .6)) rotateY(15deg);
+    z-index: -4;
+  }
+
+  /* Left side effects */
+  .gallery-3d-items .gallery-3d-item:has( + :hover) {
+    filter: inherit;
+    transform: translateZ(calc(var(--gallery-index, 1vw + 1vh) * 8.5)) rotateY(-35deg);
+  }
+
+  .gallery-3d-items .gallery-3d-item:has( + * + :hover) {
+    filter: inherit;
+    transform: translateZ(calc(var(--gallery-index, 1vw + 1vh) * 5.6)) rotateY(-40deg);
+  }
+
+  .gallery-3d-items .gallery-3d-item:has( + * + * + :hover) {
+    filter: inherit;
+    transform: translateZ(calc(var(--gallery-index, 1vw + 1vh) * 2.5)) rotateY(-30deg);
+  }
+
+  .gallery-3d-items .gallery-3d-item:has( + * + * + * + :hover) {
+    filter: inherit;
+    transform: translateZ(calc(var(--gallery-index, 1vw + 1vh) * .6)) rotateY(-15deg);
+  }
+
+  /* Active/Focus states */
+  .gallery-3d-items .gallery-3d-item:active, 
+  .gallery-3d-items .gallery-3d-item:focus {
+    width: 28vw;
+    filter: inherit;
+    z-index: 100;
+    transform: translateZ(calc(var(--gallery-index, 1vw + 1vh) * 10));
+    margin: 0 .45vw;
+    outline: none;
+  }
+
+  /* Set the CSS custom property */
+  :root {
+    --gallery-index: calc(1vw + 1vh);
   }
 
 }

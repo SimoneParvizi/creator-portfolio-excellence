@@ -3,9 +3,9 @@ import React, { useEffect } from 'react';
 import Navbar from '../components/layout/Navbar';
 import HeroSimple from '../components/sections/HeroSimple';
 import Hero from '../components/sections/Hero';
+import ArtOfReduction from '../components/sections/ArtOfReduction';
 import Skills from '../components/sections/Skills';
 import Projects from '../components/sections/Projects';
-import Books from '../components/sections/Books';
 import Contact from '../components/sections/Contact';
 import P5aBackground from '../components/ui/P5aBackground';
 import FixedSocialSidebar from '../components/ui/FixedSocialSidebar';
@@ -50,8 +50,8 @@ const Index = () => {
       <main>
         <HeroSimple />
         <Skills />
-        <Books />
         <Projects />
+        <ArtOfReduction />
         <Contact />
       </main>
       <footer className="py-8 text-center text-muted-foreground text-sm relative z-40 bg-background shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">

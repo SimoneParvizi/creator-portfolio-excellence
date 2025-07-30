@@ -41,12 +41,11 @@ const Projects: React.FC = () => {
       githubUrl: "#",
     },
     {
-      title: "Task Management App",
-      description: "A productivity application for managing projects, tasks, and team collaboration.",
-      tags: ["React", "Redux", "Node.js", "MongoDB"],
-      imageUrl: "https://placehold.co/1200x800/111/333?text=Task+App",
-      liveUrl: "#",
-      githubUrl: "#",
+      title: "spaceanomaly.com",
+      description: "A webdesign study focused on aesthetics and modern design principles.",
+      tags: ["React", "CSS3", "Design"],
+      imageUrl: "https://placehold.co/1200x800/111/333?text=Space+Anomaly",
+      liveUrl: "https://spaceanomaly.com",
     },
     {
       title: "Finance Dashboard",

@@ -109,8 +109,13 @@ const HeroSimple: React.FC = () => {
         const currentWord = words[currentIndex].trim();
         introText.innerHTML = currentWord;
         
-        // Split text into characters for animation
-        const chars = currentWord.split('').map(char => `<span style="display: inline-block;">${char}</span>`).join('');
+        // Split text into characters for animation, preserving spaces
+        const chars = currentWord.split('').map(char => {
+          if (char === ' ') {
+            return `<span style="display: inline-block; width: 0.3em;">&nbsp;</span>`;
+          }
+          return `<span style="display: inline-block;">${char}</span>`;
+        }).join('');
         introText.innerHTML = chars;
         
         const charElements = introText.querySelectorAll('span');
@@ -207,19 +212,16 @@ const HeroSimple: React.FC = () => {
       <div className="section-container">
         <div className="max-w-4xl mx-auto">
           <div className="mb-3">
-            <div className="glass-button-wrap mb-4">
-              <div className="glass-button-shadow"></div>
-              <button className="glass-button" disabled>
-                <span className="glass-button-text">Solo Developer</span>
-              </button>
+            <div className="inline-block py-1 px-3 rounded-full text-sm font-medium text-foreground/70 bg-foreground/5 border border-foreground/10 backdrop-blur-sm mb-4">
+              Solo Developer
             </div>
           </div>
           
           <div className="intro-section">
             <div className="wrapper">
               <h1>
-                <span>Welcome <br /></span>to <em>your</em> <br /> 
-                <span ref={introTextRef} className="intro-text" data-words="Excellence,next Level,Performance">Excellence</span>
+                <span>Creating <br /></span>your <em>next</em> <br /> 
+                <span ref={introTextRef} className="intro-text" data-words="Website,Idea,Product,Pipeline,MVP,Vision">Website</span>
               </h1>
             </div>
           </div>

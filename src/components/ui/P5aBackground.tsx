@@ -650,6 +650,14 @@ const P5aBackground: React.FC = () => {
       
       isScrollingRef.current = true;
       
+      // Clear active form field on scroll to prevent persistent holes
+      if ((window as any).activeFormField) {
+        (window as any).activeFormField = {
+          id: null,
+          rect: null
+        };
+      }
+      
       if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
       scrollTimeoutRef.current = setTimeout(() => {
         isScrollingRef.current = false;

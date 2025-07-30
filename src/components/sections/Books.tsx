@@ -50,6 +50,9 @@ const Books = () => {
             <div className="relative z-[100] bg-background p-12">
               <AnimatedBook 
                 bookCover="/lovable-uploads/book_cover.png"
+                title="The Junior MLE Playbook"
+                subtitle="Essential Guide for Machine Learning Engineers"
+                description="A practical guide bridging the gap between university theory and real-world ML engineering"
               />
             </div>
           </div>

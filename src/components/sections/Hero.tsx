@@ -26,7 +26,7 @@ const Hero: React.FC = () => {
             className={`mb-6 transition-opacity duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'}`}
             style={{ transitionDelay: '200ms' }}
           >
-            <div className="inline-block py-1 px-3 rounded-full text-sm font-medium text-foreground/80 bg-foreground/5 border border-foreground/10 backdrop-blur-sm mb-4">
+            <div className="inline-block py-1 px-3 rounded-full text-sm font-medium text-foreground/70 bg-foreground/5 border border-foreground/10 backdrop-blur-sm mb-4">
               Solo Developer
             </div>
           </div>

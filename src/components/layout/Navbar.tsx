@@ -99,9 +99,9 @@ const Navbar = () => {
           {/* Desktop Navigation - Updated Order */}
           <nav className="hidden md:flex space-x-3">
             <AnimatedText delay={200} className="inline-block">
-              <button onClick={() => handleSectionClick('books')} className="nav-link fancy-hover font-lora">
+              <Link to="/book" className="nav-link fancy-hover font-lora">
                 Book
-              </button>
+              </Link>
             </AnimatedText>
             <AnimatedText delay={400} className="inline-block">
               <button onClick={() => handleSectionClick('projects')} className="nav-link fancy-hover font-lora">
@@ -117,7 +117,17 @@ const Navbar = () => {
               </button>
             </AnimatedText>
             <AnimatedText delay={1000} className="inline-block">
-              <Link to="/about" className="nav-link fancy-hover font-lora">About</Link>
+              <Link 
+                to="/about" 
+                className="nav-link fancy-hover font-lora"
+                onClick={() => {
+                  setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }, 100);
+                }}
+              >
+                About me
+              </Link>
             </AnimatedText>
           </nav>
 
@@ -138,15 +148,13 @@ const Navbar = () => {
         }`}
       >
         <div className="px-4 pt-6 pb-8 space-y-3 bg-background/95 backdrop-blur-md h-full">
-          <button
-            onClick={() => {
-              handleSectionClick('books');
-              setMobileMenuOpen(false);
-            }}
+          <Link
+            to="/book" 
             className="block text-lg font-medium py-2 nav-link fancy-hover text-left font-lora"
+            onClick={() => setMobileMenuOpen(false)}
           >
             Book
-          </button>
+          </Link>
           <button
             onClick={() => {
               handleSectionClick('projects');
@@ -175,9 +183,14 @@ const Navbar = () => {
           <Link 
             to="/about" 
             className="block text-lg font-medium py-2 nav-link fancy-hover font-lora" 
-            onClick={() => setMobileMenuOpen(false)}
+            onClick={() => {
+              setMobileMenuOpen(false);
+              setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }, 100);
+            }}
           >
-            About
+            About me
           </Link>
           
           {/* Social Media Icons - Mobile Only */}

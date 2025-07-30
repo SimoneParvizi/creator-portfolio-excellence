@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Send, CheckCircle } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
+import FloatingSpheres from '../ui/FloatingSpheres';
 
 // Global state for form field focus - dots can access this
 declare global {
@@ -110,7 +111,15 @@ const Contact: React.FC = () => {
           </p>
         </div>
 
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-4xl mx-auto relative">
+          {/* Floating Spheres - Side Companion */}
+          <div className="absolute -right-32 lg:-right-48 top-1/2 -translate-y-1/2 hidden xl:block pointer-events-none">
+            <div className="w-64 h-80 opacity-60">
+              <FloatingSpheres className="absolute inset-0" />
+            </div>
+          </div>
+
+          {/* Centered Contact Form */}
           <div className="max-w-xl mx-auto">
             <div className="slide-up">
               {isSubmitted ? (
