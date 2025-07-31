@@ -114,7 +114,7 @@ const Contact: React.FC = () => {
         <div className="max-w-4xl mx-auto relative">
           {/* Floating Spheres - Side Companion */}
           <div className="absolute -right-32 lg:-right-48 top-1/2 -translate-y-1/2 hidden xl:block pointer-events-none">
-            <div className="w-64 h-80 opacity-60">
+            <div className="w-64 h-80">
               <FloatingSpheres className="absolute inset-0" />
             </div>
           </div>
