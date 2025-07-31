@@ -48,12 +48,11 @@ const Projects: React.FC = () => {
       liveUrl: "https://spaceanomaly.com",
     },
     {
-      title: "Finance Dashboard",
-      description: "An interactive dashboard for visualizing financial data with real-time updates and analytics.",
-      tags: ["React", "D3.js", "Express", "PostgreSQL"],
-      imageUrl: "https://placehold.co/1200x800/111/333?text=Dashboard",
-      liveUrl: "#",
-      githubUrl: "#",
+      title: "Inertia Gallery",
+      description: "Interactive 3D image gallery with momentum-based distortion effects",
+      tags: ["CSS", "JavaScript", "Three.js", "WebGL"],
+      imageUrl: "/lovable-uploads/inertia_gallery.png",
+      liveUrl: "https://inertiagallery.com",
     },
     {
       title: "Social Media Platform",

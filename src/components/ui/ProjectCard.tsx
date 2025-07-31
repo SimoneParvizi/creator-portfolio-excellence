@@ -82,17 +82,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <p className="text-white/80 text-xs sm:text-sm line-clamp-3 mb-4 font-lora">{description}</p>
         
         <div className="flex space-x-3">
-          {githubUrl && (
-            <a
-              href={githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors"
-            >
-              <img src="/lovable-uploads/inverted-x.png" alt="X" className="w-6 h-6" />
-            </a>
-          )}
-          
           {liveUrl && (
             <a
               href={liveUrl}
