@@ -211,10 +211,10 @@ const HeroSimple: React.FC = () => {
     <section id="hero" className="relative min-h-screen flex items-start md:items-center pt-8 md:pt-0 bg-transparent">
       <div className="section-container">
         <div className="max-w-4xl mx-auto">
-          <div className="mb-3">
-            <div className="inline-block py-1 px-3 rounded-full text-sm font-medium text-foreground/70 bg-foreground/5 border border-foreground/10 backdrop-blur-sm mb-4">
-              Solo Developer
-            </div>
+          <div className="mb-4">
+            <span className="text-sm font-medium text-foreground/70 font-lora underline">
+              solo developer
+            </span>
           </div>
           
           <div className="intro-section">

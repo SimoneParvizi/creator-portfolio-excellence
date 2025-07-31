@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Neuromorphic Badge Styles - Concave Style */
+.neuromorphic-badge {
+  border: none;
+  position: relative;
+  color: #666;
+  background: #f0f0f0;
+  box-shadow:
+    inset -10px -10px 10px #ffffff70,
+    inset 10px 10px 10px #aeaec020;
+  transition: all 0.3s ease;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
