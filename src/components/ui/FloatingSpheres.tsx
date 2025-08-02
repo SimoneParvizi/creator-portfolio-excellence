@@ -71,8 +71,10 @@ const FloatingSpheres: React.FC<FloatingSpheresProps> = ({ className = '' }) => 
         uIndividualRotation: { value: true },
         uMousePosition: { value: new THREE.Vector2(0.5, 0.5) },
         uMouseProximityEffect: { value: true },
-        uMinMovementScale: { value: 0.6 },
-        uMaxMovementScale: { value: 1.8 }
+        uMinMovementScale: { value: 0.9 },
+        uMaxMovementScale: { value: 1.1 },
+        uMouseInfluence: { value: 0.1 },
+        uHoverIntensity: { value: 0.0 }
       },
       vertexShader: `
         varying vec2 vUv;
@@ -107,6 +109,8 @@ const FloatingSpheres: React.FC<FloatingSpheresProps> = ({ className = '' }) => 
         uniform bool uMouseProximityEffect;
         uniform float uMinMovementScale;
         uniform float uMaxMovementScale;
+        uniform float uMouseInfluence;
+        uniform float uHoverIntensity;
         
         varying vec2 vUv;
         
@@ -154,10 +158,19 @@ const FloatingSpheres: React.FC<FloatingSpheresProps> = ({ className = '' }) => 
           float t = uTime * uMovementSpeed;
           
           float dynamicMovementScale = uMovementScale;
+          vec2 mouseOffset = vec2(0.0);
+          
           if (uMouseProximityEffect) {
             float distToCenter = getDistanceToCenter(uMousePosition);
             float smoothT = smoothstep(0.0, 1.0, distToCenter);
             dynamicMovementScale = mix(uMinMovementScale, uMaxMovementScale, smoothT);
+            
+            // Add subtle mouse attraction
+            vec2 mouseDir = (uMousePosition - vec2(0.5)) * 2.0;
+            float mouseDistance = length(mouseDir);
+            if (mouseDistance > 0.0) {
+              mouseOffset = normalize(mouseDir) * uMouseInfluence * (1.0 - mouseDistance);
+            }
           }
           
           for (int i = 0; i < 10; i++) {
@@ -172,24 +185,25 @@ const FloatingSpheres: React.FC<FloatingSpheresProps> = ({ className = '' }) => 
             
             if (i == 0) {
               offset = vec3(
-                sin(t * speed) * orbitRadius * 0.8,
-                sin(t * 0.6) * orbitRadius * 1.2,
+                sin(t * speed) * orbitRadius * 0.8 + mouseOffset.x * 0.5,
+                sin(t * 0.6) * orbitRadius * 1.2 + mouseOffset.y * 0.3,
                 cos(t * speed * 0.8) * orbitRadius * 0.6
               );
             } 
             else if (i == 1) {
               offset = vec3(
-                sin(t * speed + PI) * orbitRadius * 0.9,
-                -sin(t * 0.5) * orbitRadius * 1.1,
+                sin(t * speed + PI) * orbitRadius * 0.9 + mouseOffset.x * 0.3,
+                -sin(t * 0.5) * orbitRadius * 1.1 + mouseOffset.y * 0.4,
                 cos(t * speed * 0.7 + PI) * orbitRadius * 0.7
               );
             }
             else {
               // Wave pattern with more dynamic movement
               float wave = sin(t * 0.3 + float(i) * 0.8) * 0.6;
+              float mouseInfluenceScale = 0.2 / (1.0 + float(i) * 0.1);
               offset = vec3(
-                sin(t * speed + phaseOffset + wave) * orbitRadius,
-                sin(t * (speed * 0.6) + phaseOffset * 1.4 + wave) * (orbitRadius * 0.9),
+                sin(t * speed + phaseOffset + wave) * orbitRadius + mouseOffset.x * mouseInfluenceScale,
+                sin(t * (speed * 0.6) + phaseOffset * 1.4 + wave) * (orbitRadius * 0.9) + mouseOffset.y * mouseInfluenceScale,
                 cos(t * (speed * 0.4) + phaseOffset * 1.1) * (orbitRadius * 0.8)
               );
             }
@@ -285,10 +299,13 @@ const FloatingSpheres: React.FC<FloatingSpheresProps> = ({ className = '' }) => 
           // Very subtle edge lighting to define sphere shape
           vec3 lightDir = normalize(uLightPosition);
           float edgeFactor = 1.0 - abs(dot(normal, viewDir));
-          float rimLight = pow(edgeFactor, 2.0) * 0.15;
+          float rimLight = pow(edgeFactor, 2.0) * (0.15 + uHoverIntensity * 0.1);
+          
+          // Add subtle hover glow
+          float hoverGlow = uHoverIntensity * 0.05;
           
           // Only add minimal rim lighting for sphere definition
-          vec3 color = baseColor + vec3(rimLight);
+          vec3 color = baseColor + vec3(rimLight + hoverGlow);
           
           return color;
         }
@@ -337,7 +354,21 @@ const FloatingSpheres: React.FC<FloatingSpheresProps> = ({ className = '' }) => 
       targetMouseRef.current.y = 1.0 - (event.clientY - rect.top) / rect.height;
     };
 
+    const handleMouseEnter = () => {
+      if (materialRef.current) {
+        materialRef.current.uniforms.uHoverIntensity.value = 1.0;
+      }
+    };
+
+    const handleMouseLeave = () => {
+      if (materialRef.current) {
+        materialRef.current.uniforms.uHoverIntensity.value = 0.0;
+      }
+    };
+
     container.addEventListener('mousemove', handleMouseMove);
+    container.addEventListener('mouseenter', handleMouseEnter);
+    container.addEventListener('mouseleave', handleMouseLeave);
 
     // Animation loop
     const animate = () => {
@@ -370,6 +401,8 @@ const FloatingSpheres: React.FC<FloatingSpheresProps> = ({ className = '' }) => 
 
     return () => {
       container.removeEventListener('mousemove', handleMouseMove);
+      container.removeEventListener('mouseenter', handleMouseEnter);
+      container.removeEventListener('mouseleave', handleMouseLeave);
       window.removeEventListener('resize', handleResize);
       
       if (animationFrameRef.current) {

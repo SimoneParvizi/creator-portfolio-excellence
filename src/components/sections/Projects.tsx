@@ -50,7 +50,7 @@ const Projects: React.FC = () => {
     {
       title: "Inertia Gallery",
       description: "Interactive 3D image gallery with momentum-based distortion effects",
-      tags: ["CSS", "JavaScript", "Three.js", "WebGL"],
+      tags: [],
       imageUrl: "/lovable-uploads/inertia_gallery.png",
       liveUrl: "https://inertiagallery.com",
     },

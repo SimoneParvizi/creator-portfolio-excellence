@@ -112,7 +112,7 @@ const Contact: React.FC = () => {
         </div>
 
         <div className="max-w-4xl mx-auto relative">
-          {/* Floating Spheres - Side Companion */}
+          {/* Floating Spheres - Desktop Side Companion */}
           <div className="absolute -right-32 lg:-right-48 top-1/2 -translate-y-1/2 hidden xl:block pointer-events-none">
             <div className="w-64 h-80">
               <FloatingSpheres className="absolute inset-0" />
@@ -144,7 +144,7 @@ const Contact: React.FC = () => {
                       onFocus={(e) => handleFieldFocus('name', e.target)}
                       onBlur={handleFieldBlur}
                       required
-                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring placeholder:text-foreground/40 transition-all duration-300"
+                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring placeholder:text-foreground/40 transition-all duration-300 font-lora text-center"
                     />
                   </div>
                   
@@ -160,7 +160,7 @@ const Contact: React.FC = () => {
                       onFocus={(e) => handleFieldFocus('email', e.target)}
                       onBlur={handleFieldBlur}
                       required
-                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring placeholder:text-foreground/40 transition-all duration-300"
+                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring placeholder:text-foreground/40 transition-all duration-300 font-lora text-center"
                     />
                   </div>
                   
@@ -176,27 +176,36 @@ const Contact: React.FC = () => {
                       onBlur={handleFieldBlur}
                       required
                       rows={5}
-                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring resize-none placeholder:text-foreground/40 transition-all duration-300"
+                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring resize-none placeholder:text-foreground/40 transition-all duration-300 font-lora text-center"
                     />
                   </div>
                   
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="inline-flex h-11 items-center justify-center rounded-md bg-foreground px-8 text-sm font-medium text-white shadow transition-colors hover:bg-foreground/80 disabled:opacity-70 disabled:cursor-not-allowed w-full"
-                  >
-                    {isSubmitting ? (
-                      <div className="flex items-center">
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                        <span>Sending...</span>
+                  <div className="relative flex justify-center">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="inline-flex h-11 items-center justify-center rounded-md bg-foreground px-8 text-sm font-medium text-white shadow transition-colors hover:bg-foreground/80 disabled:opacity-70 disabled:cursor-not-allowed font-lora"
+                    >
+                      {isSubmitting ? (
+                        <div className="flex items-center">
+                          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                          <span>Sending...</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center">
+                          <span>send message</span>
+                          <Send size={16} className="ml-2" />
+                        </div>
+                      )}
+                    </button>
+                    
+                    {/* Mobile Floating Spheres - Directly below button */}
+                    <div className="xl:hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 pointer-events-none">
+                      <div className="w-48 h-32">
+                        <FloatingSpheres className="absolute inset-0" />
                       </div>
-                    ) : (
-                      <div className="flex items-center">
-                        <span>Send Message</span>
-                        <Send size={16} className="ml-2" />
-                      </div>
-                    )}
-                  </button>
+                    </div>
+                  </div>
                 </form>
               )}
             </div>

@@ -98,25 +98,25 @@ const Navbar = () => {
 
           {/* Desktop Navigation - Updated Order */}
           <nav className="hidden md:flex space-x-3">
-            <AnimatedText delay={200} className="inline-block">
+            <AnimatedText delay={100} className="inline-block">
               <Link to="/book" className="nav-link fancy-hover font-lora">
                 Book
               </Link>
             </AnimatedText>
-            <AnimatedText delay={400} className="inline-block">
+            <AnimatedText delay={200} className="inline-block">
               <button onClick={() => handleSectionClick('projects')} className="nav-link fancy-hover font-lora">
                 Projects
               </button>
             </AnimatedText>
-            <AnimatedText delay={600} className="inline-block">
+            <AnimatedText delay={300} className="inline-block">
               <Link to="/booking" className="nav-link fancy-hover font-lora">Start the Conversation</Link>
             </AnimatedText>
-            <AnimatedText delay={800} className="inline-block">
+            <AnimatedText delay={400} className="inline-block">
               <button onClick={handleContactClick} className="nav-link fancy-hover font-lora">
                 Contact
               </button>
             </AnimatedText>
-            <AnimatedText delay={1000} className="inline-block">
+            <AnimatedText delay={500} className="inline-block">
               <Link 
                 to="/about" 
                 className="nav-link fancy-hover font-lora"

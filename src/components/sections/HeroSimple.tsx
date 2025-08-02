@@ -212,8 +212,8 @@ const HeroSimple: React.FC = () => {
       <div className="section-container">
         <div className="max-w-4xl mx-auto">
           <div className="mb-4">
-            <span className="text-sm font-medium text-foreground/70 font-lora underline">
-              solo developer
+            <span className="text-sm font-medium text-foreground/70 font-lora">
+              creative solo developer
             </span>
           </div>
           
@@ -230,23 +230,19 @@ const HeroSimple: React.FC = () => {
           
           <div className="mb-12">
             <p className="text-lg md:text-xl max-w-2xl mb-12 text-balance font-lora">
-              I create Websites, MLOps systems and Infrastructure so you don't have to worry about it.
+              I create Websites, MLOps systems and Infrastructure so you don't have to worry about it
             </p>
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-4 items-center">
+              <a href="#projects" className="font-lora underline text-foreground hover:text-foreground/80 transition-colors">
+                view my work
+              </a>
               <Button 
                 asChild
-                variant="outline" 
-                className="h-11 px-8"
+                variant="ghost" 
+                className="elegant-contact-btn px-8 font-lora"
               >
-                <a href="#projects">View My Work</a>
-              </Button>
-              <Button 
-                asChild
-                variant="default" 
-                className="h-11 px-8"
-              >
-                <a href="#contact">Contact Me</a>
+                <a href="#contact">contact me</a>
               </Button>
             </div>
           </div>
