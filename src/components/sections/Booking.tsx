@@ -88,7 +88,7 @@ const Booking = () => {
   };
 
   return (
-    <section className="py-16 bg-gradient-to-b from-background to-secondary/20">
+    <section className="py-2 bg-gradient-to-b from-background to-secondary/20">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="max-w-2xl mx-auto space-y-0 mb-8">
           {/* Calendar - First */}
