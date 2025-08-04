@@ -123,7 +123,7 @@ const Skills: React.FC = () => {
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">My Expertise</h2>
           <p className="section-subtitle slide-up font-palatino">
-            I build Websites, MLOps systems and Infrastructure that help you succeed.
+            I build Websites, MLOps systems and Infrastructure<br />that help you succeed.
           </p>
         </div>
 

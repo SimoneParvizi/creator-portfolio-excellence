@@ -90,43 +90,35 @@ const Booking = () => {
   return (
     <section className="py-16 bg-gradient-to-b from-background to-secondary/20">
       <div className="container mx-auto px-4 max-w-6xl">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">Book a Session</h2>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          {/* Date Selection */}
-          <Card className="bg-white/60 backdrop-blur-sm border border-white/20">
-            <CardHeader>
-              <CardTitle>Select Date</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                className="rounded-md border"
-                disabled={(date) => 
-                  date < new Date() || 
-                  date.getDay() === 0 || 
-                  date.getDay() === 6
-                }
-              />
+        <div className="max-w-2xl mx-auto space-y-0 mb-8">
+          {/* Calendar - First */}
+          <Card className="bg-white/60 backdrop-blur-sm border border-white/20 rounded-t-3xl rounded-b-none border-b-0">
+            <CardContent className="pt-6">
+              <div className="flex justify-center">
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={setDate}
+                  className="rounded-2xl border font-lora"
+                  disabled={(date) => 
+                    date < new Date() || 
+                    date.getDay() === 0 || 
+                    date.getDay() === 6
+                  }
+                />
+              </div>
             </CardContent>
           </Card>
 
-          {/* Time Selection */}
-          <Card className="bg-white/60 backdrop-blur-sm border border-white/20">
-            <CardHeader>
-              <CardTitle>Select Time</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
+          {/* Time Selection - Second */}
+          <Card className="bg-white/60 backdrop-blur-sm border border-white/20 rounded-none border-b-0">
+            <CardContent className="pt-6">
+              <div className="space-y-2 max-w-xs mx-auto">
                 {timeSlots.map((time) => (
                   <Button
                     key={time}
                     variant={selectedTimeSlot === time ? "default" : "outline"}
-                    className="w-full justify-start"
+                    className="w-full justify-center rounded-2xl font-lora"
                     onClick={() => handleTimeSlotClick(time)}
                     disabled={!date}
                   >
@@ -138,18 +130,15 @@ const Booking = () => {
             </CardContent>
           </Card>
 
-          {/* Consultation Type */}
-          <Card className="bg-white/60 backdrop-blur-sm border border-white/20">
-            <CardHeader>
-              <CardTitle>Choose Type</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
+          {/* Consultation Type - Third */}
+          <Card className="bg-white/60 backdrop-blur-sm border border-white/20 rounded-b-3xl rounded-t-none">
+            <CardContent className="pt-6">
+              <div className="space-y-2 max-w-xs mx-auto">
                 {consultationTypes.map((type) => (
                   <Button
                     key={type.id}
                     variant={selectedType === type.id ? "default" : "outline"}
-                    className="w-full"
+                    className="w-full justify-center rounded-2xl font-lora"
                     onClick={() => handleTypeClick(type.id)}
                   >
                     {type.title}

@@ -107,7 +107,7 @@ const Contact: React.FC = () => {
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">Let's start working together</h2>
           <p className="section-subtitle slide-up mb-6 font-lora">
-            Got a concept or partnership in mind? Let's have a conversation about it.
+            Got a concept or partnership in mind?<br />Let's have a conversation about it
           </p>
         </div>
 
