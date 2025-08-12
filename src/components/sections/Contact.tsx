@@ -200,7 +200,7 @@ const Contact: React.FC = () => {
                     </button>
                     
                     {/* Mobile Floating Spheres - Centered below button */}
-                    <div className="xl:hidden absolute top-full left-1/2 transform -translate-x-1/2 translate-x-0.5 mt-4 pointer-events-none">
+                    <div className="xl:hidden absolute top-full left-1/2 transform -translate-x-1/2 -translate-x-[40px] mt-4 pointer-events-none">
                       <div className="w-40 h-28">
                         <FloatingSpheres className="w-full h-full" />
                       </div>
