@@ -31,8 +31,8 @@ const About: React.FC = () => {
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} className="pt-16 pb-24 relative z-10 flex items-center min-h-screen">
-      <div className="section-container w-full">
+    <section id="about" ref={sectionRef} className="relative z-10 flex items-center justify-center h-screen">
+      <div className="w-full">
         {/* 3D Photo Gallery */}
         <Gallery3D />
       </div>
