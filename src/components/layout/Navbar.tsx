@@ -108,9 +108,6 @@ const Navbar = () => {
                 Projects
               </button>
             </AnimatedText>
-            <AnimatedText delay={300} className="inline-block">
-              <Link to="/booking" className="nav-link fancy-hover font-lora">Start the Conversation</Link>
-            </AnimatedText>
             <AnimatedText delay={400} className="inline-block">
               <button onClick={handleContactClick} className="nav-link fancy-hover font-lora">
                 Contact
@@ -164,13 +161,6 @@ const Navbar = () => {
           >
             Projects
           </button>
-          <Link
-            to="/booking" 
-            className="block text-lg font-medium py-2 nav-link fancy-hover font-lora" 
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Start the Conversation
-          </Link>
           <button
             onClick={() => {
               handleContactClick();

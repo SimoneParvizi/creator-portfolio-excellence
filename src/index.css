@@ -828,6 +828,54 @@
     margin-top: -4rem;
   }
 
+  /* Mobile specific adjustments - Vertical Layout */
+  @media (max-width: 768px) {
+    .gallery-3d-wrapper {
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      margin-top: -2rem;
+    }
+    
+    .gallery-3d-items {
+      flex-direction: column;
+      gap: 0.8rem;
+      perspective: calc(var(--gallery-index-mobile, 15vh) * 10);
+      align-items: center;
+    }
+    
+    .gallery-3d-item {
+      width: 70vw !important;
+      height: calc(var(--gallery-index-mobile, 15vh) * 1.5) !important;
+      transform-origin: center bottom !important;
+    }
+    
+    /* Simple mobile interaction - just expand in place */
+    .gallery-3d-items .gallery-3d-item:hover {
+      width: 85vw !important;
+      height: 50vh !important;
+      filter: inherit !important;
+      z-index: 100 !important;
+      transform: scale(1.1) !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    /* Disable active states on mobile to prevent conflicts */
+    .gallery-3d-items .gallery-3d-item:active,
+    .gallery-3d-items .gallery-3d-item:focus {
+      outline: none !important;
+    }
+
+    /* Use hover for mobile interaction instead */
+    .gallery-3d-items .gallery-3d-item {
+      cursor: pointer !important;
+      touch-action: manipulation !important;
+    }
+    
+    :root {
+      --gallery-index-mobile: calc(15vh);
+    }
+  }
+
   .gallery-3d-items {
     display: flex;
     gap: 0.4rem;
@@ -921,6 +969,14 @@
     transform: translateZ(calc(var(--gallery-index, 1vw + 1vh) * 10));
     margin: 0 .45vw;
     outline: none;
+  }
+
+  /* Disable hover effects when any item is active/focused */
+  .gallery-3d-items:has(.gallery-3d-item:active) .gallery-3d-item:not(:active),
+  .gallery-3d-items:has(.gallery-3d-item:focus) .gallery-3d-item:not(:focus) {
+    transform: none !important;
+    filter: grayscale(1) brightness(.5) !important;
+    transition: transform 0.3s ease, filter 0.3s ease !important;
   }
 
   /* Set the CSS custom property */
