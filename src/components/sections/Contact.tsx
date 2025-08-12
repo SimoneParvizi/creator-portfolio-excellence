@@ -199,10 +199,10 @@ const Contact: React.FC = () => {
                       )}
                     </button>
                     
-                    {/* Mobile Floating Spheres - Directly below button */}
-                    <div className="xl:hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 pointer-events-none">
-                      <div className="w-48 h-32">
-                        <FloatingSpheres className="absolute inset-0" />
+                    {/* Mobile Floating Spheres - Centered below button */}
+                    <div className="xl:hidden absolute top-full left-1/2 transform -translate-x-1/2 translate-x-0.5 mt-4 pointer-events-none">
+                      <div className="w-40 h-28">
+                        <FloatingSpheres className="w-full h-full" />
                       </div>
                     </div>
                   </div>

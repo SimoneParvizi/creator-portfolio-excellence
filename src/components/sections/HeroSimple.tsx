@@ -144,7 +144,7 @@ const HeroSimple: React.FC = () => {
           {
             opacity: 0,
             x: -100,
-            y: "60%",
+            y: 15,
             rotateY: 30,
             rotateX: -55,
             skewX: 25,
@@ -184,7 +184,7 @@ const HeroSimple: React.FC = () => {
           {
             opacity: 0,
             x: 70,
-            y: "-50%",
+            y: -15,
             rotateY: 20,
             rotateX: 55,
             stagger: 0.06,
@@ -221,7 +221,7 @@ const HeroSimple: React.FC = () => {
             <div className="wrapper">
               <h1>
                 <span>Creating <br /></span>your <em>next</em> <br /> 
-                <span ref={introTextRef} className="intro-text" data-words="Website,Idea,Product,Pipeline,MVP,Vision">Website</span>
+                <span ref={introTextRef} className="intro-text" data-words="Website,Idea,Product,Pipeline,MVP,Vision" style={{marginTop: '15px', display: 'inline-block'}}>Website</span>
               </h1>
             </div>
           </div>
@@ -229,7 +229,7 @@ const HeroSimple: React.FC = () => {
           <canvas ref={canvasRef} id="circleCanvas"></canvas>
           
           <div className="mb-12">
-            <p className="text-lg md:text-xl max-w-2xl mb-12 text-balance font-lora">
+            <p className="text-lg md:text-xl max-w-2xl mb-6 text-balance font-lora">
               I create Websites, MLOps systems and Infrastructure so you don't have to worry about it
             </p>
 
