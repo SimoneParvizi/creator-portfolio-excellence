@@ -6,10 +6,10 @@ import P5aBackground from '../components/ui/P5aBackground';
 
 const AboutPage: React.FC = () => {
   return (
-    <div className="h-screen relative overflow-hidden bg-white">
+    <div className="min-h-screen md:h-screen relative overflow-x-hidden md:overflow-hidden bg-white">
       <P5aBackground />
       <Navbar />
-      <main className="pt-24">
+      <main className="min-h-screen md:h-full">
         <About />
       </main>
     </div>

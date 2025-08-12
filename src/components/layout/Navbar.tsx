@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Instagram, Linkedin, Mail } from 'lucide-react';
+import { Linkedin, Mail } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import AnimatedText from '@/components/ui/AnimatedText';
 import AnimatedHamburger from '@/components/ui/AnimatedHamburger';
@@ -186,15 +186,6 @@ const Navbar = () => {
           {/* Social Media Icons - Mobile Only */}
           <div className="pt-6 mt-4 border-t border-border/40">
             <div className="flex space-x-6 justify-center">
-              <a 
-                href="https://instagram.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors duration-200"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <Instagram size={24} />
-              </a>
               <a 
                 href="https://linkedin.com" 
                 target="_blank" 
