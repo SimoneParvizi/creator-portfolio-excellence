@@ -66,7 +66,7 @@ const FloatingSpheres: React.FC<FloatingSpheresProps> = ({ className = '' }) => 
         uFogDensity: { value: 0.02 },
         uCameraDistance: { value: 2.5 },
         uMovementPattern: { value: 1 }, // 0: orbital, 1: wave, 2: chaos, 3: pulse
-        uMovementSpeed: { value: 1.8 },
+        uMovementSpeed: { value: 0.8 },
         uMovementScale: { value: 1.4 },
         uIndividualRotation: { value: true },
         uMousePosition: { value: new THREE.Vector2(0.5, 0.5) },
@@ -209,7 +209,7 @@ const FloatingSpheres: React.FC<FloatingSpheresProps> = ({ className = '' }) => 
             }
             
             if (uIndividualRotation) {
-              float rotSpeed = t * (0.25 + float(i) * 0.05);
+              float rotSpeed = t * (0.1 + float(i) * 0.02);
               mat3 rot = rotateY(rotSpeed) * rotateX(rotSpeed * 0.8);
               offset = rot * offset;
             }
