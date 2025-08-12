@@ -196,15 +196,6 @@ const Navbar = () => {
                 <Linkedin size={24} />
               </a>
               <a 
-                href="https://twitter.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors duration-200"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <img src="/lovable-uploads/9dfef179-60d5-4651-9754-2372045ac5c8.png" alt="X" className="w-6 h-6" />
-              </a>
-              <a 
                 href="mailto:contact@example.com" 
                 className="text-muted-foreground hover:text-primary transition-colors duration-200"
                 onClick={() => setMobileMenuOpen(false)}
