@@ -47,14 +47,9 @@ const Books = () => {
 
         <div className="grid md:grid-cols-2 gap-10 items-stretch mb-16">
           <div className="slide-up flex justify-center">
-            <div className="relative z-[100] bg-background p-12">
-              <AnimatedBook 
-                bookCover="/lovable-uploads/book_cover.png"
-                title="The Junior MLE Playbook"
-                subtitle="Essential Guide for Machine Learning Engineers"
-                description="A practical guide bridging the gap between university theory and real-world ML engineering"
-              />
-            </div>
+            <AnimatedBook 
+              bookCover="/lovable-uploads/book_cover.png"
+            />
           </div>
           
           <div className="slide-up flex flex-col justify-center">
@@ -85,8 +80,12 @@ const Books = () => {
                 </div>
               </div>
               
-              <Button className="gap-2 text-base px-6 py-3">
-                Get the Book <ExternalLink size={18} />
+              <Button 
+                asChild
+                variant="ghost" 
+                className="elegant-contact-btn px-8 font-lora gap-2"
+              >
+                <a href="#">coming soon <ExternalLink size={18} /></a>
               </Button>
             </div>
           </div>

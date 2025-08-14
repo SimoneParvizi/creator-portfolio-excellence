@@ -144,14 +144,6 @@ const AnimatedBook: React.FC<AnimatedBookProps> = ({
         </div>
       </div>
 
-      {/* Book Information */}
-      {(title || subtitle || description) && (
-        <div className={`book-info transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-70'}`}>
-          {title && <h3 className="book-title">{title}</h3>}
-          {subtitle && <div className="book-subtitle">{subtitle}</div>}
-          {description && <p className="book-description">{description}</p>}
-        </div>
-      )}
     </div>
   );
 };

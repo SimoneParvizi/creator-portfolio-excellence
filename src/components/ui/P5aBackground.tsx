@@ -496,16 +496,28 @@ const P5aBackground: React.FC = () => {
     
     const rect = booksSection.getBoundingClientRect();
     const { width } = sizeRef.current;
+    const isMobile = window.innerWidth <= 768;
     
     // Check if Books section is visible on screen
     const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
     if (!isVisible) return false;
     
     // Calculate book area relative to viewport
-    const bookAreaCenterX = width * 0.3; // Book is in left column, moved slightly right
-    const bookAreaCenterY = rect.top + (rect.height * 0.42); // Moved up slightly to reduce bottom space
-    const bookAreaWidth = 450; // Reduced width from 500 to 450
-    const bookAreaHeight = 580; // Reduced height from 650 to 580
+    let bookAreaCenterX, bookAreaCenterY, bookAreaWidth, bookAreaHeight;
+    
+    if (isMobile) {
+      // Mobile positioning - center the book area
+      bookAreaCenterX = width * 0.5; // Center horizontally on mobile
+      bookAreaCenterY = rect.top + (rect.height * 0.32); // Fine-tuned positioning - slightly lower
+      bookAreaWidth = 400; // Slightly wider
+      bookAreaHeight = 700; // Taller to cover more vertical space
+    } else {
+      // Desktop positioning (original)
+      bookAreaCenterX = width * 0.3; // Book is in left column, moved slightly right
+      bookAreaCenterY = rect.top + (rect.height * 0.42); // Moved up slightly to reduce bottom space
+      bookAreaWidth = 450; // Reduced width from 500 to 450
+      bookAreaHeight = 580; // Reduced height from 650 to 580
+    }
     
     return (
       x >= bookAreaCenterX - bookAreaWidth / 2 &&
