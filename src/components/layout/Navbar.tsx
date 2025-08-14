@@ -75,7 +75,7 @@ const Navbar = () => {
           : 'bg-transparent py-6'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <button 
@@ -86,7 +86,7 @@ const Navbar = () => {
                   navigate('/');
                 }
               }}
-              className="flex items-center -ml-2"
+              className="flex items-center"
             >
               <img 
                 src="/lovable-uploads/8c9a2e3b-8f7a-4bbe-abd3-fd1d086dcc51.png" 
