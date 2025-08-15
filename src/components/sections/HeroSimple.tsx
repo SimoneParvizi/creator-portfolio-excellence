@@ -221,7 +221,7 @@ const HeroSimple: React.FC = () => {
             <div className="wrapper">
               <h1>
                 <span>Creating <br /></span>your <em>next</em> <br /> 
-                <span ref={introTextRef} className="intro-text" data-words="Website,Idea,Product,Pipeline,MVP,Vision" style={{marginTop: '15px', display: 'inline-block'}}>Website</span>
+                <span ref={introTextRef} className="intro-text" data-words="Website,API,Predictive Model,Automation,Implementation" style={{marginTop: '15px', display: 'inline-block'}}>Website</span>
               </h1>
             </div>
           </div>
