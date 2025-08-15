@@ -1,5 +1,5 @@
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Code, Globe, Server, Database, Cloud, BookOpen, Palette } from 'lucide-react';
 
 interface SkillCardProps {
@@ -12,6 +12,8 @@ interface SkillCardProps {
 
 const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, index }) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [showBullets, setShowBullets] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -43,16 +45,30 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, 
     };
   }, [index]);
 
+  // Handle staggered transition
+  useEffect(() => {
+    if (isExpanded) {
+      // Force a reflow by setting false first
+      setShowBullets(false);
+      // Use requestAnimationFrame to ensure the DOM has updated
+      requestAnimationFrame(() => {
+        setTimeout(() => setShowBullets(true), 300);
+      });
+    } else {
+      setShowBullets(false);
+    }
+  }, [isExpanded]);
+
   // Special card for Website Development (first card)
   if (index === 0) {
     return (
       <div
         ref={cardRef}
-        className="slide-up relative flex items-center justify-center flex-col h-96 rounded-3xl bg-white shadow-lg overflow-hidden"
+        className="slide-up relative flex items-center justify-center flex-col h-96 w-96 rounded-3xl bg-white shadow-lg overflow-hidden"
       >
         {/* Circle shape */}
         <div 
-          className="absolute h-full w-full rounded-full bg-black"
+          className="absolute h-full w-full rounded-full bg-black transition-all duration-500"
           style={{ 
             marginTop: '-330px', 
             marginLeft: '200px' 
@@ -61,24 +77,39 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, 
         
         {/* Title */}
         <h3 
-          className="absolute left-0 top-0 m-5 text-3xl font-semibold uppercase tracking-widest text-white font-lora"
+          className={`absolute left-0 top-0 m-5 text-3xl font-semibold uppercase tracking-widest text-white font-lora transition-all duration-500 ${isExpanded ? 'mb-2' : ''}`}
           style={{ mixBlendMode: 'difference' }}
         >
           {title}
         </h3>
         
-        {/* Description */}
+        {/* Description with fade transition */}
         <p 
-          className="absolute left-0 bottom-0 m-5 mb-16 text-base text-white font-lora"
+          className={`absolute left-0 bottom-0 m-5 mb-16 text-base text-white font-lora transition-opacity duration-500 ${isExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
           style={{ mixBlendMode: 'difference' }}
         >
           {description}
         </p>
         
+        {/* Bullet points with fade transition */}
+        <div className={`absolute left-0 bottom-0 m-5 mb-16 transition-all duration-500 ease-in-out transform ${showBullets ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}`}>
+          <ul className="space-y-1">
+            {items.map((item, i) => (
+              <li key={i} className="text-xs flex items-start font-lora text-black">
+                <span className="mr-2 text-black/80">•</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        
         {/* More button */}
         <div className="absolute right-0 bottom-0 m-5">
-          <span className="cursor-pointer bg-black text-white text-lg px-3 py-2 rounded-full shadow-lg font-lora">
-            More
+          <span 
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="cursor-pointer bg-black text-white text-lg px-3 py-2 rounded-full shadow-lg font-lora"
+          >
+            {isExpanded ? 'Less' : 'Skills'}
           </span>
         </div>
       </div>
@@ -169,14 +200,15 @@ const Skills: React.FC = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skills.map((skill, index) => (
-            <SkillCard
-              key={index}
-              icon={skill.icon}
-              title={skill.title}
-              description={skill.description}
-              items={skill.items}
-              index={index}
-            />
+            <div key={index} className={index === 0 ? "relative z-10" : ""}>
+              <SkillCard
+                icon={skill.icon}
+                title={skill.title}
+                description={skill.description}
+                items={skill.items}
+                index={index}
+              />
+            </div>
           ))}
         </div>
       </div>
