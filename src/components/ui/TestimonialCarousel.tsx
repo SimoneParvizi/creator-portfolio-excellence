@@ -50,7 +50,7 @@ const TestimonialCard: React.FC<TestimonialProps> = ({ quote, name, title, image
       <div className="mb-3 text-primary/40">
         <Quote size={24} />
       </div>
-      <p className="italic text-muted-foreground mb-4 text-sm font-sans">{quote}</p>
+      <p className="italic text-muted-foreground mb-4 text-sm font-lora">{quote}</p>
       <div className="mt-auto flex items-center">
         {image && (
           <div className="w-10 h-10 rounded-full overflow-hidden mr-3 flex-shrink-0 border border-border/40">
@@ -58,8 +58,8 @@ const TestimonialCard: React.FC<TestimonialProps> = ({ quote, name, title, image
           </div>
         )}
         <div>
-          <p className="font-semibold text-sm">{name}</p>
-          <p className="text-xs text-muted-foreground font-sans">{title}</p>
+          <p className="font-semibold text-sm font-lora">{name}</p>
+          <p className="text-xs text-muted-foreground font-lora">{title}</p>
         </div>
       </div>
     </Card>

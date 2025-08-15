@@ -105,9 +105,9 @@ const Skills: React.FC = () => {
     },
     {
       icon: <Cloud size={24} />,
-      title: "MLOps & DevOps",
-      description: "Scalable systems to keep your machine learning running smoothly.",
-      items: ["CI/CD Pipelines", "Kubernetes", "Docker", "Infrastructure as Code", "Cloud Architecture", "ML Model Deployment"],
+      title: "DevOps",
+      description: "Handling the deployment and scaling infrastructure for production systems.",
+      items: ["CI/CD Pipelines", "Kubernetes", "Docker", "Infrastructure as Code", "Cloud Deployment", "Auto-scaling Systems"],
     },
     {
       icon: <Database size={24} />,
@@ -122,9 +122,6 @@ const Skills: React.FC = () => {
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">My Expertise</h2>
-          <p className="section-subtitle slide-up font-palatino">
-            I build Websites, MLOps systems and Infrastructure<br />that help you succeed.
-          </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
