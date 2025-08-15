@@ -62,14 +62,13 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, 
     }
   }, [isExpanded]);
 
-  // Special card for Website Development (first card)
-  if (index === 0) {
-    return (
-      <div
-        ref={cardRef}
-        className="slide-up relative flex items-center justify-center flex-col h-96 w-96 rounded-3xl bg-white shadow-lg overflow-hidden"
-      >
-        {/* Circle shape */}
+  // Special cards for all skills with different shapes
+  if (index === 0 || index === 1 || index === 2) {
+    // Determine shape based on index
+    let shapeElement;
+    if (index === 0) {
+      // Circle for Website Development
+      shapeElement = (
         <div 
           className="absolute h-full w-full rounded-full bg-black transition-all duration-500"
           style={{ 
@@ -77,6 +76,43 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, 
             marginLeft: '200px' 
           }}
         />
+      );
+    } else if (index === 1) {
+      // True triangle for DevOps using CSS borders - larger and tilted
+      shapeElement = (
+        <div 
+          className="absolute transition-all duration-500"
+          style={{ 
+            marginTop: '-350px', 
+            marginLeft: '140px',
+            width: '0',
+            height: '0',
+            borderLeft: '185px solid transparent',
+            borderRight: '185px solid transparent',
+            borderBottom: '300px solid black',
+            transform: 'rotate(-20deg)'
+          }}
+        />
+      );
+    } else {
+      // Triangle for Machine Learning
+      shapeElement = (
+        <div 
+          className="absolute h-full w-full bg-black rounded-lg transform rotate-12 transition-all duration-500"
+          style={{ 
+            marginTop: '-380px', 
+            marginLeft: '170px'
+          }}
+        />
+      );
+    }
+    return (
+      <div
+        ref={cardRef}
+        className="slide-up relative flex items-center justify-center flex-col h-96 w-96 rounded-3xl bg-white shadow-lg overflow-hidden"
+      >
+        {/* Dynamic shape based on index */}
+        {shapeElement}
         
         {/* Title */}
         <h3 
@@ -112,7 +148,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, 
             onClick={() => setIsExpanded(!isExpanded)}
             className="cursor-pointer bg-black text-white text-lg px-3 py-2 rounded-full shadow-lg font-lora"
           >
-            {isExpanded ? 'Less' : 'Skills'}
+            {isExpanded ? 'less' : 'skills'}
           </span>
         </div>
       </div>
