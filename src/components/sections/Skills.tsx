@@ -109,7 +109,10 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, 
     return (
       <div
         ref={cardRef}
-        className="slide-up relative flex items-center justify-center flex-col h-96 w-96 rounded-3xl bg-white shadow-lg overflow-hidden"
+        className="slide-up relative flex items-center justify-center flex-col h-96 w-96 rounded-3xl shadow-lg overflow-hidden"
+        style={{
+          background: 'rgba(255, 255, 255, 0.85)'
+        }}
       >
         {/* Dynamic shape based on index */}
         {shapeElement}
@@ -239,7 +242,7 @@ const Skills: React.FC = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skills.map((skill, index) => (
-            <div key={index} className={index === 0 ? "relative z-10" : ""}>
+            <div key={index}>
               <SkillCard
                 icon={skill.icon}
                 title={skill.title}
