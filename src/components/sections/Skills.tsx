@@ -109,9 +109,10 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, 
     return (
       <div
         ref={cardRef}
-        className="slide-up relative flex items-center justify-center flex-col h-96 w-96 rounded-3xl shadow-lg overflow-hidden"
+        className="slide-up relative flex items-center justify-center flex-col h-96 w-96 rounded-3xl overflow-hidden"
         style={{
-          background: 'rgba(255, 255, 255, 0.85)'
+          background: 'rgba(255, 255, 255, 0.85)',
+          boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15), 0 10px 20px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.08)'
         }}
       >
         {/* Dynamic shape based on index */}
