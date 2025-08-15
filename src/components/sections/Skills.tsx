@@ -149,9 +149,29 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, 
         <div className="absolute right-0 bottom-0 m-5">
           <span 
             onClick={() => setIsExpanded(!isExpanded)}
-            className="cursor-pointer bg-black text-white text-lg px-3 py-2 rounded-full shadow-lg font-lora"
+            className="cursor-pointer bg-black text-white text-lg rounded-full shadow-lg font-lora transition-all duration-300 ease-in-out hover:scale-105 relative inline-block"
+            style={{ 
+              width: '60px', 
+              height: '36px', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center' 
+            }}
           >
-            {isExpanded ? 'less' : 'skills'}
+            <span 
+              className={`absolute transition-opacity duration-300 ease-in-out ${
+                isExpanded ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              less
+            </span>
+            <span 
+              className={`absolute transition-opacity duration-300 ease-in-out ${
+                !isExpanded ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              skills
+            </span>
           </span>
         </div>
       </div>
