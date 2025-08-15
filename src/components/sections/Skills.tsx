@@ -14,6 +14,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, 
   const cardRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [showBullets, setShowBullets] = useState(false);
+  const [showDescription, setShowDescription] = useState(true);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -48,14 +49,16 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, 
   // Handle staggered transition
   useEffect(() => {
     if (isExpanded) {
-      // Force a reflow by setting false first
+      // Hide description first, then show bullets
+      setShowDescription(false);
       setShowBullets(false);
-      // Use requestAnimationFrame to ensure the DOM has updated
       requestAnimationFrame(() => {
         setTimeout(() => setShowBullets(true), 300);
       });
     } else {
+      // Hide bullets first, then show description
       setShowBullets(false);
+      setTimeout(() => setShowDescription(true), 300);
     }
   }, [isExpanded]);
 
@@ -85,7 +88,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, 
         
         {/* Description with fade transition */}
         <p 
-          className={`absolute left-0 bottom-0 m-5 mb-16 text-base text-white font-lora transition-opacity duration-500 ${isExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+          className={`absolute left-0 bottom-0 m-5 mb-16 text-base text-white font-lora transition-opacity duration-500 ${showDescription ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
           style={{ mixBlendMode: 'difference' }}
         >
           {description}
