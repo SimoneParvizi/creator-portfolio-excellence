@@ -43,6 +43,49 @@ const SkillCard: React.FC<SkillCardProps> = ({ icon, title, description, items, 
     };
   }, [index]);
 
+  // Special card for Website Development (first card)
+  if (index === 0) {
+    return (
+      <div
+        ref={cardRef}
+        className="slide-up relative flex items-center justify-center flex-col h-96 rounded-3xl bg-white shadow-lg overflow-hidden"
+      >
+        {/* Circle shape */}
+        <div 
+          className="absolute h-full w-full rounded-full bg-black"
+          style={{ 
+            marginTop: '-330px', 
+            marginLeft: '200px' 
+          }}
+        />
+        
+        {/* Title */}
+        <h3 
+          className="absolute left-0 top-0 m-5 text-3xl font-semibold uppercase tracking-widest text-white font-lora"
+          style={{ mixBlendMode: 'difference' }}
+        >
+          {title}
+        </h3>
+        
+        {/* Description */}
+        <p 
+          className="absolute left-0 bottom-0 m-5 mb-16 text-base text-white font-lora"
+          style={{ mixBlendMode: 'difference' }}
+        >
+          {description}
+        </p>
+        
+        {/* More button */}
+        <div className="absolute right-0 bottom-0 m-5">
+          <span className="cursor-pointer bg-black text-white text-lg px-3 py-2 rounded-full shadow-lg font-lora">
+            More
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  // Regular card for other skills
   return (
     <div
       ref={cardRef}
