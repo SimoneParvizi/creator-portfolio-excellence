@@ -231,7 +231,7 @@ const HeroSimple: React.FC = () => {
           <canvas ref={canvasRef} id="circleCanvas"></canvas>
           
           <div className="mb-12">
-            <p className="text-lg md:text-xl max-w-2xl mb-6 text-balance font-lora">
+            <p className="text-lg md:text-xl max-w-2xl mb-6 text-balance font-lora" style={{marginTop: '-20px'}}>
               I create Websites, MLOps systems and Infrastructure so you don't have to worry about it
             </p>
 
