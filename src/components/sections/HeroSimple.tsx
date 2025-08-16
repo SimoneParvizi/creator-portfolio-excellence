@@ -221,7 +221,9 @@ const HeroSimple: React.FC = () => {
             <div className="wrapper">
               <h1>
                 <span>Creating <br /></span>your <em>next</em> <br /> 
-                <span ref={introTextRef} className="intro-text" data-words="Website,API,Predictive Model,Automation,Implementation" style={{marginTop: '15px', display: 'inline-block'}}>Website</span>
+                <span style={{position: 'relative', display: 'inline-block', width: '360px', height: '1em', marginTop: '15px'}}>
+                  <span ref={introTextRef} className="intro-text" data-words="Website,API,Predictive Model,Automation,Implementation" style={{position: 'absolute', left: '0', top: '0'}}>Website</span>
+                </span>
               </h1>
             </div>
           </div>
