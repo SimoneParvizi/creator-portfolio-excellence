@@ -85,7 +85,7 @@ const Books = () => {
                 variant="ghost" 
                 className="elegant-contact-btn px-8 font-lora gap-2"
               >
-                <a href="#">coming soon <ExternalLink size={18} /></a>
+                <a href="#">coming soon</a>
               </Button>
             </div>
           </div>
