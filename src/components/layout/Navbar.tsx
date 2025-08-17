@@ -25,8 +25,30 @@ const Navbar = () => {
     };
   }, [scrolled]);
 
+  // Cleanup body overflow on unmount
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
+  // Handle body scroll when menu state changes
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [mobileMenuOpen]);
+
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
+    // Prevent body scroll when menu is open
+    if (!mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
   };
 
   const handleContactClick = () => {
@@ -138,71 +160,91 @@ const Navbar = () => {
 
       {/* Mobile Navigation - Updated Order */}
       <div 
-        className={`md:hidden transition-all duration-300 ease-in-out ${
+        className={`md:hidden fixed left-0 right-0 bottom-0 z-40 transition-all duration-300 ease-in-out ${
           mobileMenuOpen 
-            ? 'opacity-100 h-screen' 
-            : 'opacity-0 h-0 pointer-events-none'
+            ? 'opacity-100' 
+            : 'opacity-0 pointer-events-none'
         }`}
+        style={{ top: scrolled ? '64px' : '96px' }}
       >
-        <div className="px-4 pt-6 pb-8 space-y-3 bg-background/95 backdrop-blur-md h-full">
-          <Link
-            to="/book" 
-            className="block text-lg font-medium py-2 nav-link fancy-hover text-left font-lora"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Book
-          </Link>
-          <button
-            onClick={() => {
-              handleSectionClick('projects');
-              setMobileMenuOpen(false);
-            }}
-            className="block text-lg font-medium py-2 nav-link fancy-hover text-left font-lora"
-          >
-            Projects
-          </button>
-          <button
-            onClick={() => {
-              handleContactClick();
-              setMobileMenuOpen(false);
-            }}
-            className="block text-lg font-medium py-2 nav-link fancy-hover text-left font-lora"
-          >
-            Contact
-          </button>
-          <Link 
-            to="/about" 
-            className="block text-lg font-medium py-2 nav-link fancy-hover font-lora" 
-            onClick={() => {
-              setMobileMenuOpen(false);
-              setTimeout(() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }, 100);
-            }}
-          >
-            About me
-          </Link>
+        <div className="flex flex-col" style={{ height: '100vh' }}>
+          <div className="px-4 pt-6 pb-8 bg-white">
+            <div className="flex flex-wrap gap-6 justify-center">
+              <Link
+                to="/book" 
+                className="text-lg font-medium py-2 nav-link fancy-hover font-lora"
+                onClick={() => {
+                setMobileMenuOpen(false);
+                document.body.style.overflow = 'unset';
+              }}
+              >
+                Book
+              </Link>
+              <button
+                onClick={() => {
+                  handleSectionClick('projects');
+                  setMobileMenuOpen(false);
+                }}
+                className="text-lg font-medium py-2 nav-link fancy-hover font-lora"
+              >
+                Projects
+              </button>
+              <button
+                onClick={() => {
+                  handleContactClick();
+                  setMobileMenuOpen(false);
+                }}
+                className="text-lg font-medium py-2 nav-link fancy-hover font-lora"
+              >
+                Contact
+              </button>
+              <Link 
+                to="/about" 
+                className="text-lg font-medium py-2 nav-link fancy-hover font-lora" 
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }, 100);
+                }}
+              >
+                About me
+              </Link>
+            </div>
+          </div>
           
           {/* Social Media Icons - Mobile Only */}
-          <div className="pt-6 mt-4 border-t border-border/40">
-            <div className="flex space-x-6 justify-center">
-              <a 
-                href="https://linkedin.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors duration-200"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <Linkedin size={24} />
-              </a>
-              <a 
-                href="mailto:contact@example.com" 
-                className="text-muted-foreground hover:text-primary transition-colors duration-200"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <Mail size={24} />
-              </a>
+          <div className="flex-1 flex flex-col">
+            <div className="px-4 pt-1 bg-white">
+              <div className="pt-1">
+                <div className="flex space-x-6 justify-center">
+                  <a 
+                    href="https://linkedin.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors duration-200"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      document.body.style.overflow = 'unset';
+                    }}
+                  >
+                    <Linkedin size={24} />
+                  </a>
+                  <a 
+                    href="mailto:contact@example.com" 
+                    className="text-muted-foreground hover:text-primary transition-colors duration-200"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      document.body.style.overflow = 'unset';
+                    }}
+                  >
+                    <Mail size={24} />
+                  </a>
+                </div>
+              </div>
             </div>
+            {/* Semi-transparent area below social icons */}
+            <div className="flex-1 bg-white/80"></div>
           </div>
         </div>
       </div>
