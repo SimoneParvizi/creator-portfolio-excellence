@@ -40,41 +40,38 @@ const Books = () => {
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-12 text-center">
           <h2 ref={titleRef} className="section-title slide-up">My Book</h2>
-          <p className="section-subtitle slide-up font-lora">
-            Sharing knowledge and experience through practical, actionable insights
-          </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-10 items-stretch mb-16">
-          <div className="slide-up flex justify-center">
+          <div className="slide-up flex justify-center items-start pt-16">
             <AnimatedBook 
               bookCover="/lovable-uploads/book_cover.png"
             />
           </div>
           
-          <div className="slide-up flex flex-col justify-center">
+          <div className="slide-up flex flex-col justify-center text-center md:text-left">
             <div>
               <h3 className="text-3xl md:text-4xl font-display font-semibold mb-6">The Junior MLE Playbook</h3>
-              <p className="text-muted-foreground mb-8 font-lora text-lg leading-relaxed">
-                No one told you what junior machine learning engineers do. This practical guide bridges 
-                the gap between university theory and real-world ML engineering, providing the essential 
-                knowledge you need to succeed in your first ML engineering role.
+              <p className="text-foreground mb-8 font-lora text-lg leading-relaxed">
+                No one tells you what junior machine learning engineers do. These exercises do. They are the training I 
+                wish someone had given me, the kind that actually prepares you for work. No theory, no hype. 
+                Just the reality of being a junior MLE
               </p>
               
               <div className="space-y-5 mb-8 font-lora text-base">
-                <div className="flex items-start">
+                <div className="flex items-start justify-center md:justify-start">
                   <span className="mr-3 text-foreground/60 text-lg">•</span>
                   <span>Real-world ML engineering workflows and processes</span>
                 </div>
-                <div className="flex items-start">
+                <div className="flex items-start justify-center md:justify-start">
                   <span className="mr-3 text-foreground/60 text-lg">•</span>
                   <span>Production ML systems and deployment strategies</span>
                 </div>
-                <div className="flex items-start">
+                <div className="flex items-start justify-center md:justify-start">
                   <span className="mr-3 text-foreground/60 text-lg">•</span>
                   <span>Career transition guide from university to industry</span>
                 </div>
-                <div className="flex items-start">
+                <div className="flex items-start justify-center md:justify-start">
                   <span className="mr-3 text-foreground/60 text-lg">•</span>
                   <span>Practical tools and technologies used in the field</span>
                 </div>

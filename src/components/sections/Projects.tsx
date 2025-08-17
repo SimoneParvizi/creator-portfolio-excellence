@@ -43,12 +43,12 @@ const Projects: React.FC = () => {
     {
       title: "spaceanomaly.com",
       description: "A webdesign study focused on aesthetics and modern design principles.",
-      tags: ["React", "CSS3", "Design"],
-      imageUrl: "https://placehold.co/1200x800/111/333?text=Space+Anomaly",
+      tags: [],
+      imageUrl: "/lovable-uploads/spaceanomaly_screenshot.png",
       liveUrl: "https://spaceanomaly.com",
     },
     {
-      title: "Inertia Gallery",
+      title: "inertiagallery.com",
       description: "Interactive 3D image gallery with momentum-based distortion effects",
       tags: [],
       imageUrl: "/lovable-uploads/inertia_gallery.png",

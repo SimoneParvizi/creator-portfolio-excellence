@@ -53,7 +53,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   return (
     <div
       ref={cardRef}
-      className={`slide-up group relative overflow-hidden rounded-2xl card-glassmorphism transition-all duration-500`}
+      className={`slide-up group relative overflow-hidden rounded-2xl transition-all duration-500 ${
+        title === "inertiagallery.com" 
+          ? "bg-white/5 backdrop-blur-xl border border-white/20 shadow-lg hover:shadow-xl" 
+          : "card-glassmorphism"
+      }`}
       style={{ transitionDelay: `${index * 100}ms` }}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70 z-10"></div>
