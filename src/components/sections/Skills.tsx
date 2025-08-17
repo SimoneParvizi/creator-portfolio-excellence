@@ -249,7 +249,7 @@ const Skills: React.FC = () => {
     {
       icon: <Database size={24} />,
       title: "Machine Learning",
-      description: "Building and launching ML models that solve real problems. Your problems.",
+      description: "Building and launching Predictive Models that help you anticipate trends and make smarter decisions.",
       items: ["Model Training", "Model Serving", "Feature Engineering", "Data Processing", "ML Monitoring", "Experiment Tracking"],
     },
   ];
@@ -259,7 +259,6 @@ const Skills: React.FC = () => {
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">My Expertise</h2>
-          <p className="section-subtitle slide-up">What I can do for you.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
