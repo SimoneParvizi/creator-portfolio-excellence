@@ -1,8 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Send, CheckCircle } from 'lucide-react';
+import { Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import FloatingSpheres from '../ui/FloatingSpheres';
+import emailjs from '@emailjs/browser';
 
 // Global state for form field focus - dots can access this
 declare global {
@@ -27,6 +28,7 @@ const Contact: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Initialize global state
   useEffect(() => {
@@ -84,12 +86,34 @@ const Contact: React.FC = () => {
     };
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError(null);
     
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      // Replace these with your EmailJS credentials
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID';
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID';
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY';
+      
+      // Check if credentials are set
+      if (serviceId === 'YOUR_SERVICE_ID' || templateId === 'YOUR_TEMPLATE_ID' || publicKey === 'YOUR_PUBLIC_KEY') {
+        throw new Error('EmailJS credentials not configured. Please check your environment variables.');
+      }
+      
+      const templateParams = {
+        from_name: formState.name,
+        from_email: formState.email,
+        message: formState.message,
+      };
+      
+      console.log('Sending email with params:', templateParams);
+      console.log('Service ID:', serviceId);
+      console.log('Template ID:', templateId);
+      
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      
       setIsSubmitting(false);
       setIsSubmitted(true);
       setFormState({ name: '', email: '', message: '' });
@@ -98,7 +122,11 @@ const Contact: React.FC = () => {
       setTimeout(() => {
         setIsSubmitted(false);
       }, 5000);
-    }, 1500);
+    } catch (error) {
+      setIsSubmitting(false);
+      setSubmitError(error instanceof Error ? error.message : 'Failed to send message. Please try again.');
+      console.error('EmailJS error:', error);
+    }
   };
 
   return (
@@ -122,6 +150,15 @@ const Contact: React.FC = () => {
           {/* Centered Contact Form */}
           <div className="max-w-xl mx-auto">
             <div className="slide-up">
+              {submitError && (
+                <div className="mb-6 p-4 rounded-lg border border-red-500/30 bg-red-500/5">
+                  <div className="flex items-center">
+                    <AlertCircle className="w-5 h-5 text-red-500 mr-2" />
+                    <p className="text-red-600 text-sm">{submitError}</p>
+                  </div>
+                </div>
+              )}
+              
               {isSubmitted ? (
                 <div className="h-full flex flex-col items-center justify-center text-center p-6 rounded-2xl border border-green-500/30 bg-green-500/5">
                   <CheckCircle className="w-12 h-12 text-green-500 mb-4" />
