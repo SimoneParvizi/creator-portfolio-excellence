@@ -243,8 +243,10 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
-            {/* Semi-transparent area below social icons */}
-            <div className="flex-1 bg-white/80"></div>
+            {/* Semi-transparent area below social icons with gradient transition */}
+            <div className="flex-1" style={{
+              background: 'linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 20%, rgba(255,255,255,0.8) 100%)'
+            }}></div>
           </div>
         </div>
       </div>
