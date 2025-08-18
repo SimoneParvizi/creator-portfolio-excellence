@@ -42,14 +42,6 @@ const Gallery3D: React.FC = () => {
       src: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
       alt: "Data Science"
     },
-    {
-      src: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?q=80&w=2070&auto=format&fit=crop",
-      alt: "Remote Work"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=2070&auto=format&fit=crop",
-      alt: "Code Quality"
-    }
   ];
 
   return (
