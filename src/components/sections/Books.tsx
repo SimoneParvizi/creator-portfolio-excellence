@@ -2,7 +2,6 @@
 import React, { useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from 'lucide-react';
-import TestimonialCarousel from '../ui/TestimonialCarousel';
 import AnimatedBook from '../ui/AnimatedBook';
 
 const Books = () => {
@@ -36,7 +35,7 @@ const Books = () => {
   }, []);
 
   return (
-    <section id="books" ref={sectionRef} className="py-20 bg-gradient-to-b from-transparent via-secondary/5 to-transparent relative z-0">
+    <section id="books" ref={sectionRef} className="min-h-screen flex items-center pt-16 bg-gradient-to-b from-transparent via-secondary/5 to-transparent relative z-0">
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-12 text-center">
           <h2 ref={titleRef} className="section-title slide-up">My Book</h2>
@@ -86,10 +85,6 @@ const Books = () => {
               </Button>
             </div>
           </div>
-        </div>
-        
-        <div className="mt-32 pt-12 border-t border-border/20">
-          <TestimonialCarousel />
         </div>
       </div>
     </section>
