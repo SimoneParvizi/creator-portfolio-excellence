@@ -507,16 +507,16 @@ const P5aBackground: React.FC = () => {
     
     if (isMobile) {
       // Mobile positioning - center the book area
-      bookAreaCenterX = width * 0.5; // Center horizontally on mobile
-      bookAreaCenterY = rect.top + (rect.height * 0.32); // Fine-tuned positioning - slightly lower
-      bookAreaWidth = 400; // Slightly wider
-      bookAreaHeight = 700; // Taller to cover more vertical space
+      bookAreaCenterX = width * 0.485; // Shift slightly left to extend left side
+      bookAreaCenterY = rect.top + (rect.height * 0.39); // Move up more to better center on book
+      bookAreaWidth = 450; // Wider to extend more to the left
+      bookAreaHeight = 550; // Match actual book height
     } else {
-      // Desktop positioning (original)
-      bookAreaCenterX = width * 0.3; // Book is in left column, moved slightly right
-      bookAreaCenterY = rect.top + (rect.height * 0.42); // Moved up slightly to reduce bottom space
-      bookAreaWidth = 450; // Reduced width from 500 to 450
-      bookAreaHeight = 580; // Reduced height from 650 to 580
+      // Desktop positioning - align with actual book
+      bookAreaCenterX = width * 0.285; // Shift left to extend left side while keeping right edge
+      bookAreaCenterY = rect.top + (rect.height * 0.58); // Move up to center on actual book
+      bookAreaWidth = 450; // Wider to extend more to the left
+      bookAreaHeight = 550; // Match actual book height
     }
     
     return (

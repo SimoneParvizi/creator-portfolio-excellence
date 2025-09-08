@@ -34,7 +34,7 @@ const Book = () => {
   }, []);
 
   return (
-    <div className="min-h-screen relative overflow-x-hidden bg-background">
+    <div className="min-h-screen relative overflow-x-hidden">
       <P5aBackground />
       <Navbar />
       <main className="pt-20">

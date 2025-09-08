@@ -35,8 +35,8 @@ const Books = () => {
   }, []);
 
   return (
-    <section id="books" ref={sectionRef} className="min-h-screen flex items-center pt-16 bg-gradient-to-b from-transparent via-secondary/5 to-transparent relative z-0">
-      <div className="section-container">
+    <section id="books" ref={sectionRef} className="min-h-screen flex items-center pt-16 relative z-0">
+      <div className="section-container bg-transparent">
         <div className="max-w-3xl mx-auto mb-12 text-center">
           <h2 ref={titleRef} className="section-title slide-up">My Book</h2>
         </div>
