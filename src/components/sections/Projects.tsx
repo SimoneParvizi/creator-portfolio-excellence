@@ -35,9 +35,9 @@ const Projects: React.FC = () => {
     {
       title: "AI Q&A Generation Platform",
       description: "An intelligent document processing system that generates study material from documents and videos.",
-      tags: ["Python", "FastAPI", "OpenAI", "HuggingFace"],
+      tags: [],
       imageUrl: "https://placehold.co/1200x800/111/333?text=AI+Q%26A",
-      liveUrl: "https://kiokify.com",
+      liveUrl: "coming-soon",
       githubUrl: "#",
     },
     {

@@ -86,7 +86,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <p className="text-white/80 text-xs sm:text-sm line-clamp-3 mb-4 font-lora">{description}</p>
         
         <div className="flex space-x-3">
-          {liveUrl && (
+          {liveUrl && liveUrl === "coming-soon" ? (
+            <button
+              className="px-3 py-1.5 text-xs font-medium rounded-full bg-white/10 backdrop-blur-sm text-white/80 cursor-default"
+              disabled
+            >
+              coming very soon
+            </button>
+          ) : liveUrl ? (
             <a
               href={liveUrl}
               target="_blank"
@@ -95,7 +102,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             >
               <ExternalLink size={18} className="text-white" />
             </a>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
