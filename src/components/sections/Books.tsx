@@ -43,8 +43,9 @@ const Books = () => {
 
         <div className="grid md:grid-cols-2 gap-10 items-stretch mb-16">
           <div className="slide-up flex justify-center items-start pt-16">
-            <AnimatedBook 
+            <AnimatedBook
               bookCover="/lovable-uploads/book_cover.png"
+              title="The Junior MLE Playbook"
             />
           </div>
           
