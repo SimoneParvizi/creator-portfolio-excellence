@@ -53,7 +53,7 @@ const Books = () => {
               <h3 className="text-3xl md:text-4xl font-display font-semibold mb-6">The Junior MLE Playbook</h3>
               <p className="text-foreground mb-8 font-lora text-lg leading-relaxed">
                 No one tells you what junior machine learning engineers do. These exercises do. They are the training I 
-                wish someone had given me, the kind that actually prepares you for work. No theory, no hype. 
+                wish someone had given me that actually prepares you for work. No theory, no hype, no buzzwords.
                 Just the reality of being a junior MLE.
               </p>
               

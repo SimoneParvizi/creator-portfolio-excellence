@@ -69,9 +69,6 @@ const Projects: React.FC = () => {
       <div className="section-container">
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 ref={titleRef} className="section-title slide-up">Selected Projects</h2>
-          <p className="section-subtitle slide-up font-elegant">
-            Explore a collection of my recent work
-          </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 lg:gap-8">

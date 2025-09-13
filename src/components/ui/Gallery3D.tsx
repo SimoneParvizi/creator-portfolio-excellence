@@ -27,20 +27,16 @@ const Gallery3D: React.FC = () => {
       alt: "Favorite City"
     },
     {
-      src: "https://images.unsplash.com/photo-1594904351111-a072f80b1a71?q=80&w=2070&auto=format&fit=crop",
-      alt: "Data Pipeline Architecture"
+      src: "/lovable-uploads/dream_house_future.png",
+      alt: "Dream House Future"
     },
     {
-      src: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2070&auto=format&fit=crop",
-      alt: "Containerization"
+      src: "/lovable-uploads/fav_painting.png",
+      alt: "Favorite Painting"
     },
     {
-      src: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?q=80&w=1974&auto=format&fit=crop",
-      alt: "DevOps Culture"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
-      alt: "Data Science"
+      src: "/lovable-uploads/i_want_to_go_egypt.png",
+      alt: "Egypt Travel Dream"
     },
   ];
 
