@@ -49,17 +49,17 @@ const Projects: React.FC = () => {
     },
     {
       title: "inertiagallery.com",
-      description: "Interactive 3D image gallery with momentum-based distortion effects",
+      description: "Interactive image gallery with momentum-based distortion effects",
       tags: [],
       imageUrl: "/lovable-uploads/inertia_gallery.png",
       liveUrl: "https://inertiagallery.com",
     },
     {
-      title: "Social Media Platform",
-      description: "A social network application with profiles, posts, comments, and real-time messaging.",
-      tags: ["React", "Socket.io", "Node.js", "MongoDB"],
-      imageUrl: "https://placehold.co/1200x800/111/333?text=Social+Media",
-      liveUrl: "#",
+      title: "youarecontrolled.com",
+      description: "A 3D interaction experiment exploring real-time input visualization and responsive design mechanics.",
+      tags: [],
+      imageUrl: "https://placehold.co/1200x800/111/333?text=3D+Laptop",
+      liveUrl: "https://youarecontrolled.com",
       githubUrl: "#",
     },
   ];
