@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Gallery3D: React.FC = () => {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const images = [
     {
       src: "/lovable-uploads/i_came_from_abruzzo.png",
@@ -40,18 +41,23 @@ const Gallery3D: React.FC = () => {
     },
   ];
 
+  const handleImageClick = (index: number) => {
+    setActiveIndex(activeIndex === index ? null : index);
+  };
+
   return (
     <div className="gallery-3d-wrapper">
       <div className="gallery-3d-items">
         {images.map((image, index) => (
           <div
             key={index}
-            className="gallery-3d-item"
+            className={`gallery-3d-item ${activeIndex === index ? 'active' : ''}`}
             tabIndex={0}
             style={{
               backgroundImage: `url(${image.src})`,
             }}
             aria-label={image.alt}
+            onClick={() => handleImageClick(index)}
           />
         ))}
       </div>

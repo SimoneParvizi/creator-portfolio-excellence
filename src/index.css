@@ -875,10 +875,10 @@
 
   .gallery-3d-items {
     display: flex;
-    gap: 0.1rem;
+    gap: 0.15rem;
     perspective: calc(var(--gallery-index, 1vw + 1vh) * 35);
-    padding: 0 20px;
-    margin: 0 -10px;
+    padding: 0 15px;
+    margin: 0 -8px;
   }
 
   .gallery-3d-item {
@@ -900,13 +900,13 @@
     content: '';
     position: absolute;
     height: 100%;
-    width: 50px;
-    right: calc(var(--gallery-index, 1vw + 1vh) * -2);
+    width: 25px;
+    right: calc(var(--gallery-index, 1vw + 1vh) * -1.2);
     z-index: 1;
   }
 
   .gallery-3d-item::after {
-    left: calc(var(--gallery-index, 1vw + 1vh) * -1.5);
+    left: calc(var(--gallery-index, 1vw + 1vh) * -1.2);
   }
 
   .gallery-3d-items .gallery-3d-item:hover {
@@ -933,12 +933,6 @@
     z-index: -3;
   }
 
-  .gallery-3d-items .gallery-3d-item:hover + * + * + * + * {
-    filter: inherit;
-    transform: translateZ(calc(var(--gallery-index, 1vw + 1vh) * .6)) rotateY(15deg);
-    z-index: -4;
-  }
-
   /* Left side effects */
   .gallery-3d-items .gallery-3d-item:has( + :hover) {
     filter: inherit;
@@ -955,14 +949,8 @@
     transform: translateZ(calc(var(--gallery-index, 1vw + 1vh) * 2.5)) rotateY(-30deg);
   }
 
-  .gallery-3d-items .gallery-3d-item:has( + * + * + * + :hover) {
-    filter: inherit;
-    transform: translateZ(calc(var(--gallery-index, 1vw + 1vh) * .6)) rotateY(-15deg);
-  }
-
-  /* Active/Focus states */
-  .gallery-3d-items .gallery-3d-item:active, 
-  .gallery-3d-items .gallery-3d-item:focus {
+  /* Active state controlled by JavaScript */
+  .gallery-3d-items .gallery-3d-item.active {
     width: 28vw;
     filter: inherit;
     z-index: 100;
@@ -971,9 +959,8 @@
     outline: none;
   }
 
-  /* Disable hover effects when any item is active/focused */
-  .gallery-3d-items:has(.gallery-3d-item:active) .gallery-3d-item:not(:active),
-  .gallery-3d-items:has(.gallery-3d-item:focus) .gallery-3d-item:not(:focus) {
+  /* Disable hover effects when any item is active */
+  .gallery-3d-items:has(.gallery-3d-item.active) .gallery-3d-item:not(.active) {
     transform: none !important;
     filter: grayscale(1) brightness(.5) !important;
     transition: transform 0.3s ease, filter 0.3s ease !important;
