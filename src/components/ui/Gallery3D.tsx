@@ -50,8 +50,14 @@ const Gallery3D: React.FC = () => {
     },
   ];
 
-  const handleImageClick = (index: number) => {
-    setActiveIndex(activeIndex === index ? null : index);
+  const handleImageClick = (e: React.MouseEvent | React.TouchEvent, index: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Force state update with a small delay to ensure proper re-render
+    setTimeout(() => {
+      setActiveIndex(current => current === index ? null : index);
+    }, 0);
   };
 
   return (
@@ -66,10 +72,14 @@ const Gallery3D: React.FC = () => {
               backgroundImage: `url(${image.src})`,
             }}
             aria-label={image.alt}
-            onClick={() => handleImageClick(index)}
+            onClick={(e) => handleImageClick(e, index)}
+            onTouchEnd={(e) => handleImageClick(e, index)}
           >
             {activeIndex === index && (
-              <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
+              <div
+                className="absolute bottom-0 left-0 right-0 p-4 text-center"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <p className="text-white text-sm font-lora italic" style={{textShadow: '2px 2px 4px rgba(0,0,0,0.8), -1px -1px 2px rgba(0,0,0,0.8), 1px -1px 2px rgba(0,0,0,0.8), -1px 1px 2px rgba(0,0,0,0.8)'}}>
                   {image.description}
                 </p>

@@ -856,6 +856,17 @@
       transition: all 0.3s ease !important;
     }
     
+    /* Active state for mobile - expand in place without translateZ */
+    .gallery-3d-items .gallery-3d-item.active {
+      width: 85vw !important;
+      height: 50vh !important;
+      filter: inherit !important;
+      z-index: 100 !important;
+      transform: none !important;
+      margin: 0.4rem 0 !important;
+      transition: all 0.3s ease !important;
+    }
+
     /* Disable active states on mobile to prevent conflicts */
     .gallery-3d-items .gallery-3d-item:active,
     .gallery-3d-items .gallery-3d-item:focus {
