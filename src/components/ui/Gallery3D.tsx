@@ -5,39 +5,48 @@ const Gallery3D: React.FC = () => {
   const images = [
     {
       src: "/lovable-uploads/i_came_from_abruzzo.png",
-      alt: "Abruzzo Heritage"
+      alt: "Abruzzo Heritage",
+      description: "I come from this beautiful region in Italy, Abruzzo"
     },
     {
-      src: "/lovable-uploads/fav_place_is_petralia.png", 
-      alt: "Favorite Place"
+      src: "/lovable-uploads/fav_place_is_petralia.png",
+      alt: "Favorite Place",
+      description: "My favourite place"
     },
     {
       src: "/lovable-uploads/i_love_kickbox.png",
-      alt: "Kickboxing"
+      alt: "Kickboxing",
+      description: "Kick Boxing makes me feel alive and extremely present in the moment"
     },
     {
       src: "/lovable-uploads/i_am_an_uncle.png",
-      alt: "Uncle"
+      alt: "Uncle",
+      description: "I'm an uncle"
     },
     {
       src: "/lovable-uploads/love_for_ancient_civilization.png",
-      alt: "Ancient Civilizations"
+      alt: "Ancient Civilizations",
+      description: "This is the most ancient temple in the world. I have to visit it"
     },
     {
       src: "/lovable-uploads/fav_city.png",
-      alt: "Favorite City"
+      alt: "Favorite City",
+      description: "Rome is by far the most beautiful city I've seen"
     },
     {
       src: "/lovable-uploads/dream_house_future.png",
-      alt: "Dream House Future"
+      alt: "Dream House Future",
+      description: "My dream is to live in a farm house in Italy with my wife and kids"
     },
     {
       src: "/lovable-uploads/fav_painting.png",
-      alt: "Favorite Painting"
+      alt: "Favorite Painting",
+      description: "\"The Fall of the Damned\". Masterpiece."
     },
     {
       src: "/lovable-uploads/i_want_to_go_egypt.png",
-      alt: "Egypt Travel Dream"
+      alt: "Egypt Travel Dream",
+      description: "Most fascinating human creation on Earth. I have to visit them"
     },
   ];
 
@@ -58,7 +67,15 @@ const Gallery3D: React.FC = () => {
             }}
             aria-label={image.alt}
             onClick={() => handleImageClick(index)}
-          />
+          >
+            {activeIndex === index && (
+              <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
+                <p className="text-white text-sm font-lora italic" style={{textShadow: '2px 2px 4px rgba(0,0,0,0.8), -1px -1px 2px rgba(0,0,0,0.8), 1px -1px 2px rgba(0,0,0,0.8), -1px 1px 2px rgba(0,0,0,0.8)'}}>
+                  {image.description}
+                </p>
+              </div>
+            )}
+          </div>
         ))}
       </div>
     </div>

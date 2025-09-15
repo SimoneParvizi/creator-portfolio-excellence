@@ -34,7 +34,7 @@ const Projects: React.FC = () => {
   const projects = [
     {
       title: "AI Q&A Generation Platform",
-      description: "An intelligent document processing system that generates study material from documents and videos.",
+      description: "An intelligent document processing application that generates study material from documents and videos.",
       tags: [],
       imageUrl: "https://placehold.co/1200x800/111/333?text=AI+Q%26A",
       liveUrl: "coming-soon",
