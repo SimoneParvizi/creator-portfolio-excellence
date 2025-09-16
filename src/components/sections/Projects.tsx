@@ -50,7 +50,7 @@ const Projects: React.FC = () => {
       title: "youarecontrolled.com",
       description: "A 3D interaction experiment exploring real-time input visualization and responsive design mechanics.",
       tags: [],
-      imageUrl: "https://placehold.co/1200x800/111/333?text=3D+Laptop",
+      imageUrl: "/lovable-uploads/youarecontrolled.png",
       liveUrl: "https://youarecontrolled.com",
       githubUrl: "#",
     },

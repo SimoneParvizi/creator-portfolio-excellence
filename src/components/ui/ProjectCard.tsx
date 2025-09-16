@@ -61,6 +61,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       style={{ transitionDelay: `${index * 100}ms` }}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70 z-10"></div>
+      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-300 z-10"></div>
       
       <div className="relative aspect-video overflow-hidden">
         <img
@@ -81,10 +82,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             </span>
           ))}
         </div>
-        
-        <h3 className="text-lg sm:text-xl font-bold text-white mb-2 font-lora">{title}</h3>
-        <p className="text-white/80 text-xs sm:text-sm line-clamp-3 mb-4 font-lora">{description}</p>
-        
+
+        <h3 className={`text-lg sm:text-xl font-bold text-white mb-2 font-lora transition-opacity duration-300 ${
+          title === "AI Q&A Generation Platform" ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+        }`}>{title}</h3>
+        <p className={`text-white/80 text-xs sm:text-sm line-clamp-3 mb-4 font-lora transition-opacity duration-300 ${
+          title === "AI Q&A Generation Platform" ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+        }`}>{description}</p>
+
         <div className="flex justify-start">
           {liveUrl && liveUrl === "coming-soon" ? (
             <button
