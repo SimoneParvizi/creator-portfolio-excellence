@@ -33,14 +33,6 @@ const Projects: React.FC = () => {
 
   const projects = [
     {
-      title: "AI Q&A Generation Platform",
-      description: "An intelligent document processing application that generates study material from documents and videos.",
-      tags: [],
-      imageUrl: "https://placehold.co/1200x800/111/333?text=AI+Q%26A",
-      liveUrl: "coming-soon",
-      githubUrl: "#",
-    },
-    {
       title: "spaceanomaly.com",
       description: "A webdesign study focused on aesthetics and modern design principles.",
       tags: [],
@@ -60,6 +52,14 @@ const Projects: React.FC = () => {
       tags: [],
       imageUrl: "https://placehold.co/1200x800/111/333?text=3D+Laptop",
       liveUrl: "https://youarecontrolled.com",
+      githubUrl: "#",
+    },
+    {
+      title: "AI Q&A Generation Platform",
+      description: "An intelligent document processing application that generates study material from documents and videos.",
+      tags: [],
+      imageUrl: "https://placehold.co/1200x800/111/333?text=AI+Q%26A",
+      liveUrl: "coming-soon",
       githubUrl: "#",
     },
   ];

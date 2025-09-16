@@ -16,7 +16,7 @@ const Gallery3D: React.FC = () => {
     {
       src: "/lovable-uploads/i_love_kickbox.png",
       alt: "Kickboxing",
-      description: "Kick Boxing makes me feel alive and extremely present in the moment"
+      description: "I train to be a kickboxer"
     },
     {
       src: "/lovable-uploads/i_am_an_uncle.png",
@@ -26,7 +26,7 @@ const Gallery3D: React.FC = () => {
     {
       src: "/lovable-uploads/love_for_ancient_civilization.png",
       alt: "Ancient Civilizations",
-      description: "This is the most ancient temple in the world. I have to visit it"
+      description: "I am fascinated by ancient civilizations"
     },
     {
       src: "/lovable-uploads/fav_city.png",

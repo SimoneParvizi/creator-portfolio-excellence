@@ -85,10 +85,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <h3 className="text-lg sm:text-xl font-bold text-white mb-2 font-lora">{title}</h3>
         <p className="text-white/80 text-xs sm:text-sm line-clamp-3 mb-4 font-lora">{description}</p>
         
-        <div className="flex space-x-3">
+        <div className="flex justify-start">
           {liveUrl && liveUrl === "coming-soon" ? (
             <button
-              className="px-3 py-1.5 text-xs font-medium rounded-full bg-white/10 backdrop-blur-sm text-white/80 cursor-default"
+              className="px-3 py-1.5 text-xs font-medium rounded-full bg-black/80 backdrop-blur-sm text-white/90 cursor-default border border-white/20"
               disabled
             >
               coming very soon
@@ -98,7 +98,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               href={liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors"
+              className="p-2 rounded-full bg-black/80 hover:bg-black/90 backdrop-blur-sm transition-colors border border-white/20"
             >
               <ExternalLink size={18} className="text-white" />
             </a>
