@@ -412,8 +412,9 @@ const P5aBackground: React.FC = () => {
       
       // Draw lines to nearest dots
       for (const { dot, distance } of nearest) {
-        // Skip lines if either dot is in the book area
-        if (isInBookArea(dots[i].x, dots[i].y) || isInBookArea(dot.x, dot.y)) {
+        // Skip lines if either dot is in the book area or projects area
+        if (isInBookArea(dots[i].x, dots[i].y) || isInBookArea(dot.x, dot.y) ||
+            isInProjectsArea(dots[i].x, dots[i].y) || isInProjectsArea(dot.x, dot.y)) {
           continue;
         }
         
@@ -493,18 +494,18 @@ const P5aBackground: React.FC = () => {
     // Only create hole when Books section is visible
     const booksSection = document.getElementById('books');
     if (!booksSection) return false;
-    
+
     const rect = booksSection.getBoundingClientRect();
     const { width } = sizeRef.current;
     const isMobile = window.innerWidth <= 768;
-    
+
     // Check if Books section is visible on screen
     const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
     if (!isVisible) return false;
-    
+
     // Calculate book area relative to viewport
     let bookAreaCenterX, bookAreaCenterY, bookAreaWidth, bookAreaHeight;
-    
+
     if (isMobile) {
       // Mobile positioning - center the book area
       bookAreaCenterX = width * 0.485; // Shift slightly left to extend left side
@@ -518,13 +519,47 @@ const P5aBackground: React.FC = () => {
       bookAreaWidth = 450; // Wider to extend more to the left
       bookAreaHeight = 550; // Match actual book height
     }
-    
+
     return (
       x >= bookAreaCenterX - bookAreaWidth / 2 &&
       x <= bookAreaCenterX + bookAreaWidth / 2 &&
       y >= bookAreaCenterY - bookAreaHeight / 2 &&
       y <= bookAreaCenterY + bookAreaHeight / 2
     );
+  };
+
+  // Function to check if a dot is in any project card area
+  const isInProjectsArea = (x: number, y: number) => {
+    // Only create holes when Projects section is visible
+    const projectsSection = document.getElementById('projects');
+    if (!projectsSection) return false;
+
+    const sectionRect = projectsSection.getBoundingClientRect();
+
+    // Check if Projects section is visible on screen
+    const isVisible = sectionRect.top < window.innerHeight && sectionRect.bottom > 0;
+    if (!isVisible) return false;
+
+    // Find all project cards within the projects section
+    const projectCards = projectsSection.querySelectorAll('.slide-up.group');
+
+    for (let i = 0; i < projectCards.length; i++) {
+      const card = projectCards[i] as HTMLElement;
+      const cardRect = card.getBoundingClientRect();
+
+      // Add some padding around each card for a cleaner look
+      const padding = 20;
+
+      // Check if dot is within this card's area (with padding)
+      if (x >= cardRect.left - padding &&
+          x <= cardRect.right + padding &&
+          y >= cardRect.top - padding &&
+          y <= cardRect.bottom + padding) {
+        return true;
+      }
+    }
+
+    return false;
   };
 
   const animate = (timestamp: number) => {
@@ -551,12 +586,12 @@ const P5aBackground: React.FC = () => {
     // Update special dot state
     updateSpecialDot(timestamp);
     
-    // Update and draw dots (skip dots in book area)
+    // Update and draw dots (skip dots in book area and projects area)
     dotsRef.current.forEach(dot => {
       dot.update(mouseRef.current, timeRef.current, width, height);
-      
-      // Only draw dot if it's not in the book area
-      if (!isInBookArea(dot.x, dot.y)) {
+
+      // Only draw dot if it's not in the book area or projects area
+      if (!isInBookArea(dot.x, dot.y) && !isInProjectsArea(dot.x, dot.y)) {
         dot.draw(ctx);
       }
     });

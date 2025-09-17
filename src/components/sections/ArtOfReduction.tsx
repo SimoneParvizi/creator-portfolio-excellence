@@ -72,7 +72,7 @@ const ArtOfReduction: React.FC = () => {
               I believe that when you eliminate the excess, what remains speaks with greater clarity and resonance.
             </p>
             
-            <p className="text-lg md:text-xl leading-relaxed text-foreground/90 font-lora italic">
+            <p className="text-lg md:text-xl leading-relaxed text-foreground/90 font-lora">
               This philosophy guides everything I create, allowing the authentic voice to emerge without interference.
             </p>
           </div>
