@@ -29,7 +29,7 @@ const HeroSimple: React.FC = () => {
     const circleSpacing = 20;
     const baseRadius = 0.6;
 
-    // Initialize the grid of circles
+    // Initialize the grid of circles.
     function initCircles() {
       circles = [];
       const cols = Math.floor(canvas.width / circleSpacing) + 1;
