@@ -159,65 +159,76 @@ const Contact: React.FC = () => {
                 </div>
               )}
               
-              {isSubmitted ? (
-                <div className="h-full flex flex-col items-center justify-center text-center p-6 rounded-2xl border border-green-500/30 bg-green-500/5">
-                  <CheckCircle className="w-12 h-12 text-green-500 mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">Message Sent!</h3>
-                  <p className="text-muted-foreground font-sans">
-                    Thank you for reaching out. Talk to you soon.
-                  </p>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <Input
+                    ref={nameRef}
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Name"
+                    value={formState.name}
+                    onChange={handleChange}
+                    onFocus={(e) => handleFieldFocus('name', e.target)}
+                    onBlur={handleFieldBlur}
+                    required
+                    disabled={isSubmitted}
+                    className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring placeholder:text-foreground/40 transition-all duration-300 font-lora text-center"
+                  />
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <Input
-                      ref={nameRef}
-                      type="text"
-                      id="name"
-                      name="name"
-                      placeholder="Name"
-                      value={formState.name}
-                      onChange={handleChange}
-                      onFocus={(e) => handleFieldFocus('name', e.target)}
-                      onBlur={handleFieldBlur}
-                      required
-                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring placeholder:text-foreground/40 transition-all duration-300 font-lora text-center"
-                    />
-                  </div>
-                  
-                  <div>
-                    <Input
-                      ref={emailRef}
-                      type="email"
-                      id="email"
-                      name="email"
-                      placeholder="Email"
-                      value={formState.email}
-                      onChange={handleChange}
-                      onFocus={(e) => handleFieldFocus('email', e.target)}
-                      onBlur={handleFieldBlur}
-                      required
-                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring placeholder:text-foreground/40 transition-all duration-300 font-lora text-center"
-                    />
-                  </div>
-                  
-                  <div>
-                    <Textarea
-                      ref={messageRef}
-                      id="message"
-                      name="message"
-                      placeholder="Message"
-                      value={formState.message}
-                      onChange={handleChange}
-                      onFocus={(e) => handleFieldFocus('message', e.target)}
-                      onBlur={handleFieldBlur}
-                      required
-                      rows={5}
-                      className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring resize-none placeholder:text-foreground/40 transition-all duration-300 font-lora text-center"
-                    />
-                  </div>
-                  
-                  <div className="relative flex justify-center">
+
+                <div>
+                  <Input
+                    ref={emailRef}
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Email"
+                    value={formState.email}
+                    onChange={handleChange}
+                    onFocus={(e) => handleFieldFocus('email', e.target)}
+                    onBlur={handleFieldBlur}
+                    required
+                    disabled={isSubmitted}
+                    className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring placeholder:text-foreground/40 transition-all duration-300 font-lora text-center"
+                  />
+                </div>
+
+                <div>
+                  <Textarea
+                    ref={messageRef}
+                    id="message"
+                    name="message"
+                    placeholder="Message"
+                    value={formState.message}
+                    onChange={handleChange}
+                    onFocus={(e) => handleFieldFocus('message', e.target)}
+                    onBlur={handleFieldBlur}
+                    required
+                    disabled={isSubmitted}
+                    rows={5}
+                    className="block w-full rounded-md bg-gray-50/60 border-input backdrop-blur-sm shadow-sm focus:border-ring resize-none placeholder:text-foreground/40 transition-all duration-300 font-lora text-center"
+                  />
+                </div>
+
+                <div className="relative flex justify-center">
+                  {isSubmitted ? (
+                    <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center animate-fadeInOut">
+                      <svg
+                        className="w-8 h-8 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={3}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    </div>
+                  ) : (
                     <button
                       type="submit"
                       disabled={isSubmitting}
@@ -235,16 +246,16 @@ const Contact: React.FC = () => {
                         </div>
                       )}
                     </button>
-                    
-                    {/* Mobile Floating Spheres - Centered below button */}
-                    <div className="xl:hidden absolute top-full left-1/2 transform -translate-x-1/2 -translate-x-[40px] mt-4 pointer-events-none">
-                      <div className="w-40 h-28">
-                        <FloatingSpheres className="w-full h-full" />
-                      </div>
+                  )}
+
+                  {/* Mobile Floating Spheres - Centered below button */}
+                  <div className="xl:hidden absolute top-full left-1/2 transform -translate-x-1/2 -translate-x-[40px] mt-4 pointer-events-none">
+                    <div className="w-40 h-28">
+                      <FloatingSpheres className="w-full h-full" />
                     </div>
                   </div>
-                </form>
-              )}
+                </div>
+              </form>
             </div>
           </div>
         </div>
